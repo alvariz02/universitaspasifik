@@ -3,22 +3,29 @@ import Footer from '@/components/layout/Footer'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Calendar, Clock, MapPin, Users, ExternalLink, ArrowLeft, Check } from 'lucide-react'
+import { Metadata } from 'next'
+import { notFound } from 'next/navigation'
+import EventDetail from '@/components/EventDetail'
+import { db } from '@/lib/db'
 import Link from 'next/link'
 import { format } from 'date-fns'
-import { id } from 'date-fns/locale'
+import { id as localeId } from 'date-fns/locale'
+
+export const dynamic = 'force-dynamic'
 
 async function getEventBySlug(slug: string) {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/events`, {
-      cache: 'no-store'
+    const events = await db.event.findMany({
+      where: {
+        slug: slug
+      }
     })
 
-    if (!res.ok) {
-      throw new Error('Failed to fetch events')
+    if (!events || events.length === 0) {
+      return null
     }
 
-    const events = await res.json()
-    return events.find((e: any) => e.slug === slug)
+    return events[0]
   } catch (error) {
     console.error('Error fetching event:', error)
     return null
@@ -52,6 +59,7 @@ export default async function EventDetailPage({
   }
 
   const eventDate = new Date(event.eventDate)
+  const eventDescription = event.description || ''
   const endDate = event.endDate ? new Date(event.endDate) : null
   const now = new Date()
   const isPast = eventDate < now

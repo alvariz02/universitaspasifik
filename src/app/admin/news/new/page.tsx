@@ -1,6 +1,6 @@
  'use client'
 
-import { useState } from 'react'
+import React, { useState } from 'react'
 import AdminLayout from '@/components/admin/AdminLayout'
 import RichTextEditor from '@/components/admin/RichTextEditor'
 import { Input } from '@/components/ui/input'

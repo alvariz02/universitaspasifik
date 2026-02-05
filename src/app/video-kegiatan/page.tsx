@@ -1,18 +1,24 @@
 import { Metadata } from 'next'
 import VideoGallery from '@/components/VideoGallery'
+import { db } from '@/lib/db'
 
 export const metadata: Metadata = {
   title: 'Video Kegiatan - Universitas Pasifik Morotai',
   description: 'Kumpulan video kegiatan dan aktivitas kampus Universitas Pasifik Morotai',
 }
 
+export const dynamic = 'force-dynamic'
+
 async function getVideos() {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/videos?limit=50`, {
-      next: { revalidate: 300 } // Revalidate every 5 minutes
+    const videos = await db.video.findMany({
+      orderBy: {
+        createdAt: 'desc'
+      },
+      take: 50
     })
-    if (!res.ok) throw new Error('Failed to fetch videos')
-    return await res.json()
+
+    return videos
   } catch (error) {
     console.error('Error fetching videos:', error)
     return []
@@ -40,7 +46,7 @@ export default async function VideoKegiatanPage() {
 
       {/* Video Gallery */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <VideoGallery videos={videos} />
+        <VideoGallery videos={videos as any} />
       </div>
     </div>
   )
