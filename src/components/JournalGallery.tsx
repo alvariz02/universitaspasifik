@@ -126,36 +126,31 @@ export default function JournalGallery({
      (FIX TURBOPACK)
   ======================= */
 
-  const memoizedFilteredJournals = useMemo(() => {
+  const __UNIQUE_JOURNALS_FILTERED__ = useMemo(() => {
     let filtered = journals
 
     if (searchTerm) {
-      const q = searchTerm.toLowerCase()
-      filtered = filtered.filter(j =>
-        j.title.toLowerCase().includes(q) ||
-        j.authors.toLowerCase().includes(q) ||
-        j.keywords?.toLowerCase().includes(q) ||
-        j.abstract?.toLowerCase().includes(q)
+      filtered = filtered.filter(journal =>
+        journal.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        journal.abstract?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        journal.authors.toLowerCase().includes(searchTerm.toLowerCase())
       )
     }
 
-    if (selectedCategory !== 'all') {
-      filtered = filtered.filter(j => j.category === selectedCategory)
-    }
-
     if (selectedFaculty !== 'all') {
-      filtered = filtered.filter(
-        j => j.faculty?.id.toString() === selectedFaculty
+      filtered = filtered.filter(journal =>
+        journal.faculty?.id.toString() === selectedFaculty
       )
     }
 
     if (selectedYear !== 'all') {
-      filtered = filtered.filter(
-        j => j.year?.toString() === selectedYear
+      filtered = filtered.filter(journal =>
+        journal.year?.toString() === selectedYear
       )
     }
 
     if (showFeaturedOnly) {
+      filtered = filtered.filter(journal => journal.isFeatured)
       filtered = filtered.filter(j => j.isFeatured)
     }
 
@@ -170,13 +165,13 @@ export default function JournalGallery({
   ])
 
   const featuredJournals = useMemo(
-    () => memoizedFilteredJournals.filter(j => j.isFeatured),
-    [memoizedFilteredJournals]
+    () => __UNIQUE_JOURNALS_FILTERED__.filter(j => j.isFeatured),
+    [__UNIQUE_JOURNALS_FILTERED__]
   )
 
   const regularJournals = useMemo(
-    () => memoizedFilteredJournals.filter(j => !j.isFeatured),
-    [memoizedFilteredJournals]
+    () => __UNIQUE_JOURNALS_FILTERED__.filter(j => !j.isFeatured),
+    [__UNIQUE_JOURNALS_FILTERED__]
   )
 
   /* =======================
@@ -330,7 +325,7 @@ export default function JournalGallery({
       )}
 
       {/* EMPTY */}
-      {memoizedFilteredJournals.length === 0 && (
+      {__UNIQUE_JOURNALS_FILTERED__.length === 0 && (
         <div className="text-center py-12 text-gray-500">
           <FileText className="w-16 h-16 mx-auto mb-4" />
           Tidak ada jurnal ditemukan
