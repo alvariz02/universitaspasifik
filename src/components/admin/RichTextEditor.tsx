@@ -8,7 +8,7 @@ import Underline from '@tiptap/extension-underline'
 import Heading from '@tiptap/extension-heading'
 import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { 
   Bold as BoldIcon, 

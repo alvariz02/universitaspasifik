@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -83,7 +83,7 @@ export default function JournalGallery({ journals: initialJournals, faculties }:
   const years = Array.from(new Set(journals.map(j => j.year).filter((year): year is number => year !== null && year !== undefined)))
     .sort((a, b) => b - a)
 
-  useEffect(() => {
+  const filteredJournals = useMemo(() => {
     let filtered = journals
 
     // Filter by search term
@@ -116,7 +116,7 @@ export default function JournalGallery({ journals: initialJournals, faculties }:
       filtered = filtered.filter(journal => journal.isFeatured)
     }
 
-    setFilteredJournals(filtered)
+    return filtered
   }, [journals, searchTerm, selectedCategory, selectedFaculty, selectedYear, showFeaturedOnly])
 
   const handleJournalClick = (journal: Journal) => {
