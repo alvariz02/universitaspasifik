@@ -3,18 +3,23 @@ import Footer from '@/components/layout/Footer'
 import { Badge } from '@/components/ui/badge'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Bell, AlertCircle, Info, CheckCircle, Calendar } from 'lucide-react'
+import { db } from '@/lib/db'
+
+export const dynamic = 'force-dynamic'
 
 async function getAnnouncements() {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/announcements`, {
-      cache: 'no-store'
+    const announcements = await db.announcement.findMany({
+      orderBy: {
+        createdAt: 'desc'
+      },
+      take: 50,
+      where: {
+        isActive: true
+      }
     })
 
-    if (!res.ok) {
-      throw new Error('Failed to fetch announcements')
-    }
-
-    return await res.json()
+    return announcements
   } catch (error) {
     console.error('Error fetching announcements:', error)
     return []

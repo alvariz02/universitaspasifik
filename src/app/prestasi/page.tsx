@@ -2,18 +2,20 @@ import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import AchievementCard from '@/components/cards/AchievementCard'
 import { Trophy, Medal, Award } from 'lucide-react'
+import { db } from '@/lib/db'
+
+export const dynamic = 'force-dynamic'
 
 async function getAchievements() {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/achievements`, {
-      cache: 'no-store'
+    const achievements = await db.achievement.findMany({
+      orderBy: {
+        createdAt: 'desc'
+      },
+      take: 50
     })
 
-    if (!res.ok) {
-      throw new Error('Failed to fetch achievements')
-    }
-
-    return await res.json()
+    return achievements
   } catch (error) {
     console.error('Error fetching achievements:', error)
     return []

@@ -4,18 +4,20 @@ import { GraduationCap, Calendar, Users, CheckCircle, ArrowRight } from 'lucide-
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import AdmissionForm from '@/components/AdmissionForm'
+import { db } from '@/lib/db'
+
+export const dynamic = 'force-dynamic'
 
 async function getAdmissions() {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/admissions`, {
-      cache: 'no-store'
+    const admissions = await db.admission.findMany({
+      orderBy: {
+        createdAt: 'desc'
+      },
+      take: 50
     })
 
-    if (!res.ok) {
-      throw new Error('Failed to fetch admissions')
-    }
-
-    return await res.json()
+    return admissions
   } catch (error) {
     console.error('Error fetching admissions:', error)
     return []

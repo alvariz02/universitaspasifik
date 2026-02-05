@@ -3,18 +3,20 @@ import Footer from '@/components/layout/Footer'
 import { FlaskConical, BookOpen, TrendingUp, Award, ArrowRight } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
+import { db } from '@/lib/db'
+
+export const dynamic = 'force-dynamic'
 
 async function getResearch() {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/research`, {
-      cache: 'no-store'
+    const research = await db.research.findMany({
+      orderBy: {
+        createdAt: 'desc'
+      },
+      take: 20
     })
 
-    if (!res.ok) {
-      throw new Error('Failed to fetch research')
-    }
-
-    return await res.json()
+    return research
   } catch (error) {
     console.error('Error fetching research:', error)
     return []

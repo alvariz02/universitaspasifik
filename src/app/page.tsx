@@ -9,68 +9,64 @@ import Achievements from '@/components/home/Achievements'
 import FacultiesGrid from '@/components/home/FacultiesGrid'
 import VideoSection from '@/components/home/VideoSection'
 import CTASection from '@/components/home/CTASection'
+import { db } from '@/lib/db'
+
+export const dynamic = 'force-dynamic'
 
 async function getData() {
   try {
     const [
-      slidersRes,
-      statsRes,
-      newsRes,
-      eventsRes,
-      announcementsRes,
-      achievementsRes,
-      facultiesRes,
-      videosRes
+      sliders,
+      statistics,
+      news,
+      events,
+      announcements,
+      achievements,
+      faculties,
+      videos
     ] = await Promise.all([
-      fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/hero-sliders`, {
-        cache: 'no-store'
+      db.heroSlider.findMany({
+        orderBy: { orderPosition: 'asc' },
+        where: { isActive: true }
       }),
-      fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/statistics`, {
-        cache: 'no-store'
+      db.statistic.findMany({
+        orderBy: { createdAt: 'desc' },
+        take: 6
       }),
-      fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/news?featured=false&limit=4`, {
-        cache: 'no-store'
+      db.news.findMany({
+        orderBy: { createdAt: 'desc' },
+        take: 6
       }),
-      fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/events?upcoming=true&limit=3`, {
-        cache: 'no-store'
+      db.event.findMany({
+        orderBy: { createdAt: 'desc' },
+        take: 6
       }),
-      fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/announcements`, {
-        cache: 'no-store'
+      db.announcement.findMany({
+        orderBy: { createdAt: 'desc' },
+        take: 5
       }),
-      fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/achievements?limit=4`, {
-        cache: 'no-store'
+      db.achievement.findMany({
+        orderBy: { createdAt: 'desc' },
+        take: 6
       }),
-      fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/faculties?limit=6`, {
-        cache: 'no-store'
+      db.faculty.findMany({
+        orderBy: { name: 'asc' }
       }),
-      fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/videos?featured=true&limit=3`, {
-        cache: 'no-store'
+      db.video.findMany({
+        orderBy: { createdAt: 'desc' },
+        take: 6
       })
     ])
 
-    if (!slidersRes.ok || !statsRes.ok || !newsRes.ok || !eventsRes.ok ||
-        !announcementsRes.ok || !achievementsRes.ok || !facultiesRes.ok || !videosRes.ok) {
-      throw new Error('Failed to fetch data')
-    }
-
-    const slidersData = await slidersRes.json()
-    const stats = await statsRes.json()
-    const newsData = await newsRes.json()
-    const events = await eventsRes.json()
-    const announcements = await announcementsRes.json()
-    const achievements = await achievementsRes.json()
-    const faculties = await facultiesRes.json()
-    const videos = await videosRes.json()
-
     return {
-      sliders: slidersData.sliders || [],
-      stats: stats.statistics || stats || [],
-      news: newsData.news || [],
-      events: events.events || events || [],
-      announcements: announcements.announcements || announcements || [],
-      achievements: achievements.achievements || achievements || [],
-      faculties: faculties.faculties || faculties || [],
-      videos: videos || []
+      sliders,
+      stats: statistics,
+      news,
+      events,
+      announcements,
+      achievements,
+      faculties,
+      videos
     }
   } catch (error) {
     console.error('Error fetching data:', error)
@@ -107,10 +103,10 @@ export default async function Home() {
         <QuickStats statistics={stats} />
         <FeaturedNews news={news} />
         <UpcomingEvents events={events} />
-        <VideoSection videos={videos} />
         <Announcements announcements={announcements} />
         <Achievements achievements={achievements} />
         <FacultiesGrid faculties={faculties} />
+        <VideoSection videos={videos} />
         <CTASection />
       </main>
       <Footer />

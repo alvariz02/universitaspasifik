@@ -7,39 +7,26 @@ import {
 } from '@/components/ui/card'
 import { Newspaper, Calendar, Bell, Building2, Trophy, Image as ImageIcon, Users, Plus, TrendingUp, Activity, FileText } from 'lucide-react'
 import Link from 'next/link'
+import { db } from '@/lib/db'
+
+export const dynamic = 'force-dynamic'
 
 async function getDashboardStats() {
   try {
     const [newsCount, eventsCount, announcementsCount, facultiesCount, achievementsCount] = await Promise.all([
-      fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/news?limit=1000`, {
-        cache: 'no-store'
-      }),
-      fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/events?limit=1000`, {
-        cache: 'no-store'
-      }),
-      fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/announcements`, {
-        cache: 'no-store'
-      }),
-      fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/faculties?limit=100`, {
-        cache: 'no-store'
-      }),
-      fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/achievements?limit=100`, {
-        cache: 'no-store'
-      })
+      db.news.count(),
+      db.event.count(),
+      db.announcement.count(),
+      db.faculty.count(),
+      db.achievement.count()
     ])
 
-    const newsData = await newsCount.json()
-    const eventsData = await eventsCount.json()
-    const announcementsData = await announcementsCount.json()
-    const facultiesData = await facultiesCount.json()
-    const achievementsData = await achievementsCount.json()
-
     return {
-      newsCount: newsData.total || newsData.length || 0,
-      eventsCount: eventsData.length || 0,
-      announcementsCount: announcementsData.length || 0,
-      facultiesCount: facultiesData.length || 0,
-      achievementsCount: achievementsData.length || 0,
+      newsCount: newsCount,
+      eventsCount: eventsCount,
+      announcementsCount: announcementsCount,
+      facultiesCount: facultiesCount,
+      achievementsCount: achievementsCount
     }
   } catch (error) {
     console.error('Error fetching dashboard stats:', error)
@@ -48,7 +35,7 @@ async function getDashboardStats() {
       eventsCount: 0,
       announcementsCount: 0,
       facultiesCount: 0,
-      achievementsCount: 0,
+      achievementsCount: 0
     }
   }
 }
