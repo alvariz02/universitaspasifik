@@ -56,7 +56,6 @@ interface JournalGalleryProps {
 
 export default function JournalGallery({ journals: initialJournals, faculties }: JournalGalleryProps) {
   const [journals, setJournals] = useState<Journal[]>(initialJournals)
-  const [filteredJournals, setFilteredJournals] = useState<Journal[]>(initialJournals)
   const [selectedJournal, setSelectedJournal] = useState<Journal | null>(null)
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('all')

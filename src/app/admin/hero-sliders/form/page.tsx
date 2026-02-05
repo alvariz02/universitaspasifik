@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import AdminLayout from '@/components/admin/AdminLayout'
 import { Button } from '@/components/ui/button'
@@ -22,7 +22,7 @@ interface HeroSlider {
   isActive: boolean
 }
 
-export default function HeroSliderFormPage() {
+function HeroSliderForm() {
   const router = useRouter()
   const { toast } = useToast()
   const searchParams = useSearchParams()
@@ -214,8 +214,6 @@ export default function HeroSliderFormPage() {
             />
           </div>
 
-
-
           <div>
             <Label htmlFor="orderPosition" className="text-base font-semibold mb-2 block">
               Urutan Tampil
@@ -265,5 +263,19 @@ export default function HeroSliderFormPage() {
         </form>
       </div>
     </AdminLayout>
+  )
+}
+
+export default function HeroSliderFormPage() {
+  return (
+    <Suspense fallback={
+      <AdminLayout>
+        <div className="p-6 md:p-8">
+          <p className="text-center text-unipas-text">Memuat...</p>
+        </div>
+      </AdminLayout>
+    }>
+      <HeroSliderForm />
+    </Suspense>
   )
 }

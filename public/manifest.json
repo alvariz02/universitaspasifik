@@ -1,0 +1,27 @@
+{
+  "name": "Universitas Pasifik",
+  "short_name": "UNIPAS",
+  "description": "Universitas Pasifik - Kampus Unggul",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#1f2937",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "id-ID",
+  "categories": ["education", "university"],
+  "icons": [
+    {
+      "src": "/logounipasreal.jpeg",
+      "sizes": "192x192",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/logounipasreal.jpeg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    }
+  ]
+}
