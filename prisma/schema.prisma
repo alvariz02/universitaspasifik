@@ -1,0 +1,314 @@
+// This is your Prisma schema file for University of Indonesia Website
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// Tabel: faculties (Fakultas)
+model Faculty {
+  id             Int       @id @default(autoincrement())
+  name           String
+  slug           String    @unique
+  description    String?
+  deanName       String?
+  imageUrl       String?
+  location       String?
+  contactEmail   String?
+  contactPhone   String?
+  websiteUrl     String?
+  establishedYear Int?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  departments    Department[]
+  research       Research[]
+  staff          Staff[]
+  journals       Journal[] @relation("JournalFaculty")
+  dean           Staff?    @relation("FacultyDean", fields: [deanId], references: [id])
+  deanId         Int?
+}
+
+// Tabel: departments (Jurusan/Program Studi)
+model Department {
+  id            Int       @id @default(autoincrement())
+  facultyId     Int
+  name          String
+  slug          String    @unique
+  degreeLevel   String? // S1, S2, S3, D3, D4
+  description   String?
+  accreditation String? // A, B, C
+  quota         Int?
+  imageUrl      String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  faculty       Faculty   @relation(fields: [facultyId], references: [id], onDelete: Cascade)
+  staff         Staff[]
+  head          Staff?    @relation("DepartmentHead", fields: [headId], references: [id])
+  headId        Int?
+}
+
+// Tabel: news (Berita)
+model News {
+  id            Int       @id @default(autoincrement())
+  title         String
+  slug          String    @unique
+  excerpt       String?
+  content       String
+  imageUrl      String?
+  category      String? // akademik, penelitian, kemahasiswaan, prestasi
+  authorName    String?
+  publishedDate DateTime?
+  viewCount     Int       @default(0)
+  isFeatured    Boolean   @default(false)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+// Tabel: events (Acara/Event)
+model Event {
+  id              Int       @id @default(autoincrement())
+  title           String
+  slug            String    @unique
+  description     String?
+  eventDate       DateTime
+  endDate         DateTime?
+  location        String?
+  imageUrl        String?
+  organizer       String?
+  contactEmail    String?
+  registrationUrl String?
+  isFeatured      Boolean   @default(false)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+}
+
+// Tabel: announcements (Pengumuman)
+model Announcement {
+  id        Int       @id @default(autoincrement())
+  title     String
+  content   String
+  category  String? // penerimaan, akademik, umum
+  priority  String? // high, medium, low
+  startDate DateTime?
+  endDate   DateTime?
+  isActive  Boolean   @default(true)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+// Tabel: research (Penelitian)
+model Research {
+  id              Int       @id @default(autoincrement())
+  title           String
+  slug            String    @unique
+  abstract        String?
+  researchers     String? // JSON array
+  facultyId       Int?
+  publicationDate DateTime?
+  category        String?
+  keywords        String?
+  imageUrl        String?
+  pdfUrl          String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  faculty         Faculty?  @relation(fields: [facultyId], references: [id], onDelete: SetNull)
+}
+
+// Tabel: admissions (Jalur Penerimaan)
+model Admission {
+  id                Int       @id @default(autoincrement())
+  name              String // SNBP, SNBT, SIMAK UI
+  slug              String    @unique
+  description       String?
+  registrationStart DateTime?
+  registrationEnd   DateTime?
+  examDate          DateTime?
+  announcementDate  DateTime?
+  requirements      String? // JSON
+  documentsNeeded   String? // JSON
+  fee               Float?
+  quota             Int?
+  infoUrl           String?
+  isActive          Boolean   @default(true)
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+}
+
+// Tabel: facilities (Fasilitas)
+model Facility {
+  id             Int       @id @default(autoincrement())
+  name           String
+  slug           String    @unique
+  description    String?
+  category       String? // perpustakaan, laboratorium, asrama, olahraga
+  location       String?
+  imageUrl       String?
+  galleryUrls    String? // JSON array
+  operatingHours String?
+  contactInfo    String?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+}
+
+// Tabel: achievements (Prestasi)
+model Achievement {
+  id             Int       @id @default(autoincrement())
+  title          String
+  description    String?
+  achieverName   String?
+  achieverType   String? // mahasiswa, dosen, alumni
+  achievementDate DateTime?
+  category       String? // akademik, olahraga, seni, penelitian
+  level          String? // internasional, nasional, regional
+  imageUrl       String?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+}
+
+// Tabel: staff (Dosen & Karyawan)
+model Staff {
+  id                Int       @id @default(autoincrement())
+  name              String
+  slug              String    @unique
+  position          String?   // Dekan, Kaprodi, Dosen, Staf
+  role              String?   // dean, department_head, lecturer, staff
+  facultyId         Int?
+  departmentId      Int?
+  email             String?
+  phone             String?
+  photoUrl          String?
+  bio               String?
+  researchInterest  String?
+  googleScholarUrl  String?
+  isActive          Boolean   @default(true)
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  faculty           Faculty?  @relation(fields: [facultyId], references: [id], onDelete: SetNull)
+  department        Department? @relation(fields: [departmentId], references: [id], onDelete: SetNull)
+  
+  // Self-references for dean and department head roles
+  ledFaculties      Faculty[] @relation("FacultyDean")
+  ledDepartments    Department[] @relation("DepartmentHead")
+}
+
+// Tabel: galleries (Galeri Foto)
+model Gallery {
+  id          Int       @id @default(autoincrement())
+  title       String
+  description String?
+  imageUrl    String
+  category    String?
+  uploadDate  DateTime  @default(now())
+  createdAt   DateTime  @default(now())
+}
+
+// Tabel: contact_submissions (Formulir Kontak)
+model ContactSubmission {
+  id        Int       @id @default(autoincrement())
+  name      String
+  email     String
+  phone     String?
+  subject   String?
+  message   String
+  status    String    @default("pending") // pending, replied, closed
+  createdAt DateTime  @default(now())
+}
+
+// Tabel: hero_sliders (Hero Carousel/Banner)
+model HeroSlider {
+  id           Int       @id @default(autoincrement())
+  title        String?
+  subtitle     String?
+  imageUrl     String
+  linkUrl      String?
+  linkText     String?
+  orderPosition Int      @default(0)
+  isActive     Boolean   @default(true)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+}
+
+// Tabel: pages (Halaman Statis)
+model Page {
+  id             Int       @id @default(autoincrement())
+  title          String
+  slug           String    @unique
+  content        String
+  metaDescription String?
+  metaKeywords   String?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+}
+
+// Tabel: statistics (Statistik UI)
+model Statistic {
+  id           Int       @id @default(autoincrement())
+  label        String
+  value        String
+  icon         String?
+  orderPosition Int      @default(0)
+  isActive     Boolean   @default(true)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+}
+
+// Tabel: videos (Video Kegiatan Kampus)
+model Video {
+  id          Int       @id @default(autoincrement())
+  title       String
+  description String?
+  youtubeUrl  String    // URL lengkap YouTube
+  youtubeId   String    // ID video YouTube (untuk embed)
+  thumbnail   String?   // URL thumbnail (otomatis dari YouTube)
+  category    String?   // kegiatan, akademik, wisuda, seminar, olahraga, seni
+  duration    String?   // durasi video (format: "10:30")
+  viewCount   Int       @default(0)
+  publishedAt DateTime? // tanggal video dipublish di YouTube
+  isFeatured  Boolean   @default(false)
+  isActive    Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+// Tabel: journals (Jurnal Penelitian)
+model Journal {
+  id              Int       @id @default(autoincrement())
+  title           String
+  slug            String    @unique
+  abstract        String?   // abstrak jurnal
+  authors         String    // nama penulis (JSON array atau string)
+  authorAffiliation String? // afiliasi penulis
+  keywords        String?   // kata kunci (JSON array atau string)
+  category        String?   // kategori jurnal (sains, teknologi, sosial, dll)
+  subject         String?   // bidang studi spesifik
+  language        String    @default("id") // bahasa jurnal (id, en)
+  pages           String?   // halaman (contoh: "1-15")
+  volume          String?   // volume jurnal
+  issue           String?   // nomor issue
+  year            Int?      // tahun publikasi
+  publishedDate   DateTime? // tanggal publikasi
+  doi             String?   // Digital Object Identifier
+  issn            String?   // International Standard Serial Number
+  pdfUrl          String?   // URL file PDF jurnal
+  pdfSize         Int?      // ukuran file dalam bytes
+  downloadCount   Int       @default(0)
+  viewCount       Int       @default(0)
+  isOpenAccess    Boolean   @default(true)
+  isPeerReviewed  Boolean   @default(false)
+  isFeatured      Boolean   @default(false)
+  isActive        Boolean   @default(true)
+  facultyId       Int?      // fakultas terkait
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  faculty         Faculty?  @relation("JournalFaculty", fields: [facultyId], references: [id], onDelete: SetNull)
+}
