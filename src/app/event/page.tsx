@@ -5,24 +5,30 @@ import { Button } from '@/components/ui/button'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import Link from 'next/link'
 import { format } from 'date-fns'
+import { db } from '@/lib/db'
+
+export const dynamic = 'force-dynamic'
 
 async function getEvents(page: number = 1) {
   try {
     const limit = 12
     const offset = (page - 1) * limit
-    const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/events?limit=${limit}&offset=${offset}`, {
-      cache: 'no-store'
-    })
+    
+    const [events, total] = await Promise.all([
+      db.event.findMany({
+        orderBy: {
+          createdAt: 'desc'
+        },
+        skip: offset,
+        take: limit
+      }),
+      db.event.count()
+    ])
 
-    if (!res.ok) {
-      throw new Error('Failed to fetch events')
-    }
-
-    const events = await res.json()
     return {
-      events: events || [],
-      total: events.length,
-      totalPages: 1
+      events,
+      total,
+      totalPages: Math.ceil(total / limit)
     }
   } catch (error) {
     console.error('Error fetching events:', error)

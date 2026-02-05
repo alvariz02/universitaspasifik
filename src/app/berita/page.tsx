@@ -4,24 +4,30 @@ import NewsCard from '@/components/cards/NewsCard'
 import { Button } from '@/components/ui/button'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import Link from 'next/link'
+import { db } from '@/lib/db'
+
+export const dynamic = 'force-dynamic'
 
 async function getNews(page: number = 1) {
   try {
     const limit = 12
     const offset = (page - 1) * limit
-    const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/news?limit=${limit}&offset=${offset}`, {
-      cache: 'no-store'
-    })
+    
+    const [news, total] = await Promise.all([
+      db.news.findMany({
+        orderBy: {
+          createdAt: 'desc'
+        },
+        skip: offset,
+        take: limit
+      }),
+      db.news.count()
+    ])
 
-    if (!res.ok) {
-      throw new Error('Failed to fetch news')
-    }
-
-    const data = await res.json()
     return {
-      news: data.news || [],
-      total: data.total || 0,
-      totalPages: Math.ceil((data.total || 0) / limit)
+      news,
+      total,
+      totalPages: Math.ceil(total / limit)
     }
   } catch (error) {
     console.error('Error fetching news:', error)

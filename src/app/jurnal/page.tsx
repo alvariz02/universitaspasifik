@@ -1,5 +1,8 @@
 import { Metadata } from 'next'
 import JournalGallery from '@/components/JournalGallery'
+import { db } from '@/lib/db'
+
+export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
   title: 'Jurnal Penelitian - Universitas Pasifik Morotai',
@@ -8,20 +11,17 @@ export const metadata: Metadata = {
 
 async function getJournals() {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'
-    const res = await fetch(`${baseUrl}/api/journals?limit=50`, {
-      next: { revalidate: 300 }, // Revalidate every 5 minutes
-      headers: {
-        'Content-Type': 'application/json',
+    const journals = await db.journal.findMany({
+      orderBy: {
+        createdAt: 'desc'
+      },
+      take: 50,
+      include: {
+        faculty: true
       }
     })
     
-    if (!res.ok) {
-      console.error('Failed to fetch journals, status:', res.status)
-      return []
-    }
-    
-    return await res.json()
+    return journals
   } catch (error) {
     console.error('Error fetching journals:', error)
     return []
@@ -30,20 +30,13 @@ async function getJournals() {
 
 async function getFaculties() {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'
-    const res = await fetch(`${baseUrl}/api/faculties`, {
-      next: { revalidate: 300 },
-      headers: {
-        'Content-Type': 'application/json',
+    const faculties = await db.faculty.findMany({
+      orderBy: {
+        name: 'asc'
       }
     })
     
-    if (!res.ok) {
-      console.error('Failed to fetch faculties, status:', res.status)
-      return []
-    }
-    
-    return await res.json()
+    return faculties
   } catch (error) {
     console.error('Error fetching faculties:', error)
     return []
@@ -85,7 +78,7 @@ export default async function JurnalPage() {
             <p className="text-gray-500">Jurnal penelitian akan segera ditambahkan</p>
           </div>
         ) : (
-          <JournalGallery journals={journals} faculties={faculties} />
+          <JournalGallery journals={journals as any} faculties={faculties} />
         )}
       </div>
     </div>

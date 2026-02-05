@@ -1,18 +1,19 @@
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import { Building2, Users, BookOpen, Cpu, Dumbbell, Utensils } from 'lucide-react'
+import { db } from '@/lib/db'
+
+export const dynamic = 'force-dynamic'
 
 async function getFacilities() {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/facilities`, {
-      cache: 'no-store'
+    const facilities = await db.facility.findMany({
+      orderBy: {
+        createdAt: 'desc'
+      }
     })
 
-    if (!res.ok) {
-      throw new Error('Failed to fetch facilities')
-    }
-
-    return await res.json()
+    return facilities
   } catch (error) {
     console.error('Error fetching facilities:', error)
     return []
