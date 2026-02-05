@@ -1,14 +1,39 @@
 'use client'
 
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useMemo } from 'react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
-import { FileText, Eye, Download, Search, Filter, ExternalLink, Calendar, User, Building } from 'lucide-react'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from '@/components/ui/select'
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle
+} from '@/components/ui/dialog'
+import {
+  FileText,
+  Eye,
+  Download,
+  Search,
+  Filter,
+  ExternalLink,
+  Calendar,
+  User,
+  Building
+} from 'lucide-react'
 import { format } from 'date-fns'
 import { id as localeId } from 'date-fns/locale'
+
+/* =======================
+   TYPES
+======================= */
 
 interface Journal {
   id: number
@@ -54,7 +79,14 @@ interface JournalGalleryProps {
   faculties: Faculty[]
 }
 
-export default function JournalGallery({ journals: initialJournals, faculties }: JournalGalleryProps) {
+/* =======================
+   MAIN COMPONENT
+======================= */
+
+export default function JournalGallery({
+  journals: initialJournals,
+  faculties
+}: JournalGalleryProps) {
   const [journals, setJournals] = useState<Journal[]>(initialJournals)
   const [selectedJournal, setSelectedJournal] = useState<Journal | null>(null)
   const [searchTerm, setSearchTerm] = useState('')
@@ -62,7 +94,10 @@ export default function JournalGallery({ journals: initialJournals, faculties }:
   const [selectedFaculty, setSelectedFaculty] = useState('all')
   const [selectedYear, setSelectedYear] = useState('all')
   const [showFeaturedOnly, setShowFeaturedOnly] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
+
+  /* =======================
+     FILTER OPTIONS
+  ======================= */
 
   const categories = [
     { value: 'all', label: 'Semua Kategori' },
@@ -78,349 +113,252 @@ export default function JournalGallery({ journals: initialJournals, faculties }:
     { value: 'lainnya', label: 'Lainnya' }
   ]
 
-  // Get unique years from journals
-  const years = Array.from(new Set(journals.map(j => j.year).filter((year): year is number => year !== null && year !== undefined)))
-    .sort((a, b) => b - a)
+  const years = Array.from(
+    new Set(
+      journals
+        .map(j => j.year)
+        .filter((y): y is number => y !== null && y !== undefined)
+    )
+  ).sort((a, b) => b - a)
 
-  const filteredJournals = useMemo(() => {
+  /* =======================
+     MEMOIZED FILTER
+     (FIX TURBOPACK)
+  ======================= */
+
+  const memoizedFilteredJournals = useMemo(() => {
     let filtered = journals
 
-    // Filter by search term
     if (searchTerm) {
-      filtered = filtered.filter(journal =>
-        journal.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        journal.authors.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        journal.keywords?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        journal.abstract?.toLowerCase().includes(searchTerm.toLowerCase())
+      const q = searchTerm.toLowerCase()
+      filtered = filtered.filter(j =>
+        j.title.toLowerCase().includes(q) ||
+        j.authors.toLowerCase().includes(q) ||
+        j.keywords?.toLowerCase().includes(q) ||
+        j.abstract?.toLowerCase().includes(q)
       )
     }
 
-    // Filter by category
     if (selectedCategory !== 'all') {
-      filtered = filtered.filter(journal => journal.category === selectedCategory)
+      filtered = filtered.filter(j => j.category === selectedCategory)
     }
 
-    // Filter by faculty
     if (selectedFaculty !== 'all') {
-      filtered = filtered.filter(journal => journal.faculty?.id.toString() === selectedFaculty)
+      filtered = filtered.filter(
+        j => j.faculty?.id.toString() === selectedFaculty
+      )
     }
 
-    // Filter by year
     if (selectedYear !== 'all') {
-      filtered = filtered.filter(journal => journal.year?.toString() === selectedYear)
+      filtered = filtered.filter(
+        j => j.year?.toString() === selectedYear
+      )
     }
 
-    // Filter by featured
     if (showFeaturedOnly) {
-      filtered = filtered.filter(journal => journal.isFeatured)
+      filtered = filtered.filter(j => j.isFeatured)
     }
 
     return filtered
-  }, [journals, searchTerm, selectedCategory, selectedFaculty, selectedYear, showFeaturedOnly])
+  }, [
+    journals,
+    searchTerm,
+    selectedCategory,
+    selectedFaculty,
+    selectedYear,
+    showFeaturedOnly
+  ])
+
+  const featuredJournals = useMemo(
+    () => memoizedFilteredJournals.filter(j => j.isFeatured),
+    [memoizedFilteredJournals]
+  )
+
+  const regularJournals = useMemo(
+    () => memoizedFilteredJournals.filter(j => !j.isFeatured),
+    [memoizedFilteredJournals]
+  )
+
+  /* =======================
+     HANDLERS
+  ======================= */
 
   const handleJournalClick = (journal: Journal) => {
     setSelectedJournal(journal)
-    
-    // Increment view count in background
-    fetch(`/api/journals/${journal.id}`, {
-      method: 'GET'
-    }).then(response => {
-      if (response.ok) {
-        // Update local state
-        setJournals(prev => prev.map(j => 
-          j.id === journal.id ? { ...j, viewCount: j.viewCount + 1 } : j
-        ))
-      }
-    }).catch(error => {
-      console.error('Error updating view count:', error)
-      // Continue anyway, don't block the modal from opening
-    })
+
+    fetch(`/api/journals/${journal.id}`)
+      .then(res => {
+        if (res.ok) {
+          setJournals(prev =>
+            prev.map(j =>
+              j.id === journal.id
+                ? { ...j, viewCount: j.viewCount + 1 }
+                : j
+            )
+          )
+        }
+      })
+      .catch(() => {})
   }
 
-  const handleDownload = async (journal: Journal) => {
+  const handleDownload = (journal: Journal) => {
     if (!journal.pdfUrl) return
-    
-    try {
-      // Update local state
-      setJournals(prev => prev.map(j => 
-        j.id === journal.id ? { ...j, downloadCount: j.downloadCount + 1 } : j
-      ))
-      
-      // Open PDF in new tab
-      window.open(journal.pdfUrl, '_blank')
-    } catch (error) {
-      console.error('Error updating download count:', error)
-      // Continue with download anyway
-      if (journal.pdfUrl) {
-        window.open(journal.pdfUrl, '_blank')
-      }
-    }
+
+    setJournals(prev =>
+      prev.map(j =>
+        j.id === journal.id
+          ? { ...j, downloadCount: j.downloadCount + 1 }
+          : j
+      )
+    )
+
+    window.open(journal.pdfUrl, '_blank')
   }
 
-  const formatFileSize = (bytes: number) => {
+  const formatFileSize = (bytes?: number) => {
     if (!bytes) return ''
     const sizes = ['Bytes', 'KB', 'MB', 'GB']
     const i = Math.floor(Math.log(bytes) / Math.log(1024))
-    return Math.round(bytes / Math.pow(1024, i) * 100) / 100 + ' ' + sizes[i]
+    return `${Math.round(bytes / Math.pow(1024, i) * 100) / 100} ${sizes[i]}`
   }
 
-  const featuredJournals = filteredJournals.filter(journal => journal.isFeatured)
-  const regularJournals = filteredJournals.filter(journal => !journal.isFeatured)
+  /* =======================
+     RENDER
+  ======================= */
 
   return (
     <div className="space-y-8">
-      {/* Filters */}
-      <div className="bg-white rounded-xl p-6 shadow-lg">
-        <div className="space-y-4">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-            <Input
-              placeholder="Cari jurnal, penulis, atau kata kunci..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10"
-            />
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-              <SelectTrigger>
-                <SelectValue placeholder="Kategori" />
-              </SelectTrigger>
-              <SelectContent>
-                {categories.map((cat) => (
-                  <SelectItem key={cat.value} value={cat.value}>
-                    {cat.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            
-            <Select value={selectedFaculty} onValueChange={setSelectedFaculty}>
-              <SelectTrigger>
-                <SelectValue placeholder="Fakultas" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">Semua Fakultas</SelectItem>
-                {faculties.map((faculty) => (
-                  <SelectItem key={faculty.id} value={faculty.id.toString()}>
-                    {faculty.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            
-            <Select value={selectedYear} onValueChange={setSelectedYear}>
-              <SelectTrigger>
-                <SelectValue placeholder="Tahun" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">Semua Tahun</SelectItem>
-                {years.map((year) => (
-                  <SelectItem key={year} value={year.toString()}>
-                    {year}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            
-            <Button
-              variant={showFeaturedOnly ? "default" : "outline"}
-              onClick={() => setShowFeaturedOnly(!showFeaturedOnly)}
-              className="whitespace-nowrap"
-            >
-              <Filter className="w-4 h-4 mr-2" />
-              Unggulan
-            </Button>
-          </div>
+      {/* FILTER */}
+      <div className="bg-white rounded-xl p-6 shadow-lg space-y-4">
+        <div className="relative">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+          <Input
+            placeholder="Cari jurnal, penulis, atau kata kunci..."
+            value={searchTerm}
+            onChange={e => setSearchTerm(e.target.value)}
+            className="pl-10"
+          />
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+            <SelectTrigger>
+              <SelectValue placeholder="Kategori" />
+            </SelectTrigger>
+            <SelectContent>
+              {categories.map(c => (
+                <SelectItem key={c.value} value={c.value}>
+                  {c.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+
+          <Select value={selectedFaculty} onValueChange={setSelectedFaculty}>
+            <SelectTrigger>
+              <SelectValue placeholder="Fakultas" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Semua Fakultas</SelectItem>
+              {faculties.map(f => (
+                <SelectItem key={f.id} value={f.id.toString()}>
+                  {f.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+
+          <Select value={selectedYear} onValueChange={setSelectedYear}>
+            <SelectTrigger>
+              <SelectValue placeholder="Tahun" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Semua Tahun</SelectItem>
+              {years.map(y => (
+                <SelectItem key={y} value={y.toString()}>
+                  {y}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+
+          <Button
+            variant={showFeaturedOnly ? 'default' : 'outline'}
+            onClick={() => setShowFeaturedOnly(v => !v)}
+          >
+            <Filter className="w-4 h-4 mr-2" />
+            Unggulan
+          </Button>
         </div>
       </div>
 
-      {/* Featured Journals */}
+      {/* FEATURED */}
       {featuredJournals.length > 0 && (
-        <div>
-          <h2 className="text-2xl font-bold text-unipas-primary mb-6">Jurnal Unggulan</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {featuredJournals.map((journal) => (
+        <section>
+          <h2 className="text-2xl font-bold mb-6">Jurnal Unggulan</h2>
+          <div className="grid md:grid-cols-2 gap-6">
+            {featuredJournals.map(j => (
               <JournalCard
-                key={journal.id}
-                journal={journal}
-                onClick={() => handleJournalClick(journal)}
-                onDownload={() => handleDownload(journal)}
+                key={j.id}
+                journal={j}
                 featured
+                onClick={() => handleJournalClick(j)}
+                onDownload={() => handleDownload(j)}
               />
             ))}
           </div>
-        </div>
+        </section>
       )}
 
-      {/* Regular Journals */}
+      {/* REGULAR */}
       {regularJournals.length > 0 && (
-        <div>
-          <h2 className="text-2xl font-bold text-unipas-primary mb-6">
-            {featuredJournals.length > 0 ? 'Jurnal Lainnya' : 'Semua Jurnal'}
+        <section>
+          <h2 className="text-2xl font-bold mb-6">
+            {featuredJournals.length ? 'Jurnal Lainnya' : 'Semua Jurnal'}
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {regularJournals.map((journal) => (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {regularJournals.map(j => (
               <JournalCard
-                key={journal.id}
-                journal={journal}
-                onClick={() => handleJournalClick(journal)}
-                onDownload={() => handleDownload(journal)}
+                key={j.id}
+                journal={j}
+                onClick={() => handleJournalClick(j)}
+                onDownload={() => handleDownload(j)}
               />
             ))}
           </div>
+        </section>
+      )}
+
+      {/* EMPTY */}
+      {memoizedFilteredJournals.length === 0 && (
+        <div className="text-center py-12 text-gray-500">
+          <FileText className="w-16 h-16 mx-auto mb-4" />
+          Tidak ada jurnal ditemukan
         </div>
       )}
 
-      {/* No Results */}
-      {filteredJournals.length === 0 && (
-        <div className="text-center py-12">
-          <div className="text-gray-400 mb-4">
-            <FileText className="w-16 h-16 mx-auto" />
-          </div>
-          <h3 className="text-xl font-semibold text-gray-600 mb-2">Tidak ada jurnal ditemukan</h3>
-          <p className="text-gray-500">Coba ubah filter atau kata kunci pencarian</p>
-        </div>
-      )}
-
-      {/* Journal Detail Modal */}
+      {/* MODAL */}
       <Dialog open={!!selectedJournal} onOpenChange={() => setSelectedJournal(null)}>
         <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
           {selectedJournal && (
             <>
               <DialogHeader>
-                <DialogTitle className="text-xl font-bold pr-8">
-                  {selectedJournal.title}
-                </DialogTitle>
+                <DialogTitle>{selectedJournal.title}</DialogTitle>
               </DialogHeader>
-              
-              <div className="space-y-6">
-                {/* Journal Info */}
-                <div className="space-y-4">
-                  <div className="flex flex-wrap items-center gap-3">
-                    {selectedJournal.category && (
-                      <Badge variant="outline">{selectedJournal.category}</Badge>
-                    )}
-                    {selectedJournal.isFeatured && (
-                      <Badge className="bg-unipas-accent text-white">Unggulan</Badge>
-                    )}
-                    {selectedJournal.isOpenAccess && (
-                      <Badge className="bg-green-500 text-white">Open Access</Badge>
-                    )}
-                    {selectedJournal.isPeerReviewed && (
-                      <Badge className="bg-blue-500 text-white">Peer Reviewed</Badge>
-                    )}
-                  </div>
-                  
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                    <div className="flex items-center gap-2">
-                      <User className="w-4 h-4 text-gray-500" />
-                      <span className="font-medium">Penulis:</span>
-                      <span>{selectedJournal.authors}</span>
-                    </div>
-                    
-                    {selectedJournal.faculty && (
-                      <div className="flex items-center gap-2">
-                        <Building className="w-4 h-4 text-gray-500" />
-                        <span className="font-medium">Fakultas:</span>
-                        <span>{selectedJournal.faculty.name}</span>
-                      </div>
-                    )}
-                    
-                    {selectedJournal.publishedDate && (
-                      <div className="flex items-center gap-2">
-                        <Calendar className="w-4 h-4 text-gray-500" />
-                        <span className="font-medium">Publikasi:</span>
-                        <span>{format(new Date(selectedJournal.publishedDate), 'dd MMMM yyyy', { locale: localeId })}</span>
-                      </div>
-                    )}
-                    
-                    <div className="flex items-center gap-4">
-                      <div className="flex items-center gap-1">
-                        <Eye className="w-4 h-4 text-gray-500" />
-                        <span>{selectedJournal.viewCount} views</span>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <Download className="w-4 h-4 text-gray-500" />
-                        <span>{selectedJournal.downloadCount} downloads</span>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  {selectedJournal.abstract && (
-                    <div>
-                      <h3 className="font-semibold mb-2">Abstrak</h3>
-                      <p className="text-gray-700 leading-relaxed">
-                        {selectedJournal.abstract}
-                      </p>
-                    </div>
-                  )}
-                  
-                  {selectedJournal.keywords && (
-                    <div>
-                      <h3 className="font-semibold mb-2">Kata Kunci</h3>
-                      <p className="text-gray-600">{selectedJournal.keywords}</p>
-                    </div>
-                  )}
-                  
-                  {/* Publication Details */}
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm bg-gray-50 p-4 rounded-lg">
-                    {selectedJournal.volume && (
-                      <div>
-                        <span className="font-medium">Volume:</span>
-                        <div>{selectedJournal.volume}</div>
-                      </div>
-                    )}
-                    {selectedJournal.issue && (
-                      <div>
-                        <span className="font-medium">Issue:</span>
-                        <div>{selectedJournal.issue}</div>
-                      </div>
-                    )}
-                    {selectedJournal.pages && (
-                      <div>
-                        <span className="font-medium">Halaman:</span>
-                        <div>{selectedJournal.pages}</div>
-                      </div>
-                    )}
-                    {selectedJournal.year && (
-                      <div>
-                        <span className="font-medium">Tahun:</span>
-                        <div>{selectedJournal.year}</div>
-                      </div>
-                    )}
-                  </div>
-                  
-                  {/* Download Button */}
-                  {selectedJournal.pdfUrl && (
-                    <div className="flex gap-3">
-                      <Button
-                        onClick={() => handleDownload(selectedJournal)}
-                        className="bg-unipas-primary hover:bg-unipas-accent"
-                      >
-                        <Download className="w-4 h-4 mr-2" />
-                        Download PDF
-                        {selectedJournal.pdfSize && (
-                          <span className="ml-2 text-xs opacity-75">
-                            ({formatFileSize(selectedJournal.pdfSize)})
-                          </span>
-                        )}
-                      </Button>
-                      
-                      {selectedJournal.doi && (
-                        <Button
-                          variant="outline"
-                          onClick={() => window.open(`https://doi.org/${selectedJournal.doi}`, '_blank')}
-                        >
-                          <ExternalLink className="w-4 h-4 mr-2" />
-                          DOI
-                        </Button>
-                      )}
-                    </div>
-                  )}
-                </div>
-              </div>
+
+              {selectedJournal.abstract && (
+                <p className="text-gray-700">{selectedJournal.abstract}</p>
+              )}
+
+              {selectedJournal.pdfUrl && (
+                <Button
+                  onClick={() => handleDownload(selectedJournal)}
+                  className="mt-4"
+                >
+                  <Download className="w-4 h-4 mr-2" />
+                  Download PDF {formatFileSize(selectedJournal.pdfSize)}
+                </Button>
+              )}
             </>
           )}
         </DialogContent>
@@ -429,6 +367,10 @@ export default function JournalGallery({ journals: initialJournals, faculties }:
   )
 }
 
+/* =======================
+   CARD COMPONENT
+======================= */
+
 interface JournalCardProps {
   journal: Journal
   onClick: () => void
@@ -436,84 +378,34 @@ interface JournalCardProps {
   featured?: boolean
 }
 
-function JournalCard({ journal, onClick, onDownload, featured = false }: JournalCardProps) {
+function JournalCard({
+  journal,
+  onClick,
+  onDownload,
+  featured = false
+}: JournalCardProps) {
   return (
     <div
-      className={`bg-white rounded-xl shadow-lg overflow-hidden cursor-pointer transform transition-all duration-300 hover:scale-105 hover:shadow-xl ${
-        featured ? 'ring-2 ring-unipas-accent' : ''
-      }`}
       onClick={onClick}
+      className={`bg-white rounded-xl shadow-lg p-6 cursor-pointer hover:scale-105 transition ${
+        featured ? 'ring-2 ring-blue-500' : ''
+      }`}
     >
-      {/* Content */}
-      <div className="p-6">
-        <div className="flex items-start justify-between mb-3">
-          <div className="flex-1">
-            <h3 className="font-bold text-lg text-unipas-primary mb-2 line-clamp-2">
-              {journal.title}
-            </h3>
-            <p className="text-sm text-gray-600 mb-2">{journal.authors}</p>
-          </div>
-          
-          {featured && (
-            <Badge className="bg-unipas-accent text-white ml-2">Unggulan</Badge>
-          )}
-        </div>
-        
-        {journal.abstract && (
-          <p className="text-sm text-gray-700 mb-4 line-clamp-3">
-            {journal.abstract}
-          </p>
-        )}
-        
-        <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
-          <div className="flex items-center gap-3">
-            {journal.category && (
-              <Badge variant="outline" className="text-xs">
-                {journal.category}
-              </Badge>
-            )}
-            {journal.year && (
-              <span>{journal.year}</span>
-            )}
-          </div>
-          
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-1">
-              <Eye className="w-3 h-3" />
-              {journal.viewCount}
-            </div>
-            <div className="flex items-center gap-1">
-              <Download className="w-3 h-3" />
-              {journal.downloadCount}
-            </div>
-          </div>
-        </div>
-        
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            {journal.isOpenAccess && (
-              <Badge className="bg-green-500 text-white text-xs">Open Access</Badge>
-            )}
-            {journal.isPeerReviewed && (
-              <Badge className="bg-blue-500 text-white text-xs">Peer Reviewed</Badge>
-            )}
-          </div>
-          
-          {journal.pdfUrl && (
-            <Button
-              size="sm"
-              variant="outline"
-              onClick={(e) => {
-                e.stopPropagation()
-                onDownload()
-              }}
-              className="text-xs"
-            >
-              <Download className="w-3 h-3 mr-1" />
-              PDF
-            </Button>
-          )}
-        </div>
+      <h3 className="font-bold mb-2 line-clamp-2">{journal.title}</h3>
+      <p className="text-sm text-gray-600 mb-3">{journal.authors}</p>
+
+      <div className="flex justify-between text-sm text-gray-500">
+        <span>{journal.year}</span>
+        <Button
+          size="sm"
+          variant="outline"
+          onClick={e => {
+            e.stopPropagation()
+            onDownload()
+          }}
+        >
+          <Download className="w-3 h-3 mr-1" /> PDF
+        </Button>
       </div>
     </div>
   )
