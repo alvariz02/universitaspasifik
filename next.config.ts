@@ -7,6 +7,7 @@ const nextConfig: NextConfig = {
   },
   reactStrictMode: false,
   serverExternalPackages: [],
+  assetPrefix: process.env.NODE_ENV === 'production' ? '' : undefined,
 };
 
 export default nextConfig;

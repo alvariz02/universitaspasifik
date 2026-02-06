@@ -3,9 +3,10 @@
   "version": "0.2.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 3000",
-    "build": "next build && cp -r .next/static .next/standalone/.next/ && cp -r public .next/standalone/",
-    "start": "NODE_ENV=production node .next/standalone/server.js",
+    "dev": "next dev",
+    "build": "next build",
+    "start": "node .next/standalone/server.js",
+    "build:standalone": "next build && npx copyfiles -u 1 .next/static/**/* .next/standalone/.next/static && npx copyfiles -u 1 public/**/* .next/standalone/public",
     "lint": "eslint .",
     "db:push": "prisma db push",
     "db:generate": "prisma generate",
