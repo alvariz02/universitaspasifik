@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Upload, X, Image as ImageIcon } from 'lucide-react'
+import { v2 as cloudinary } from 'cloudinary'
 
 interface FileUploadProps {
   value?: string
@@ -46,20 +47,31 @@ export default function FileUpload({
     setError("")
 
     try {
-      const formData = new FormData()
-      formData.append('file', file)
-
-      const response = await fetch('/api/upload', {
-        method: 'POST',
-        body: formData,
+      // Upload to Cloudinary
+      const result = await new Promise((resolve, reject) => {
+        const reader = new FileReader()
+        reader.onload = (e) => {
+          const arrayBuffer = e.target?.result as ArrayBuffer
+          const buffer = Buffer.from(arrayBuffer)
+          
+          cloudinary.uploader.upload_stream(
+            {
+              resource_type: 'auto',
+              folder: 'universitas-pasifik',
+              use_filename: true,
+              unique_filename: true,
+            },
+            (error, result) => {
+              if (error) reject(error)
+              else resolve(result)
+            }
+          ).end(buffer)
+        }
+        reader.readAsArrayBuffer(file)
       })
 
-      if (!response.ok) {
-        throw new Error('Upload failed')
-      }
-
-      const data = await response.json()
-      const fileUrl = data.url
+      const uploadedFile = result as any
+      const fileUrl = uploadedFile.secure_url
 
       onChange(fileUrl)
       setPreview(fileUrl)
