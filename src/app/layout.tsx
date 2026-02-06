@@ -81,6 +81,11 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Log startup
+  console.log('🚀 Application starting...')
+  console.log('📊 Environment:', process.env.NODE_ENV)
+  console.log('🗄️ Database URL:', process.env.DATABASE_URL ? 'SET' : 'NOT_SET')
+
   return (
     <html lang="id" suppressHydrationWarning>
       <body
