@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { writeFile, mkdir } from 'fs/promises'
-import path from 'path'
+import { v2 as cloudinary } from 'cloudinary'
 
 export async function POST(request: NextRequest) {
   try {
@@ -30,33 +29,39 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    // Check Cloudinary credentials
+    if (!process.env.CLOUDINARY_CLOUD_NAME || !process.env.CLOUDINARY_API_KEY || !process.env.CLOUDINARY_API_SECRET) {
+      return NextResponse.json(
+        { error: 'Cloudinary credentials not configured' },
+        { status: 500 }
+      )
+    }
+
     const bytes = await file.arrayBuffer()
     const buffer = Buffer.from(bytes)
 
-    // Create unique filename
-    const timestamp = Date.now()
-    const originalName = file.name.replace(/[^a-zA-Z0-9.-]/g, '_')
-    const filename = `${timestamp}_${originalName}`
+    // Upload to Cloudinary
+    const result = await new Promise((resolve, reject) => {
+      cloudinary.uploader.upload_stream(
+        {
+          resource_type: 'auto',
+          folder: 'universitas-pasifik',
+          use_filename: true,
+          unique_filename: true,
+        },
+        (error, result) => {
+          if (error) reject(error)
+          else resolve(result)
+        }
+      ).end(buffer)
+    })
 
-    // Ensure uploads directory exists
-    const uploadsDir = path.join(process.cwd(), 'public', 'uploads')
-    try {
-      await mkdir(uploadsDir, { recursive: true })
-    } catch (error) {
-      // Directory might already exist
-    }
-
-    // Write file to public/uploads directory
-    const filepath = path.join(uploadsDir, filename)
-    await writeFile(filepath, buffer)
-
-    // Return the URL that can be used to access the file
-    const fileUrl = `/uploads/${filename}`
+    const uploadedFile = result as any
 
     return NextResponse.json({ 
       success: true,
-      url: fileUrl,
-      filename: filename
+      url: uploadedFile.secure_url,
+      filename: uploadedFile.public_id
     })
 
   } catch (error) {
