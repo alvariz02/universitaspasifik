@@ -11,7 +11,6 @@ import { id as localeId } from 'date-fns/locale'
 import { db } from '@/lib/db'
 import Link from 'next/link'
 import { format } from 'date-fns'
-import { id as localeId } from 'date-fns/locale'
 
 export const dynamic = 'force-dynamic'
 
@@ -150,7 +149,7 @@ export default async function EventDetailPage({
                         <div>
                           <div className="font-medium">Tanggal</div>
                           <div className="text-muted-foreground">
-                            {format(eventDate, 'dd MMMM yyyy', { locale: id })}
+                            {format(eventDate, 'dd MMMM yyyy', { locale: localeId })}
                           </div>
                         </div>
                       </div>
