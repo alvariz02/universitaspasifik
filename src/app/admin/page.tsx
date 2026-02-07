@@ -13,7 +13,12 @@ export const dynamic = 'force-dynamic'
 
 async function getDashboardStats() {
   try {
-    const [newsCount, eventsCount, announcementsCount, facultiesCount, achievementsCount] = await Promise.all([
+    // Add timeout untuk database queries
+    const timeoutPromise = new Promise((_, reject) => 
+      setTimeout(() => reject(new Error('Database timeout')), 5000)
+    )
+
+    const queriesPromise = Promise.all([
       db.news.count(),
       db.event.count(),
       db.announcement.count(),
@@ -21,15 +26,19 @@ async function getDashboardStats() {
       db.achievement.count()
     ])
 
+    const [newsCount, eventsCount, announcementsCount, facultiesCount, achievementsCount] = 
+      await Promise.race([queriesPromise, timeoutPromise]) as any
+
     return {
-      newsCount: newsCount,
-      eventsCount: eventsCount,
-      announcementsCount: announcementsCount,
-      facultiesCount: facultiesCount,
-      achievementsCount: achievementsCount
+      newsCount: newsCount || 0,
+      eventsCount: eventsCount || 0,
+      announcementsCount: announcementsCount || 0,
+      facultiesCount: facultiesCount || 0,
+      achievementsCount: achievementsCount || 0
     }
   } catch (error) {
     console.error('Error fetching dashboard stats:', error)
+    // Return default values untuk prevent loading lama
     return {
       newsCount: 0,
       eventsCount: 0,

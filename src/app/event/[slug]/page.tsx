@@ -129,7 +129,7 @@ export default async function EventDetailPage({
 
                     <div
                       className="text-gray-800 leading-relaxed space-y-4"
-                      dangerouslySetInnerHTML={{ __html: event.content || event.description }}
+                      dangerouslySetInnerHTML={{ __html: (event as any).content || event.description }}
                     />
                   </div>
                 </div>

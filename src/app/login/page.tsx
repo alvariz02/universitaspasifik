@@ -25,9 +25,6 @@ export default function LoginPage() {
     setError('')
     setIsLoading(true)
 
-    // Simulate API call delay
-    await new Promise(resolve => setTimeout(resolve, 1000))
-
     const success = login(email, password)
 
     if (success) {
