@@ -30,11 +30,55 @@ export default function CreateNewsClient() {
     fetchInitial()
   }, [idParam])
 
+  const handleSubmit = async (data: any) => {
+    try {
+      console.log('📝 Submitting news data:', data)
+      
+      const url = idParam ? `/api/news/${idParam}` : '/api/news'
+      const method = idParam ? 'PUT' : 'POST'
+      
+      const response = await fetch(url, {
+        method,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
+
+      console.log('📡 API response status:', response.status)
+
+      if (!response.ok) {
+        const errorData = await response.json()
+        console.log('❌ API error:', errorData)
+        throw new Error(errorData.error || 'Failed to save news')
+      }
+
+      const result = await response.json()
+      console.log('✅ News saved:', result)
+
+      toast({
+        title: idParam ? "Berita Diperbarui" : "Berita Dibuat",
+        description: idParam ? "Berita berhasil diperbarui" : "Berita baru berhasil dibuat",
+        variant: "default",
+      })
+
+      router.push('/admin/news')
+    } catch (error) {
+      console.error('🚨 Submit error:', error)
+      toast({
+        title: "Error",
+        description: error instanceof Error ? error.message : "Gagal menyimpan berita",
+        variant: "destructive",
+      })
+      throw error // Re-throw to prevent form reset on error
+    }
+  }
+
   return (
     <AdminLayout>
       <NewsFormPage 
         initialData={initialData}
-        onSubmit={async (data: any) => {}}
+        onSubmit={handleSubmit}
         title={idParam ? "Edit Berita" : "Buat Berita Baru"}
         subtitle={idParam ? "Edit berita yang ada" : "Buat berita baru"}
         submitButtonText={idParam ? "Update" : "Buat"}

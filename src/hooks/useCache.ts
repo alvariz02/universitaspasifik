@@ -1,0 +1,68 @@
+'use client'
+
+import { useState, useEffect } from 'react'
+import { cache } from '@/lib/cache'
+
+export function useCache<T>(
+  key: string,
+  fetcher: () => Promise<T>,
+  dependencies: any[] = []
+) {
+  const [data, setData] = useState<T | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        setLoading(true)
+        setError(null)
+
+        // Try cache first
+        const cachedData = cache.get(key)
+        if (cachedData) {
+          console.log(`📦 Cache hit for ${key}`)
+          setData(cachedData)
+          setLoading(false)
+          return
+        }
+
+        console.log(`🌐 Fetching fresh data for ${key}`)
+        const freshData = await fetcher()
+        cache.set(key, freshData)
+        setData(freshData)
+      } catch (err) {
+        console.error(`❌ Error loading ${key}:`, err)
+        setError(err instanceof Error ? err.message : 'Unknown error')
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    loadData()
+  }, dependencies)
+
+  const refetch = () => {
+    console.log(`🔄 Refetching ${key}`)
+    cache.clear() // Clear cache for this key
+    loadData()
+  }
+
+  const loadData = async () => {
+    try {
+      setLoading(true)
+      setError(null)
+      console.log(`🌐 Fetching fresh data for ${key}`)
+      const freshData = await fetcher()
+      cache.set(key, freshData)
+      setData(freshData)
+    } catch (err) {
+      console.error(`❌ Error loading ${key}:`, err)
+      setError(err instanceof Error ? err.message : 'Unknown error')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  return { data, loading, error, refetch }
+}
