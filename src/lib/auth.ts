@@ -23,15 +23,26 @@ export const authService = {
         name: 'Administrator',
         role: 'admin'
       }
-      localStorage.setItem(AUTH_KEY, JSON.stringify({ user, isAuthenticated: true }))
+      
+      const authData = { user, isAuthenticated: true }
+      
+      // Save to localStorage
+      localStorage.setItem(AUTH_KEY, JSON.stringify(authData))
+      
+      // Save to cookies untuk middleware
+      document.cookie = `up_admin_auth=${JSON.stringify(authData)}; path=/; max-age=86400`
+      
       return true
     }
+    
     return false
   },
 
   // Logout user
   logout: (): void => {
     localStorage.removeItem(AUTH_KEY)
+    // Clear cookies
+    document.cookie = 'up_admin_auth=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT'
   },
 
   // Get current auth state
