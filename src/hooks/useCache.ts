@@ -39,7 +39,15 @@ export function useCache<T>(
       }
     }
 
-    loadData()
+    // Only run client-side or when Prisma is available
+    if (typeof window !== 'undefined' && !window.location.pathname.includes('/admin')) {
+      loadData()
+    } else {
+      // For server-side or admin pages, set loading to false
+      setLoading(false)
+      setError(null)
+      setData(null)
+    }
   }, dependencies)
 
   const refetch = () => {
