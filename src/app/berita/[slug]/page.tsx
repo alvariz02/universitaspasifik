@@ -9,7 +9,7 @@ import { id } from 'date-fns/locale'
 
 async function getNewsBySlug(slug: string) {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/news?limit=100`, {
+    const res = await fetch('/api/news?limit=100', {
       cache: 'no-store'
     })
 
@@ -33,7 +33,7 @@ async function getNewsBySlug(slug: string) {
 
 async function getRelatedNews(excludeId: number) {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/news?limit=4`, {
+    const res = await fetch('/api/news?limit=4', {
       cache: 'no-store'
     })
 
