@@ -30,6 +30,8 @@ export default function FileUpload({
     const file = event.target.files?.[0]
     if (!file) return
 
+    console.log('📁 FileUpload component file:', { name: file.name, size: file.size, type: file.type })
+
     // Validate file size
     if (file.size > maxSize * 1024 * 1024) {
       setError(`Ukuran file maksimal ${maxSize}MB`)
@@ -49,23 +51,36 @@ export default function FileUpload({
       const formData = new FormData()
       formData.append('file', file)
 
+      console.log('📤 Sending to /api/upload...')
+
       const response = await fetch('/api/upload', {
         method: 'POST',
         body: formData,
       })
 
+      console.log('📡 API response status:', response.status)
+
       if (!response.ok) {
-        throw new Error('Upload failed')
+        const errorData = await response.json()
+        console.log('❌ API error response:', errorData)
+        throw new Error(errorData.error || `HTTP ${response.status}`)
       }
 
       const data = await response.json()
+      console.log('✅ Upload success:', data)
+      
+      if (!data.url) {
+        console.log('❌ No URL in response:', data)
+        throw new Error('Upload successful but no URL returned')
+      }
+      
       const fileUrl = data.url
 
       onChange(fileUrl)
       setPreview(fileUrl)
     } catch (error) {
-      console.error('Upload error:', error)
-      setError('Gagal mengupload file')
+      console.error('🚨 Upload error:', error)
+      setError('Gagal mengupload file: ' + (error instanceof Error ? error.message : 'Unknown error'))
     } finally {
       setIsUploading(false)
     }
