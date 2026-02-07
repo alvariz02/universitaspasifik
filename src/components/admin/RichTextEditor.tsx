@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useLayoutEffect } from 'react'
 import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import Bold from '@tiptap/extension-bold'
@@ -61,7 +61,7 @@ export default function RichTextEditor({ value, onChange, placeholder = "Mulai m
     },
   })
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     setIsClient(true)
   }, [])
 

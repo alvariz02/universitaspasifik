@@ -6,6 +6,8 @@ import { Calendar, Clock, MapPin, Users, ExternalLink, ArrowLeft, Check } from '
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import EventDetail from '@/components/EventDetail'
+
+import { id as localeId } from 'date-fns/locale'
 import { db } from '@/lib/db'
 import Link from 'next/link'
 import { format } from 'date-fns'

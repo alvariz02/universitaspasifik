@@ -12,59 +12,39 @@ import FacultiesGrid from '@/components/home/FacultiesGrid'
 import VideoSection from '@/components/home/VideoSection'
 import CTASection from '@/components/home/CTASection'
 import { useCache } from '@/hooks/useCache'
-import { db } from '@/lib/db'
 
 async function fetchHomeData() {
   try {
-    // Sequential queries untuk prevent connection pool exhaustion
-    const sliders = await db.heroSlider.findMany({
-      orderBy: { orderPosition: 'asc' },
-      where: { isActive: true }
-    }).catch(() => [])
-    
-    const statistics = await db.statistic.findMany({
-      orderBy: { createdAt: 'desc' },
-      take: 6
-    }).catch(() => [])
-    
-    const news = await db.news.findMany({
-      orderBy: { createdAt: 'desc' },
-      take: 6
-    }).catch(() => [])
-    
-    const events = await db.event.findMany({
-      orderBy: { createdAt: 'desc' },
-      take: 6
-    }).catch(() => [])
-    
-    const announcements = await db.announcement.findMany({
-      orderBy: { createdAt: 'desc' },
-      take: 5
-    }).catch(() => [])
-    
-    const achievements = await db.achievement.findMany({
-      orderBy: { createdAt: 'desc' },
-      take: 6
-    }).catch(() => [])
-    
-    const faculties = await db.faculty.findMany({
-      orderBy: { name: 'asc' }
-    }).catch(() => [])
-    
-    const videos = await db.video.findMany({
-      orderBy: { createdAt: 'desc' },
-      take: 6
-    }).catch(() => [])
+    // Fetch data from API routes instead of direct database calls
+    const [slidersRes, statisticsRes, newsRes, eventsRes, announcementsRes, achievementsRes, facultiesRes, videosRes] = await Promise.all([
+      fetch('/api/hero-sliders?limit=10&offset=0'),
+      fetch('/api/statistics'),
+      fetch('/api/news?limit=6&offset=0'),
+      fetch('/api/events?limit=6&offset=0'),
+      fetch('/api/announcements?limit=5&offset=0'),
+      fetch('/api/achievements?limit=6&offset=0'),
+      fetch('/api/faculties'),
+      fetch('/api/videos?limit=6&offset=0')
+    ])
+
+    const slidersData = slidersRes.ok ? await slidersRes.json() : { sliders: [] }
+    const statisticsData = statisticsRes.ok ? await statisticsRes.json() : []
+    const newsData = newsRes.ok ? await newsRes.json() : { news: [] }
+    const eventsData = eventsRes.ok ? await eventsRes.json() : { events: [] }
+    const announcementsData = announcementsRes.ok ? await announcementsRes.json() : { announcements: [] }
+    const achievementsData = achievementsRes.ok ? await achievementsRes.json() : { achievements: [] }
+    const facultiesData = facultiesRes.ok ? await facultiesRes.json() : []
+    const videosData = videosRes.ok ? await videosRes.json() : { videos: [] }
 
     return {
-      sliders: sliders as any,
-      statistics: statistics as any,
-      news: news as any,
-      events: events as any,
-      announcements: announcements as any,
-      achievements: achievements as any,
-      faculties: faculties as any,
-      videos: videos as any
+      sliders: slidersData.sliders || [],
+      statistics: statisticsData || [],
+      news: newsData.news || [],
+      events: eventsData.events || [],
+      announcements: announcementsData.announcements || [],
+      achievements: achievementsData.achievements || [],
+      faculties: facultiesData || [],
+      videos: videosData.videos || []
     }
   } catch (error) {
     console.error('Error fetching data:', error)

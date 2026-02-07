@@ -29,6 +29,7 @@ interface VideoGalleryProps {
 
 export default function VideoGallery({ videos: initialVideos }: VideoGalleryProps) {
   const [videos, setVideos] = useState<Video[]>(initialVideos)
+  const [filteredVideos, setFilteredVideos] = useState<Video[]>(initialVideos)
   const [selectedVideo, setSelectedVideo] = useState<Video | null>(null)
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('all')

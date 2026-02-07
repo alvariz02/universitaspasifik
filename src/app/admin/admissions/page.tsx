@@ -46,7 +46,7 @@ export default function AdminAdmissionsPage() {
     setFormOpen(true)
   }
 
-  const handleDelete = async (slug: string, row: any) => {
+  const handleDelete = async (id: number, row: any) => {
     const confirmed = await confirm({
       title: "Hapus Jalur Penerimaan",
       description: `Yakin ingin menghapus ${row.name}?`,
@@ -54,16 +54,16 @@ export default function AdminAdmissionsPage() {
       cancelText: "Batal",
       variant: "destructive"
     })
-    
+
     if (!confirmed) return
 
     try {
-      const res = await fetch(`/api/admissions/${slug}`, {
+      const res = await fetch(`/api/admissions/${row.slug}`, {
         method: 'DELETE',
       })
 
       if (res.ok) {
-        setAdmissions(admissions.filter((item) => item.slug !== slug))
+        setAdmissions(admissions.filter((item) => item.slug !== row.slug))
         toast({
           title: "Jalur Penerimaan Dihapus",
           description: `"${row.name}" berhasil dihapus`,
