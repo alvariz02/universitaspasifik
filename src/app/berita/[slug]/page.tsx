@@ -9,31 +9,41 @@ import { id } from 'date-fns/locale'
 
 async function getNewsBySlug(slug: string) {
   try {
-    const res = await fetch('/api/news?limit=100', {
+    console.log('🔍 Fetching news for slug:', slug)
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'
+    const res = await fetch(`${baseUrl}/api/news?limit=100`, {
       cache: 'no-store'
     })
 
     if (!res.ok) {
+      console.log('❌ API response not ok:', res.status)
       throw new Error('Failed to fetch news')
     }
 
     const data = await res.json()
+    console.log('📊 API response:', data)
+    
     let news = data.news?.find((n: any) => n.slug === slug)
+    console.log('🔍 News found by slug:', news?.title || 'Not found')
+    
     // If not found by slug, allow numeric id access
     if (!news && !isNaN(Number(slug))) {
       const id = Number(slug)
       news = data.news?.find((n: any) => n.id === id)
+      console.log('🔍 News found by ID:', news?.title || 'Not found')
     }
+    
     return news
   } catch (error) {
-    console.error('Error fetching news:', error)
+    console.error('❌ Error fetching news:', error)
     return null
   }
 }
 
 async function getRelatedNews(excludeId: number) {
   try {
-    const res = await fetch('/api/news?limit=4', {
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'
+    const res = await fetch(`${baseUrl}/api/news?limit=4`, {
       cache: 'no-store'
     })
 
@@ -44,7 +54,7 @@ async function getRelatedNews(excludeId: number) {
     const data = await res.json()
     return data.news?.filter((n: any) => n.id !== excludeId).slice(0, 3) || []
   } catch (error) {
-    console.error('Error fetching related news:', error)
+    console.error('❌ Error fetching related news:', error)
     return []
   }
 }

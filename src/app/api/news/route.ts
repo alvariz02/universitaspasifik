@@ -3,15 +3,19 @@ import { db } from '@/lib/db'
 
 export async function GET(request: Request) {
   try {
+    console.log('📰 News API called')
     const { searchParams } = new URL(request.url)
     const featured = searchParams.get('featured')
     const limit = parseInt(searchParams.get('limit') || '10')
     const offset = parseInt(searchParams.get('offset') || '0')
 
+    console.log('📊 Query params:', { featured, limit, offset })
+
     let news
     let total
 
     if (featured === 'true') {
+      console.log('⭐ Fetching featured news')
       news = await db.news.findMany({
         where: {
           isFeatured: true
@@ -28,6 +32,7 @@ export async function GET(request: Request) {
         }
       })
     } else {
+      console.log('📰 Fetching all news')
       news = await db.news.findMany({
         orderBy: {
           publishedDate: 'desc'
@@ -38,6 +43,8 @@ export async function GET(request: Request) {
       total = await db.news.count()
     }
 
+    console.log('📊 News found:', news.length, 'Total:', total)
+
     return NextResponse.json({
       news,
       total,
@@ -45,7 +52,7 @@ export async function GET(request: Request) {
       offset
     })
   } catch (error) {
-    console.error('Error fetching news:', error)
+    console.error('🚨 Error fetching news:', error)
     return NextResponse.json(
       { error: 'Failed to fetch news' },
       { status: 500 }
