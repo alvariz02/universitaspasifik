@@ -6,30 +6,29 @@ import { Calendar, User, ArrowLeft, Share2, Clock } from 'lucide-react'
 import Link from 'next/link'
 import { format } from 'date-fns'
 import { id } from 'date-fns/locale'
+import { db } from '@/lib/db'
 
 async function getNewsBySlug(slug: string) {
   try {
     console.log('🔍 Fetching news for slug:', slug)
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'
-    const res = await fetch(`${baseUrl}/api/news?limit=100`, {
-      cache: 'no-store'
-    })
-
-    if (!res.ok) {
-      console.log('❌ API response not ok:', res.status)
-      throw new Error('Failed to fetch news')
-    }
-
-    const data = await res.json()
-    console.log('📊 API response:', data)
     
-    let news = data.news?.find((n: any) => n.slug === slug)
+    // Direct database query - more reliable on Vercel
+    let news = await db.news.findFirst({
+      where: {
+        slug: slug
+      }
+    })
+    
     console.log('🔍 News found by slug:', news?.title || 'Not found')
     
-    // If not found by slug, allow numeric id access
+    // If not found by slug, try numeric ID
     if (!news && !isNaN(Number(slug))) {
       const id = Number(slug)
-      news = data.news?.find((n: any) => n.id === id)
+      news = await db.news.findFirst({
+        where: {
+          id: id
+        }
+      })
       console.log('🔍 News found by ID:', news?.title || 'Not found')
     }
     
@@ -42,17 +41,20 @@ async function getNewsBySlug(slug: string) {
 
 async function getRelatedNews(excludeId: number) {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'
-    const res = await fetch(`${baseUrl}/api/news?limit=4`, {
-      cache: 'no-store'
+    // Direct database query - more reliable on Vercel
+    const news = await db.news.findMany({
+      where: {
+        id: {
+          not: excludeId
+        }
+      },
+      orderBy: {
+        publishedDate: 'desc'
+      },
+      take: 3
     })
-
-    if (!res.ok) {
-      throw new Error('Failed to fetch related news')
-    }
-
-    const data = await res.json()
-    return data.news?.filter((n: any) => n.id !== excludeId).slice(0, 3) || []
+    
+    return news
   } catch (error) {
     console.error('❌ Error fetching related news:', error)
     return []
