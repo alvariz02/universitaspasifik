@@ -18,16 +18,8 @@ export function useCache<T>(
         setLoading(true)
         setError(null)
 
-        // Try cache first
-        const cachedData = cache.get(key)
-        if (cachedData) {
-          console.log(`📦 Cache hit for ${key}`)
-          setData(cachedData)
-          setLoading(false)
-          return
-        }
-
-        console.log(`🌐 Fetching fresh data for ${key}`)
+        // Always fetch fresh data for now (disable cache temporarily)
+        console.log(`🌐 Fetching fresh data for ${key} (cache disabled)`)
         const freshData = await fetcher()
         cache.set(key, freshData)
         setData(freshData)
@@ -52,7 +44,7 @@ export function useCache<T>(
 
   const refetch = () => {
     console.log(`🔄 Refetching ${key}`)
-    cache.clear() // Clear cache for this key
+    cache.clear() // Clear ALL cache
     loadData()
   }
 

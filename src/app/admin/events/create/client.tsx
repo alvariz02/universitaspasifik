@@ -2,40 +2,39 @@
 
 import { useRouter, useSearchParams } from 'next/navigation'
 import AdminLayout from '@/components/admin/AdminLayout'
-import NewsFormPage from '@/components/admin/NewsFormPage'
+import EventFormPage from '@/components/admin/EventFormPage'
 import { useEffect, useState } from 'react'
 import { useToast } from '@/hooks/use-toast'
 
-export default function CreateNewsClient() {
+export default function CreateEventClient() {
   const router = useRouter()
   const { toast } = useToast()
   const searchParams = useSearchParams()
   const idParam = searchParams?.get('id')
   const [initialData, setInitialData] = useState<any>(null)
 
-  console.log('🚀 Component mounted, idParam:', idParam)
-
   useEffect(() => {
     const fetchInitial = async () => {
       console.log('🔍 Edit mode detected, idParam:', idParam)
       if (!idParam) {
-        console.log('❌ No ID parameter, creating new news')
+        console.log('❌ No ID parameter, creating new event')
         return
       }
       try {
-        console.log('📡 Fetching news data for ID:', idParam)
-        const res = await fetch(`/api/news/${idParam}`)
+        console.log('📡 Fetching event data for ID:', idParam)
+        const res = await fetch(`/api/events/${idParam}`)
         console.log('📡 API response status:', res.status)
         
         if (res.ok) {
           const data = await res.json()
-          console.log('📊 Raw news data:', data)
+          console.log('📊 Raw event data:', data)
           
-          // Format date for input[type="date"]
-          if (data.publishedDate) {
-            const formattedDate = new Date(data.publishedDate).toISOString().split('T')[0]
-            console.log('📅 Formatted date:', formattedDate)
-            data.publishedDate = formattedDate
+          // Format dates for input[type="datetime-local"]
+          if (data.eventDate) {
+            data.eventDate = new Date(data.eventDate).toISOString().slice(0, 16)
+          }
+          if (data.endDate) {
+            data.endDate = new Date(data.endDate).toISOString().slice(0, 16)
           }
           
           console.log('📊 Final initialData:', data)
@@ -44,20 +43,18 @@ export default function CreateNewsClient() {
           console.log('❌ API error response:', await res.text())
         }
       } catch (e) {
-        console.error('❌ Failed to load news for editing:', e)
+        console.error('❌ Failed to load event for editing:', e)
       }
     }
 
     fetchInitial()
   }, [idParam])
 
-  console.log('📊 Current initialData state:', initialData)
-
   const handleSubmit = async (data: any) => {
     try {
-      console.log('📝 Submitting news data:', data)
+      console.log('📝 Submitting event data:', data)
       
-      const url = idParam ? `/api/news/${idParam}` : '/api/news'
+      const url = idParam ? `/api/events/${idParam}` : '/api/events'
       const method = idParam ? 'PUT' : 'POST'
       
       const response = await fetch(url, {
@@ -73,24 +70,24 @@ export default function CreateNewsClient() {
       if (!response.ok) {
         const errorData = await response.json()
         console.log('❌ API error:', errorData)
-        throw new Error(errorData.error || 'Failed to save news')
+        throw new Error(errorData.error || 'Failed to save event')
       }
 
       const result = await response.json()
-      console.log('✅ News saved:', result)
+      console.log('✅ Event saved:', result)
 
       toast({
-        title: idParam ? "Berita Diperbarui" : "Berita Dibuat",
-        description: idParam ? "Berita berhasil diperbarui" : "Berita baru berhasil dibuat",
+        title: idParam ? "Event Diperbarui" : "Event Dibuat",
+        description: idParam ? "Event berhasil diperbarui" : "Event baru berhasil dibuat",
         variant: "default",
       })
 
-      router.push('/admin/news')
+      router.push('/admin/events')
     } catch (error) {
       console.error('🚨 Submit error:', error)
       toast({
         title: "Error",
-        description: error instanceof Error ? error.message : "Gagal menyimpan berita",
+        description: error instanceof Error ? error.message : "Gagal menyimpan event",
         variant: "destructive",
       })
       throw error // Re-throw to prevent form reset on error
@@ -99,11 +96,11 @@ export default function CreateNewsClient() {
 
   return (
     <AdminLayout>
-      <NewsFormPage 
+      <EventFormPage 
         initialData={initialData}
         onSubmit={handleSubmit}
-        title={idParam ? "Edit Berita" : "Buat Berita Baru"}
-        subtitle={idParam ? "Edit berita yang ada" : "Buat berita baru"}
+        title={idParam ? "Edit Event" : "Buat Event Baru"}
+        subtitle={idParam ? "Edit event yang ada" : "Buat event baru"}
         submitButtonText={idParam ? "Update" : "Buat"}
       />
     </AdminLayout>

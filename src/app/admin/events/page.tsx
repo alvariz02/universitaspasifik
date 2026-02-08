@@ -1,10 +1,12 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import AdminLayout from '@/components/admin/AdminLayout'
 import DataTable from '@/components/admin/DataTable'
-import EventForm from '@/components/admin/EventForm'
 import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import { Plus } from 'lucide-react'
 import { format } from 'date-fns'
 import { id as localeId } from 'date-fns/locale'
 import { useToast } from '@/hooks/use-toast'
@@ -12,13 +14,11 @@ import { useConfirm } from '@/hooks/use-confirm'
 import { ConfirmDialog } from '@/components/ui/confirm-dialog'
 
 export default function AdminEventsPage() {
+  const router = useRouter()
   const { toast } = useToast()
   const { confirm, isOpen, options, handleConfirm, handleCancel, setIsOpen } = useConfirm()
   const [events, setEvents] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
-  const [formOpen, setFormOpen] = useState(false)
-  const [editingId, setEditingId] = useState<number | null>(null)
-  const [editingData, setEditingData] = useState<any>(null)
 
   useEffect(() => {
     fetchEvents()
@@ -29,7 +29,7 @@ export default function AdminEventsPage() {
       setLoading(true)
       const res = await fetch('/api/events?limit=100')
       const data = await res.json()
-      setEvents(data)
+      setEvents(data || [])
     } catch (error) {
       console.error('Error fetching events:', error)
     } finally {
@@ -38,15 +38,11 @@ export default function AdminEventsPage() {
   }
 
   const handleCreate = () => {
-    setEditingId(null)
-    setEditingData(null)
-    setFormOpen(true)
+    router.push('/admin/events/create')
   }
 
-  const handleEdit = (id: number, row: any) => {
-    setEditingId(id)
-    setEditingData(row)
-    setFormOpen(true)
+  const handleEdit = (id: number) => {
+    router.push(`/admin/events/create?id=${id}`)
   }
 
   const handleDelete = async (id: number) => {
@@ -89,49 +85,6 @@ export default function AdminEventsPage() {
         description: "Gagal menghapus event. Silakan coba lagi.",
         variant: "destructive",
       })
-    }
-  }
-
-  const handleSubmit = async (data: any) => {
-    try {
-      const url = editingId ? `/api/events/${editingId}` : '/api/events'
-      const method = editingId ? 'PUT' : 'POST'
-
-      const res = await fetch(url, {
-        method,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      })
-
-      if (res.ok) {
-        await fetchEvents()
-        toast({
-          title: editingId ? "Event Diperbarui" : "Event Ditambahkan",
-          description: `"${data.title}" berhasil ${editingId ? 'diperbarui' : 'ditambahkan'}`,
-          variant: "default",
-        })
-        setFormOpen(false)
-        setEditingId(null)
-        setEditingData(null)
-      } else {
-        const errorData = await res.json()
-        toast({
-          title: "Gagal Menyimpan",
-          description: errorData.error || 'Gagal menyimpan event',
-          variant: "destructive",
-        })
-        throw new Error('Failed to save')
-      }
-    } catch (error) {
-      console.error('Error saving event:', error)
-      toast({
-        title: "Terjadi Kesalahan",
-        description: "Gagal menyimpan event. Silakan coba lagi.",
-        variant: "destructive",
-      })
-      throw error
     }
   }
 
@@ -210,13 +163,6 @@ export default function AdminEventsPage() {
             addButtonText="Tambah Event"
           />
         )}
-
-        <EventForm
-          open={formOpen}
-          onClose={() => setFormOpen(false)}
-          onSubmit={handleSubmit}
-          initialData={editingData}
-        />
 
         <ConfirmDialog
           open={isOpen}

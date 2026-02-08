@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useForm, type Resolver } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
@@ -67,11 +67,22 @@ export default function NewsFormPage({ initialData, onSubmit, title, subtitle, s
     },
   })
 
+  // Update form when initialData changes
+  useEffect(() => {
+    if (initialData) {
+      console.log('🔄 Updating form with initialData:', initialData)
+      reset(initialData)
+    }
+  }, [initialData, reset])
+
   const onFormSubmit = async (data: NewsFormData) => {
     try {
       setIsSubmitting(true)
       await onSubmit(data)
-      reset()
+      // Only reset form for new items, not for edits
+      if (!initialData) {
+        reset()
+      }
     } catch (error) {
       console.error('Error submitting form:', error)
     } finally {

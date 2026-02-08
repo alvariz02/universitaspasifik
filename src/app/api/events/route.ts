@@ -54,13 +54,15 @@ export async function POST(request: Request) {
         endDate: body.endDate ? new Date(body.endDate) : null,
         location: body.location,
         imageUrl: body.imageUrl,
-        organizer: body.organizer,
-        contactEmail: body.contactEmail,
-        registrationUrl: body.registrationUrl,
+        // Optional fields with defaults
+        organizer: body.organizer || 'Universitas Pasifik Morotai',
+        contactEmail: body.contactEmail || 'info@unipas.ac.id',
+        registrationUrl: body.registrationUrl || null,
         isFeatured: body.isFeatured || false,
       }
     })
 
+    console.log('✅ Event created:', event.title)
     return NextResponse.json(event, { status: 201 })
   } catch (error) {
     console.error('Error creating event:', error)

@@ -30,21 +30,27 @@ async function fetchHomeData() {
     const slidersData = slidersRes.ok ? await slidersRes.json() : { sliders: [] }
     const statisticsData = statisticsRes.ok ? await statisticsRes.json() : []
     const newsData = newsRes.ok ? await newsRes.json() : { news: [] }
-    const eventsData = eventsRes.ok ? await eventsRes.json() : { events: [] }
+    const eventsData = eventsRes.ok ? await eventsRes.json() : []
+    console.log('📊 Raw events API response:', eventsData)
+    console.log('📊 Events response type:', typeof eventsData)
+    console.log('📊 Events is array:', Array.isArray(eventsData))
     const announcementsData = announcementsRes.ok ? await announcementsRes.json() : { announcements: [] }
     const achievementsData = achievementsRes.ok ? await achievementsRes.json() : { achievements: [] }
     const facultiesData = facultiesRes.ok ? await facultiesRes.json() : []
-    const videosData = videosRes.ok ? await videosRes.json() : { videos: [] }
+    const videosData = videosRes.ok ? await videosRes.json() : []
+    console.log('📼 Raw videos API response:', videosData)
+    console.log('📼 Videos response type:', typeof videosData)
+    console.log('📼 Videos is array:', Array.isArray(videosData))
 
     return {
       sliders: slidersData.sliders || [],
       statistics: statisticsData || [],
       news: newsData.news || [],
-      events: eventsData.events || [],
+      events: eventsData || [], // Direct array, not eventsData.events
       announcements: announcementsData.announcements || [],
       achievements: achievementsData.achievements || [],
       faculties: facultiesData || [],
-      videos: videosData.videos || []
+      videos: videosData || [] // Direct array, not videosData.videos
     }
   } catch (error) {
     console.error('Error fetching data:', error)
@@ -67,6 +73,12 @@ export default function HomeClient() {
     fetchHomeData,
     [] // No dependencies, only load once
   )
+
+  // Debug: Log current data
+  console.log('🎯 Current events in home:', data?.events)
+  console.log('🎯 Events count:', data?.events?.length || 0)
+  console.log('📼 Current videos in home:', data?.videos)
+  console.log('📼 Videos count:', data?.videos?.length || 0)
 
   if (loading) {
     return (
@@ -107,6 +119,16 @@ export default function HomeClient() {
     <div className="min-h-screen flex flex-col">
       <Header />
       <main className="flex-1">
+        {/* Debug Refresh Button */}
+        <div className="container mx-auto px-4 py-2">
+          <button 
+            onClick={refetch}
+            className="px-4 py-2 bg-unipas-primary text-white rounded hover:bg-unipas-accent text-sm"
+          >
+            🔄 Refresh Data
+          </button>
+        </div>
+        
         <HeroSlider slides={data?.sliders || []} />
         <QuickStats statistics={data?.statistics || []} />
         <FeaturedNews news={data?.news || []} />
