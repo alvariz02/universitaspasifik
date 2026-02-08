@@ -16,7 +16,7 @@ export const authService = {
   // Login user
   login: (email: string, password: string): boolean => {
     // Demo credentials - dalam production, gunakan API call ke backend
-    if (email === 'admin@unipas.ac.id' && password === 'admin123') {
+    if (email === 'admin@unipas.ac.id' && password === 'unipasjayalahselalu5') {
       const user: User = {
         id: '1',
         email: email,

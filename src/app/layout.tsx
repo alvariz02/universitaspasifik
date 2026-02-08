@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Universitas Pasifik - Kampus Hijau, Kampus Unggul",
+    default: "Universitas Pasifik - Website resmi Universitas Pasifik",
     template: "%s | Universitas Pasifik"
   },
   description: "Universitas Pasifik adalah universitas riset publik dan universitas terbaik di Indonesia yang berdedikasi untuk mencerdaskan kehidupan bangsa.",
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL("https://www.unipas.ac.id"),
+  metadataBase: new URL("https://www.univpasifik.ac.id"),
   alternates: {
     canonical: "/",
   },
@@ -40,8 +40,8 @@ export const metadata: Metadata = {
   manifest: "/manifest.json",
   openGraph: {
     title: "Universitas Pasifik",
-    description: "Kampus Hijau, Kampus Unggul - Universitas Terbaik di Indonesia",
-    url: "https://www.unipas.ac.id",
+    description: "Kampus Unggul - Website resmi Universitas Pasifik",
+    url: "https://www.univpasifik.ac.id",
     siteName: "Universitas Pasifik",
     locale: "id_ID",
     type: "website",
@@ -57,7 +57,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Universitas Pasifik",
-    description: "Kampus Hijau, Kampus Unggul - Universitas Terbaik di Indonesia",
+    description: "Kampus unggul - Website resmi Universitas Pasifik",
     images: ["/logounipasreal.jpeg"],
   },
   robots: {

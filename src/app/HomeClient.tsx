@@ -119,16 +119,6 @@ export default function HomeClient() {
     <div className="min-h-screen flex flex-col">
       <Header />
       <main className="flex-1">
-        {/* Debug Refresh Button */}
-        <div className="container mx-auto px-4 py-2">
-          <button 
-            onClick={refetch}
-            className="px-4 py-2 bg-unipas-primary text-white rounded hover:bg-unipas-accent text-sm"
-          >
-            🔄 Refresh Data
-          </button>
-        </div>
-        
         <HeroSlider slides={data?.sliders || []} />
         <QuickStats statistics={data?.statistics || []} />
         <FeaturedNews news={data?.news || []} />
