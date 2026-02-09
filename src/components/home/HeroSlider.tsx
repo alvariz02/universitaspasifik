@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { ChevronLeft, ChevronRight, ArrowRight, Globe } from 'lucide-react'
+import { ArrowRight, Globe } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { motion } from 'framer-motion'
 
@@ -37,17 +37,9 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
     setCurrentIndex(index)
   }
 
-  const goToPrevious = () => {
-    setCurrentIndex((prev) => (prev === 0 ? slides.length - 1 : prev - 1))
-  }
-
-  const goToNext = () => {
-    setCurrentIndex((prev) => (prev + 1) % slides.length)
-  }
-
   if (slides.length === 0) {
     return (
-      <div className="relative w-full h-[400px] md:h-[500px] lg:h-[600px] flex items-center justify-center bg-gradient-to-br from-unipas-primary/10 to-unipas-accent/10">
+      <div className="relative w-full h-[600px] md:h-[600px] lg:h-[600px] flex items-center justify-center bg-gradient-to-br from-unipas-primary/10 to-unipas-accent/10">
         <div className="text-center">
           <Globe className="h-8 w-8 text-white" />
           <p className="text-gray-500 text-lg">Tidak ada slide tersedia</p>
@@ -131,9 +123,9 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4, duration: 0.6 }}
-                  className="text-4xl md:text-5xl lg:text-7xl font-black text-white leading-tight"
+                  className="text-4xl md:text-5xl lg:text-7xl font-black leading-tight"
                 >
-                  <span className="bg-gradient-to-r from-white via-white to-unipas-accent bg-clip-text text-transparent">
+                  <span className="bg-gradient-to-r from-white via-blue-100 to-cyan-200 bg-clip-text text-transparent drop-shadow-2xl">
                     {currentSlide.title}
                   </span>
                 </motion.h1>
@@ -144,9 +136,11 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.6, duration: 0.6 }}
-                  className="text-lg md:text-xl lg:text-2xl text-white/90 leading-relaxed"
+                  className="text-lg md:text-xl lg:text-2xl leading-relaxed"
                 >
-                  {currentSlide.subtitle}
+                  <span className="bg-gradient-to-r from-white/95 via-blue-50 to-cyan-100/90 bg-clip-text text-transparent drop-shadow-lg">
+                    {currentSlide.subtitle}
+                  </span>
                 </motion.p>
               )}
               
@@ -159,10 +153,10 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
                   <Link href={currentSlide.linkUrl}>
                     <Button
                       size="lg"
-                      className="group bg-gradient-to-r from-unipas-primary to-unipas-accent text-white hover:from-unipas-accent hover:to-unipas-primary font-bold px-8 py-6 text-lg shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-105 rounded-full border border-white/20 backdrop-blur-sm"
+                      className="group bg-gradient-to-r from-blue-600 via-cyan-600 to-teal-600 text-white hover:from-blue-700 hover:via-cyan-700 hover:to-teal-700 font-bold px-8 py-6 text-lg shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-105 rounded-full border border-white/30 backdrop-blur-sm"
                     >
                       <span className="flex items-center gap-3">
-                        {currentSlide.linkText}
+                        <span className="drop-shadow-sm">{currentSlide.linkText}</span>
                         <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
                       </span>
                     </Button>
@@ -173,66 +167,8 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
           </div>
         </div>
 
-        {/* Modern Navigation Arrows */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1, duration: 0.5 }}
-          className="absolute inset-0 flex items-center justify-between px-4 pointer-events-none"
-        >
-          <motion.div
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.95 }}
-            className="pointer-events-auto"
-          >
-            <Button
-              variant="ghost"
-              size="icon"
-              className="bg-white/10 hover:bg-white/20 text-white h-14 w-14 rounded-full backdrop-blur-md border border-white/20 shadow-xl transition-all duration-300 hover:scale-110"
-              onClick={goToPrevious}
-            >
-              <ChevronLeft className="h-7 w-7" />
-            </Button>
-          </motion.div>
-
-          <motion.div
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.95 }}
-            className="pointer-events-auto"
-          >
-            <Button
-              variant="ghost"
-              size="icon"
-              className="bg-white/10 hover:bg-white/20 text-white h-14 w-14 rounded-full backdrop-blur-md border border-white/20 shadow-xl transition-all duration-300 hover:scale-110"
-              onClick={goToNext}
-            >
-              <ChevronRight className="h-7 w-7" />
-            </Button>
-          </motion.div>
-        </motion.div>
-
-        {/* Modern Dots */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.2, duration: 0.5 }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-3"
-        >
-          {slides.map((_, index) => (
-            <motion.button
-              key={index}
-              onClick={() => goToSlide(index)}
-              className={`h-3 rounded-full transition-all duration-300 backdrop-blur-sm ${
-                index === currentIndex
-                  ? 'w-12 bg-gradient-to-r from-unipas-primary to-unipas-accent shadow-lg'
-                  : 'w-3 bg-white/40 hover:bg-white/60 hover:w-6'
-              }`}
-              aria-label={`Go to slide ${index + 1}`}
-              whileHover={{ scale: 1.2 }}
-              whileTap={{ scale: 0.9 }}
-            />
-          ))}
-        </motion.div>
+        {/* Modern Dots - REMOVED */}
+        {/* Auto-play only - no manual controls */}
 
       </div>
     </section>
