@@ -79,6 +79,13 @@ const config: Config = {
                                 '3': 'hsl(var(--chart-3))',
                                 '4': 'hsl(var(--chart-4))',
                                 '5': 'hsl(var(--chart-5))'
+                        },
+                        unipas: {
+                                primary: 'hsl(var(--unipas-primary))',
+                                secondary: 'hsl(var(--unipas-secondary))',
+                                accent: 'hsl(var(--unipas-accent))',
+                                muted: 'hsl(var(--unipas-muted))',
+                                text: 'hsl(var(--unipas-text))'
                         }
                 },
                 borderRadius: {
