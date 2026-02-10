@@ -92,17 +92,30 @@ export default function AdminStatisticsPage() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify(editingId ? { id: editingId, ...data } : data),
       })
 
       if (res.ok) {
         await fetchStatistics()
+        setFormOpen(false)
+        setEditingId(null)
+        setEditingData(null)
+        toast({
+          title: editingId ? "Statistik Diperbarui" : "Statistik Ditambah",
+          description: editingId ? "Statistik berhasil diperbarui" : "Statistik berhasil ditambah",
+          variant: "default",
+        })
       } else {
-        throw new Error('Failed to save')
+        const errorData = await res.json()
+        throw new Error(errorData.error || 'Failed to save')
       }
     } catch (error) {
       console.error('Error saving statistic:', error)
-      throw error
+      toast({
+        title: "Gagal Menyimpan",
+        description: "Gagal menyimpan statistik. Silakan coba lagi.",
+        variant: "destructive",
+      })
     }
   }
 

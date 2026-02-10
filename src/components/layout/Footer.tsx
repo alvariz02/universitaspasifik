@@ -70,7 +70,7 @@ export default function Footer() {
                 <MapPin className="h-5 w-5 text-unipas-accent shrink-0 mt-0.5" />
                 <div>
                   <p className="font-medium">Kampus Morotai</p>
-                  <p className="text-gray-400">Jl. Pantai Morotai, Maluku Utara</p>
+                  <p className="text-gray-400">Jln. A. Sudirman, Lemonade, Daruba, Morotai Selatan.</p>
                 </div>
               </li>
               <li className="flex items-center gap-3">
@@ -135,7 +135,7 @@ export default function Footer() {
               </a>
             </div>
 
-            <div className="space-y-3">
+            {/* <div className="space-y-3">
               <h4 className="font-medium text-sm">Berlangganan Newsletter</h4>
               <div className="flex flex-col sm:flex-row gap-2 w-full">
                 <input
@@ -147,7 +147,7 @@ export default function Footer() {
                   Berlangganan
                 </button>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
