@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { AuthProvider } from "@/contexts/AuthContext";
@@ -16,51 +17,73 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://www.univpasifik.ac.id"),
+
   title: {
-    default: "Universitas Pasifik - Website resmi Universitas Pasifik",
-    template: "%s | Universitas Pasifik"
+    default: "Universitas Pasifik (UNIPAS) - Website Resmi",
+    template: "%s | Universitas Pasifik",
   },
-  description: "Universitas Pasifik adalah universitas riset publik dan universitas terbaik di Indonesia yang berdedikasi untuk mencerdaskan kehidupan bangsa.",
-  keywords: ["Universitas Pasifik", "UNIPAS", "Kampus unipas", "Pendidikan Indonesia", "Universitas Terbaik", "Pendaftaran UNIPAS"],
+
+  description:
+    "Universitas Pasifik (UNIPAS) adalah perguruan tinggi yang menyediakan program Sarjana dan Pascasarjana dengan fokus pada pendidikan berkualitas, riset, dan inovasi untuk mencerdaskan kehidupan bangsa.",
+
+  keywords: [
+    "Universitas Pasifik",
+    "UNIPAS",
+    "Pendaftaran Universitas Pasifik",
+    "Biaya Kuliah UNIPAS",
+    "Fakultas Universitas Pasifik",
+    "Jurusan UNIPAS",
+    "Kampus di Indonesia",
+  ],
+
   authors: [{ name: "Universitas Pasifik" }],
   creator: "Universitas Pasifik",
   publisher: "Universitas Pasifik",
+
   formatDetection: {
     email: false,
     address: false,
     telephone: false,
   },
-  metadataBase: new URL("https://www.univpasifik.ac.id"),
+
   alternates: {
-    canonical: "/",
+    canonical: "https://www.univpasifik.ac.id",
   },
+
   icons: {
     icon: "/logounipasreal.jpeg",
     apple: "/logounipasreal.jpeg",
   },
+
   manifest: "/manifest.json",
+
   openGraph: {
-    title: "Universitas Pasifik",
-    description: "Kampus Unggul - Website resmi Universitas Pasifik",
+    title: "Universitas Pasifik (UNIPAS) - Website Resmi",
+    description:
+      "Kampus unggul dengan program Sarjana dan Pascasarjana yang berfokus pada riset dan inovasi.",
     url: "https://www.univpasifik.ac.id",
     siteName: "Universitas Pasifik",
     locale: "id_ID",
     type: "website",
     images: [
       {
-        url: "/logounipasreal.jpeg",
+        url: "https://www.univpasifik.ac.id/logounipasreal.jpeg",
         width: 1200,
         height: 630,
-        alt: "Universitas Pasifik Logo",
+        alt: "Universitas Pasifik - Kampus Unggul",
       },
     ],
   },
+
   twitter: {
     card: "summary_large_image",
-    title: "Universitas Pasifik",
-    description: "Kampus unggul - Website resmi Universitas Pasifik",
-    images: ["/logounipasreal.jpeg"],
+    title: "Universitas Pasifik (UNIPAS)",
+    description:
+      "Website resmi Universitas Pasifik dengan informasi pendaftaran, fakultas, dan program studi.",
+    images: ["https://www.univpasifik.ac.id/logounipasreal.jpeg"],
   },
+
   robots: {
     index: true,
     follow: true,
@@ -72,21 +95,52 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
+
   verification: {
-    google: "your-google-site-verification-code",
+    google: "GOOGLE_VERIFICATION_CODE",
+    yandex: "YANDEX_VERIFICATION_CODE",
   },
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="id" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground`}
       >
+        {/* Structured Data */}
+        <Script
+          id="structured-data"
+          type="application/ld+json"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "CollegeOrUniversity",
+              name: "Universitas Pasifik",
+              alternateName: "UNIPAS",
+              url: "https://www.univpasifik.ac.id",
+              logo: "https://www.univpasifik.ac.id/logounipasreal.jpeg",
+              sameAs: [
+                "https://www.instagram.com/universitas_pasifik",
+                "https://www.facebook.com/Universitas Pasifik Morotai",
+              ],
+              address: {
+                "@type": "PostalAddress",
+                streetAddress: "Jln.Sudirman, Kompleks Lemonade, Daruba Morotai Selatan",
+                addressLocality: "Pulau Morotai",
+                addressRegion: "Maluku Utara",
+                postalCode: "97771",
+                addressCountry: "ID"
+  },
+            }),
+          }}
+        />
+
         <AuthProvider>
           {children}
           <Toaster />

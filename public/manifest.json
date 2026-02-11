@@ -1,15 +1,15 @@
 {
-  "name": "Universitas Pasifik",
+  "name": "Universitas Pasifik Morotai",
   "short_name": "UNIPAS",
-  "description": "Universitas Pasifik - Kampus Unggul",
+  "description": "Universitas Pasifik Morotai - Pendidikan Berkualitas di Maluku Utara",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#1f2937",
+  "background_color": "#1e40af",
+  "theme_color": "#1e40af",
   "orientation": "portrait-primary",
   "scope": "/",
   "lang": "id-ID",
-  "categories": ["education", "university"],
+  "categories": ["education", "university", "college"],
   "icons": [
     {
       "src": "/logounipasreal.jpeg",
@@ -22,6 +22,32 @@
       "sizes": "512x512",
       "type": "image/jpeg",
       "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Pendaftaran",
+      "short_name": "Daftar",
+      "description": "Pendaftaran Mahasiswa Baru",
+      "url": "/pendaftaran",
+      "icons": [
+        {
+          "src": "/logounipasreal.jpeg",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Fakultas",
+      "short_name": "Fakultas",
+      "description": "Daftar Fakultas",
+      "url": "/fakultas",
+      "icons": [
+        {
+          "src": "/logounipasreal.jpeg",
+          "sizes": "192x192"
+        }
+      ]
     }
   ]
 }
