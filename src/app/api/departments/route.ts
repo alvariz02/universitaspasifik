@@ -15,6 +15,15 @@ export async function GET(request: Request) {
             name: true,
             slug: true
           }
+        },
+        head: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            phone: true,
+            position: true
+          }
         }
       },
       orderBy: {

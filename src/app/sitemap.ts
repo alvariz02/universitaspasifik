@@ -1,90 +1,145 @@
-import { MetadataRoute } from "next";
+// Sitemap for Next.js App Router
+// This file generates sitemap.xml for better SEO
+
+import { MetadataRoute } from 'next'
+
+export const metadata: MetadataRoute = {
+  title: 'Sitemap',
+  description: 'Sitemap for Universitas Pasifik',
+}
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  return [
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'
+
+  // Static pages
+  const staticPages = [
     {
-      url: "https://www.univpasifik.ac.id",
+      url: baseUrl,
       lastModified: new Date(),
-      changeFrequency: "weekly",
+      changeFrequency: 'daily',
       priority: 1,
     },
     {
-      url: "https://www.univpasifik.ac.id/tentang",
+      url: `${baseUrl}/tentang`,
       lastModified: new Date(),
-      changeFrequency: "monthly",
+      changeFrequency: 'monthly',
       priority: 0.8,
     },
     {
-      url: "https://www.univpasifik.ac.id/tentang/sejarah",
+      url: `${baseUrl}/tentang/visi-misi`,
       lastModified: new Date(),
-      changeFrequency: "monthly",
+      changeFrequency: 'monthly',
       priority: 0.8,
     },
     {
-      url: "https://www.univpasifik.ac.id/tentang/struktur",
+      url: `${baseUrl}/tentang/struktur`,
       lastModified: new Date(),
-      changeFrequency: "monthly",
+      changeFrequency: 'monthly',
       priority: 0.8,
     },
     {
-      url: "https://www.univpasifik.ac.id/tentang/visi-misi",
+      url: `${baseUrl}/tentang/sejarah`,
       lastModified: new Date(),
-      changeFrequency: "monthly",
+      changeFrequency: 'monthly',
       priority: 0.8,
     },
     {
-      url: "https://www.univpasifik.ac.id/tentang/rektorat",
+      url: `${baseUrl}/fakultas`,
       lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: "https://www.univpasifik.ac.id/fakultas",
-      lastModified: new Date(),
-      changeFrequency: "monthly",
+      changeFrequency: 'weekly',
       priority: 0.9,
     },
     {
-      url: "https://www.univpasifik.ac.id/program-studi",
+      url: `${baseUrl}/program-studi`,
       lastModified: new Date(),
-      changeFrequency: "monthly",
+      changeFrequency: 'weekly',
       priority: 0.9,
     },
     {
-      url: "https://www.univpasifik.ac.id/pendaftaran",
+      url: `${baseUrl}/syarat`,
       lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 0.9,
-    },
-    {
-      url: "https://www.univpasifik.ac.id/penelitian",
-      lastModified: new Date(),
-      changeFrequency: "monthly",
+      changeFrequency: 'monthly',
       priority: 0.7,
     },
     {
-      url: "https://www.univpasifik.ac.id/pengabdian",
+      url: `${baseUrl}/pengumuman`,
       lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
-    {
-      url: "https://www.univpasifik.ac.id/prestasi",
-      lastModified: new Date(),
-      changeFrequency: "weekly",
+      changeFrequency: 'daily',
       priority: 0.8,
     },
     {
-      url: "https://www.univpasifik.ac.id/video-kegiatan",
+      url: `${baseUrl}/berita`,
       lastModified: new Date(),
-      changeFrequency: "weekly",
+      changeFrequency: 'daily',
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/event`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/penelitian`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
       priority: 0.7,
     },
     {
-      url: "https://www.univpasifik.ac.id/jurnal",
+      url: `${baseUrl}/pengabdian`,
       lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.6,
+      changeFrequency: 'monthly',
+      priority: 0.7,
     },
-  ];
+    {
+      url: `${baseUrl}/prestasi`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/fasilitas`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/kontak`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/penerimaan`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/video-kegiatan`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/jurnal`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/privasi`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.5,
+    },
+    {
+      url: `${baseUrl}/login`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.3,
+    },
+  ]
+
+  return staticPages
 }

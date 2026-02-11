@@ -126,30 +126,8 @@ export default function FacultiesPage() {
       if (!res.ok) throw new Error('Failed to fetch faculties')
       const data = await res.json()
       
-      // Fetch staff untuk mendapatkan dekan dan kaprodi
-      const staffRes = await fetch('/api/staff?limit=100')
-      if (staffRes.ok) {
-        const staffData = await staffRes.json()
-        
-        // Map dean ke faculties
-        const facultiesWithDean = data.map((faculty: Faculty) => ({
-          ...faculty,
-          dean: staffData.find((staff: Staff) => staff.position === 'Dekan' && staff.facultyId === faculty.id)
-        }))
-        
-        // Map kaprodi ke departments
-        const facultiesWithHeads = facultiesWithDean.map((faculty: Faculty) => ({
-          ...faculty,
-          departments: faculty.departments.map((dept: Department) => ({
-            ...dept,
-            head: staffData.find((staff: Staff) => staff.position === 'Ketua Program Studi' && staff.departmentId === dept.id)
-          }))
-        }))
-        
-        setFaculties(facultiesWithHeads)
-      } else {
-        setFaculties(data)
-      }
+      // Data sudah include departments dengan head dari API
+      setFaculties(data)
     } catch (error) {
       console.error('Error fetching faculties:', error)
     } finally {

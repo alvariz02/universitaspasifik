@@ -82,8 +82,8 @@ export async function PUT(
       return NextResponse.json({ error: 'Dean must be assigned to a faculty' }, { status: 400 })
     }
 
-    if (newRole === 'department_head' && !newDepartmentId) {
-      return NextResponse.json({ error: 'Department head must be assigned to a department' }, { status: 400 })
+    if ((newRole === 'department_head' || newRole === 'kaprodi') && !newDepartmentId) {
+      return NextResponse.json({ error: 'Department head/Kaprodi must be assigned to a department' }, { status: 400 })
     }
 
     const staff = await db.staff.update({
@@ -127,14 +127,14 @@ export async function PUT(
         await db.faculty.updateMany({ where: { deanId: staffId }, data: { deanId: null } })
       }
 
-      // Departments: if role is department_head, set department.headId -> staffId; unset other depts
-      if (newRole === 'department_head') {
+      // Departments: if role is department_head or kaprodi, set department.headId -> staffId; unset other depts
+      if (newRole === 'department_head' || newRole === 'kaprodi') {
         if (newDepartmentId) {
           await db.department.updateMany({ where: { headId: staffId, id: { not: newDepartmentId } }, data: { headId: null } })
           await db.department.update({ where: { id: newDepartmentId }, data: { headId: staffId } })
         }
       } else {
-        // role is not department_head -> remove head links pointing to this staff
+        // role is not department_head/kaprodi -> remove head links pointing to this staff
         await db.department.updateMany({ where: { headId: staffId }, data: { headId: null } })
       }
     } catch (e) {

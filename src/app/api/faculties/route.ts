@@ -9,6 +9,16 @@ export async function GET(request: Request) {
     const faculties = await db.faculty.findMany({
       include: {
         departments: {
+          include: {
+            head: {
+              select: {
+                id: true,
+                name: true,
+                email: true,
+                phone: true
+              }
+            }
+          },
           orderBy: {
             name: 'asc'
           }

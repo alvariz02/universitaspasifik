@@ -22,7 +22,8 @@ import {
   LogOut,
   Menu,
   Video,
-  BookOpen
+  BookOpen,
+  FolderTree
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useAuth } from '@/contexts/AuthContext'
@@ -38,6 +39,7 @@ const navigation = [
   { name: 'Jurnal', href: '/admin/journals', icon: BookOpen },
   { name: 'Pengumuman', href: '/admin/announcements', icon: Bell },
   { name: 'Fakultas', href: '/admin/faculties', icon: Building2 },
+  { name: 'Departemen', href: '/admin/departments', icon: FolderTree },
   { name: 'Prestasi', href: '/admin/achievements', icon: Trophy },
   { name: 'Penerimaan', href: '/admin/admissions', icon: GraduationCap },
   { name: 'Fasilitas', href: '/admin/facilities', icon: Building2 },

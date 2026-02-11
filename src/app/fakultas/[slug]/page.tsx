@@ -25,7 +25,7 @@ async function getFacultyBySlug(slug: string) {
 
 async function getDepartmentsByFaculty(facultyId: number) {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/departments`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/departments?facultyId=${facultyId}`, {
       cache: 'no-store'
     })
 
@@ -33,8 +33,7 @@ async function getDepartmentsByFaculty(facultyId: number) {
       throw new Error('Failed to fetch departments')
     }
 
-    const departments = await res.json()
-    return departments.filter((d: any) => d.facultyId === facultyId)
+    return await res.json()
   } catch (error) {
     console.error('Error fetching departments:', error)
     return []
@@ -69,6 +68,8 @@ export default async function FacultyDetailPage({
   }
 
   const departments = await getDepartmentsByFaculty(faculty.id)
+  
+  console.log(`📊 Faculty ${faculty.name} departments:`, departments.length)
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -137,19 +138,50 @@ export default async function FacultyDetailPage({
                         Program Studi
                       </h2>
                       <div className="grid sm:grid-cols-2 gap-4">
-                        {departments.map((dept: any) => (
-                          <div
-                            key={dept.id}
-                            className="bg-gray-50 rounded-lg p-4 border-2 hover:border-ui-yellow transition-colors"
-                          >
-                            <h3 className="font-bold text-ui-navy mb-2">
-                              {dept.name}
-                            </h3>
-                            <p className="text-sm text-muted-foreground">
-                              {dept.description || ''}
-                            </p>
-                          </div>
-                        ))}
+                        {departments.map((dept: any) => {
+                          const kaprodi = dept.head // Get head from included data
+                          
+                          return (
+                            <div
+                              key={dept.id}
+                              className="bg-gray-50 rounded-lg p-4 border-2 hover:border-ui-yellow transition-colors"
+                            >
+                              <h3 className="font-bold text-ui-navy mb-2">
+                                {dept.name}
+                              </h3>
+                              <p className="text-sm text-muted-foreground mb-3">
+                                {dept.description || ''}
+                              </p>
+                              
+                              {/* Ketua Prodi Section */}
+                              {kaprodi ? (
+                                <div className="bg-ui-yellow/10 rounded-lg p-3 border border-ui-yellow/30">
+                                  <div className="flex items-center gap-2 mb-2">
+                                    <Users className="h-4 w-4 text-ui-yellow" />
+                                    <h4 className="font-semibold text-ui-navy text-sm">Ketua Program Studi</h4>
+                                  </div>
+                                  <div className="space-y-1">
+                                    <p className="font-medium text-ui-navy">{kaprodi.name}</p>
+                                    {kaprodi.email && (
+                                      <p className="text-xs text-muted-foreground">
+                                        📧 {kaprodi.email}
+                                      </p>
+                                    )}
+                                    {kaprodi.phone && (
+                                      <p className="text-xs text-muted-foreground">
+                                        📱 {kaprodi.phone}
+                                      </p>
+                                    )}
+                                  </div>
+                                </div>
+                              ) : (
+                                <div className="bg-gray-100 rounded-lg p-3 border border-gray-200">
+                                  <p className="text-sm text-gray-500 text-center">Belum ada Ketua Prodi</p>
+                                </div>
+                              )}
+                            </div>
+                          )
+                        })}
                       </div>
                     </div>
                   )}

@@ -110,7 +110,7 @@ export async function POST(request: Request) {
         await db.faculty.update({ where: { id: staff.facultyId }, data: { deanId: staff.id } })
       }
 
-      if (role === 'department_head' && staff.departmentId) {
+      if ((role === 'department_head' || role === 'kaprodi') && staff.departmentId) {
         await db.department.update({ where: { id: staff.departmentId }, data: { headId: staff.id } })
       }
     } catch (e) {
