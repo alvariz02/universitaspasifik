@@ -3,11 +3,6 @@
 
 import { MetadataRoute } from 'next'
 
-export const metadata: MetadataRoute = {
-  title: 'Sitemap',
-  description: 'Sitemap for Universitas Pasifik',
-}
-
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'
 
