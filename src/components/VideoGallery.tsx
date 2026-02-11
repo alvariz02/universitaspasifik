@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useMemo } from 'react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -29,7 +29,6 @@ interface VideoGalleryProps {
 
 export default function VideoGallery({ videos: initialVideos }: VideoGalleryProps) {
   const [videos, setVideos] = useState<Video[]>(initialVideos)
-  const [filteredVideos, setFilteredVideos] = useState<Video[]>(initialVideos)
   const [selectedVideo, setSelectedVideo] = useState<Video | null>(null)
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('all')
@@ -48,7 +47,7 @@ export default function VideoGallery({ videos: initialVideos }: VideoGalleryProp
     { value: 'lainnya', label: 'Lainnya' }
   ]
 
-  useEffect(() => {
+  const filteredVideos = useMemo(() => {
     let filtered = videos
 
     // Filter by search term
@@ -69,7 +68,7 @@ export default function VideoGallery({ videos: initialVideos }: VideoGalleryProp
       filtered = filtered.filter(video => video.isFeatured)
     }
 
-    setFilteredVideos(filtered)
+    return filtered
   }, [videos, searchTerm, selectedCategory, showFeaturedOnly])
 
   const handleVideoClick = useCallback(async (video: Video) => {
