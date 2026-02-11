@@ -43,9 +43,10 @@ async function getEvents(page: number = 1) {
 export default async function EventPage({
   searchParams
 }: {
-  searchParams: { page?: string }
+  searchParams: Promise<{ page?: string }>
 }) {
-  const page = parseInt(searchParams.page || '1')
+  const params = await searchParams
+  const page = parseInt(params.page || '1')
   const { events } = await getEvents(page)
 
   // Split events into upcoming and past

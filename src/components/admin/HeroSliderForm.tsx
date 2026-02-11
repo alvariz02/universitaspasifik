@@ -24,8 +24,8 @@ const heroSliderSchema = z.object({
   imageUrl: z.string().min(1, 'URL gambar wajib diisi'),
   linkUrl: z.string().optional(),
   linkText: z.string().optional(),
-  orderPosition: z.coerce.number().default(0),
-  isActive: z.boolean().default(true),
+  orderPosition: z.number(),
+  isActive: z.boolean(),
 })
 
 type HeroSliderFormData = z.infer<typeof heroSliderSchema>

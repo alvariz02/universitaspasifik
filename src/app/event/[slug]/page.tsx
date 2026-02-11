@@ -5,7 +5,6 @@ import { Badge } from '@/components/ui/badge'
 import { Calendar, Clock, MapPin, Users, ExternalLink, ArrowLeft, Check } from 'lucide-react'
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import EventDetail from '@/components/EventDetail'
 
 import { id as localeId } from 'date-fns/locale'
 import { db } from '@/lib/db'
@@ -36,9 +35,10 @@ async function getEventBySlug(slug: string) {
 export default async function EventDetailPage({
   params
 }: {
-  params: { slug: string }
+  params: Promise<{ slug: string }>
 }) {
-  const event = await getEventBySlug(params.slug)
+  const { slug } = await params
+  const event = await getEventBySlug(slug)
 
   if (!event) {
     return (

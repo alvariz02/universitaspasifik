@@ -42,9 +42,10 @@ async function getNews(page: number = 1) {
 export default async function BeritaPage({
   searchParams
 }: {
-  searchParams: { page?: string }
+  searchParams: Promise<{ page?: string }>
 }) {
-  const page = parseInt(searchParams.page || '1')
+  const params = await searchParams
+  const page = parseInt(params.page || '1')
   const { news, total, totalPages } = await getNews(page)
 
   return (

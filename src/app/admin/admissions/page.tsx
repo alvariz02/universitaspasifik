@@ -40,8 +40,8 @@ export default function AdminAdmissionsPage() {
     setFormOpen(true)
   }
 
-  const handleEdit = (id: string, row: any) => {
-    setEditingId(id)
+  const handleEdit = (id: number, row: any) => {
+    setEditingId(id.toString())
     setEditingData(row)
     setFormOpen(true)
   }

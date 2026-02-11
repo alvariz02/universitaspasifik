@@ -30,7 +30,7 @@ const announcementSchema = z.object({
   priority: z.string().optional(),
   startDate: z.string().optional(),
   endDate: z.string().optional(),
-  isActive: z.boolean().default(true),
+  isActive: z.boolean(),
 })
 
 type AnnouncementFormData = z.infer<typeof announcementSchema>
