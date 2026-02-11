@@ -57,6 +57,12 @@ const staffSchemaValidated = staffSchema.superRefine((data, ctx) => {
       ctx.addIssue({ code: z.ZodIssueCode.custom, message: 'Kepala Departemen harus dipilihkan departemen', path: ['departmentId'] })
     }
   }
+
+  if (role === 'kaprodi') {
+    if (departmentId === undefined || departmentId === '' || departmentId === null) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, message: 'Kaprodi harus dipilihkan departemen/jurusan', path: ['departmentId'] })
+    }
+  }
 })
 
 type StaffFormData = z.infer<typeof staffSchema>
@@ -207,7 +213,7 @@ export default function StaffForm({
                   <Label htmlFor="position" className="text-unipas-primary font-medium">Jabatan</Label>
                   <Input
                     id="position"
-                    placeholder="Contoh: Dekan, Kaprodi, Dosen"
+                    placeholder="Contoh: Dekan, Kaprodi, Dosen, Staf Administrasi"
                     {...register('position')}
                     className="border-unipas-primary/30 focus:border-unipas-primary"
                   />
@@ -222,6 +228,7 @@ export default function StaffForm({
                     <SelectContent>
                       <SelectItem value="dean">Dekan</SelectItem>
                       <SelectItem value="department_head">Kepala Departemen</SelectItem>
+                      <SelectItem value="kaprodi">Kaprodi (Ketua Program Studi)</SelectItem>
                       <SelectItem value="lecturer">Dosen</SelectItem>
                       <SelectItem value="staff">Staf</SelectItem>
                     </SelectContent>
@@ -283,7 +290,7 @@ export default function StaffForm({
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="departmentId" className="text-unipas-primary font-medium">Departemen</Label>
+                  <Label htmlFor="departmentId" className="text-unipas-primary font-medium">Departemen/Program Studi</Label>
                   <Select 
                     defaultValue={initialData?.departmentId?.toString() || undefined} 
                     onValueChange={(value) => setValue('departmentId', value ? Number(value) : undefined)}
@@ -292,7 +299,7 @@ export default function StaffForm({
                       className="border-unipas-primary/30 focus:border-unipas-primary"
                       disabled={!selectedFacultyId}
                     >
-                      <SelectValue placeholder={selectedFacultyId ? "Pilih Departemen" : "Pilih Fakultas terlebih dahulu"} />
+                      <SelectValue placeholder={selectedFacultyId ? "Pilih Departemen/Program Studi" : "Pilih Fakultas terlebih dahulu"} />
                     </SelectTrigger>
                     <SelectContent>
                       {filteredDepartments.map((dept) => (
