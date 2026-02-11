@@ -545,7 +545,7 @@ export default function SejarahPage() {
                   transition={{ delay: 0.3, duration: 0.6 }}
                   className="text-lg md:text-2xl italic text-gray-700 mb-8 md:mb-12 leading-relaxed text-center"
                 >
-                  "Kami berkeyakinan UNIPAS Morotai akan dapat meretas kemajuan dan menenggelamkan ketertinggalan selama lautan Pasifik dan menjadi pelopor serta navigasi kedamaian serta kemajuan pendidikan tinggi di kawasan Pasifik."
+                  "Kami berkeyakinan UNIPAS Morotai akan dapat meretas kemajuan dan menenggelamkan ketertinggalan sedalam lautan Pasifik dan menjadi pelopor serta navigasi kedamaian serta kemajuan pendidikan tinggi di kawasan Pasifik."
                 </motion.blockquote>
 
                 <div className="bg-gradient-to-r from-unipas-primary/10 to-unipas-accent/10 rounded-2xl p-6 md:p-10 border border-unipas-primary/20">
