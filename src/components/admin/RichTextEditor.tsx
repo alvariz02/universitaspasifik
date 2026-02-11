@@ -61,10 +61,6 @@ export default function RichTextEditor({ value, onChange, placeholder = "Mulai m
     },
   })
 
-  useLayoutEffect(() => {
-    setIsClient(true)
-  }, [])
-
   useEffect(() => {
     if (editor && value !== editor.getHTML()) {
       editor.commands.setContent(value)

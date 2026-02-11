@@ -43,8 +43,8 @@ export default function VideoGallery({ videos: initialVideos }: VideoGalleryProp
     { value: 'seminar', label: 'Seminar/Workshop' },
     { value: 'olahraga', label: 'Olahraga' },
     { value: 'seni', label: 'Seni & Budaya' },
-    { value: 'penelitian', label: 'Penelitian' },
-    { value: 'kemahasiswaan', label: 'Kemahasiswaan' },
+    { value: 'penelitian', label: 'Penelitian dan Pengembangan' },
+    { value: 'kemahasiswaan', label: 'Kemahasiswaan dan Alumni' },
     { value: 'lainnya', label: 'Lainnya' }
   ]
 
