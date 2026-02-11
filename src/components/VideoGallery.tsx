@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -72,7 +72,7 @@ export default function VideoGallery({ videos: initialVideos }: VideoGalleryProp
     setFilteredVideos(filtered)
   }, [videos, searchTerm, selectedCategory, showFeaturedOnly])
 
-  const handleVideoClick = async (video: Video) => {
+  const handleVideoClick = useCallback(async (video: Video) => {
     setSelectedVideo(video)
     
     // Increment view count
@@ -87,7 +87,7 @@ export default function VideoGallery({ videos: initialVideos }: VideoGalleryProp
     } catch (error) {
       console.error('Error updating view count:', error)
     }
-  }
+  }, [])
 
   const featuredVideos = filteredVideos.filter(video => video.isFeatured)
   const regularVideos = filteredVideos.filter(video => !video.isFeatured)
