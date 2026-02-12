@@ -32,7 +32,7 @@ const getFacultyColor = (facultyName: string): string => {
 
 async function getFacultyBySlug(slug: string) {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/faculties`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/faculties`, {
       cache: 'no-store'
     })
 
@@ -50,7 +50,7 @@ async function getFacultyBySlug(slug: string) {
 
 async function getDepartmentsByFaculty(facultyId: number) {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/departments?facultyId=${facultyId}`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id/'}/api/departments?facultyId=${facultyId}`, {
       cache: 'no-store'
     })
 

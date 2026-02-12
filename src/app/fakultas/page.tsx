@@ -122,14 +122,18 @@ export default function FacultiesPage() {
 
   const fetchFaculties = async () => {
     try {
-      const res = await fetch('/api/faculties?limit=50')
+      const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/faculties?limit=50`)
       if (!res.ok) throw new Error('Failed to fetch faculties')
       const data = await res.json()
+      
+      console.log('📊 Faculties data:', data)
       
       // Data sudah include departments dengan head dari API
       setFaculties(data)
     } catch (error) {
       console.error('Error fetching faculties:', error)
+      // Fallback data jika API gagal
+      setFaculties([])
     } finally {
       setLoading(false)
     }
@@ -176,10 +180,28 @@ export default function FacultiesPage() {
     return (
       <div className="min-h-screen bg-unipas-muted flex items-center justify-center">
         <div className="text-center">
-          <div className="w-16 h-16 bg-linear-to-r from-unipas-primary to-unipas-accent rounded-full flex items-center justify-center text-white mx-auto mb-4 animate-spin">
+          <div className="w-16 h-16 bg-gradient-to-r from-unipas-primary to-unipas-accent rounded-full flex items-center justify-center text-white mx-auto mb-4 animate-spin">
             <Building2 className="h-8 w-8" />
           </div>
           <p className="text-unipas-primary">Memuat data fakultas...</p>
+        </div>
+      </div>
+    )
+  }
+
+  if (faculties.length === 0) {
+    return (
+      <div className="min-h-screen bg-unipas-muted flex items-center justify-center">
+        <div className="text-center">
+          <Building2 className="h-16 w-16 text-gray-400 mx-auto mb-4" />
+          <h2 className="text-2xl font-bold text-gray-700 mb-2">Data Fakultas Tidak Tersedia</h2>
+          <p className="text-gray-500 mb-4">Terjadi kesalahan saat memuat data fakultas</p>
+          <button 
+            onClick={fetchFaculties}
+            className="bg-unipas-primary text-white px-6 py-2 rounded-lg hover:bg-unipas-primary/90 transition-colors"
+          >
+            Coba Lagi
+          </button>
         </div>
       </div>
     )
@@ -190,74 +212,86 @@ export default function FacultiesPage() {
       <Header />
       <main className="flex-1">
         {/* Hero Section */}
-        <div className="bg-linear-to-br from-unipas-primary via-unipas-accent to-unipas-primary text-white">
-        <div className="container mx-auto px-4 py-16">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-center"
-          >
-            <div className="flex justify-center mb-6">
-              <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center">
-                <Building2 className="h-10 w-10 text-white" />
+        <div className="bg-gradient-to-br from-unipas-primary via-unipas-accent to-unipas-primary text-white">
+          <div className="container mx-auto px-4 py-16">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="text-center"
+            >
+              <div className="flex justify-center mb-6">
+                <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center">
+                  <Building2 className="h-10 w-10 text-white" />
+                </div>
               </div>
-            </div>
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">
-              Fakultas dan Program Studi
-            </h1>
-            <p className="text-xl text-white/90 max-w-3xl mx-auto">
-              Temukan berbagai pilihan fakultas dan program studi yang sesuai dengan minat dan bakat Anda di Universitas Pasifik Morotai
-            </p>
-          </motion.div>
-        </div>
-      </div>
-
-      {/* Search and Filter */}
-      <div className="container mx-auto px-4 py-8">
-        <div className="max-w-4xl mx-auto">
-          <div className="bg-white rounded-xl shadow-lg border border-unipas-primary/20 p-6">
-            <div className="flex flex-col md:flex-row gap-4">
-              <div className="flex-1">
+              <h1 className="text-4xl md:text-5xl font-bold mb-4">Jelajahi Fakultas</h1>
+              <p className="text-xl text-white/90 max-w-2xl mx-auto mb-8">
+                Temukan fakultas dan program studi yang sesuai dengan minat dan bakat Anda
+              </p>
+              
+              {/* Search Bar */}
+              <div className="max-w-md mx-auto mb-8">
                 <div className="relative">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-unipas-text h-4 w-4" />
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white/60 h-5 w-5" />
                   <Input
+                    type="text"
                     placeholder="Cari fakultas atau program studi..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="pl-10 border-unipas-primary/20 focus:border-unipas-accent"
+                    className="pl-10 bg-white/20 border-white/30 text-white placeholder-white/60 focus:bg-white/30 focus:border-white/50"
                   />
                 </div>
               </div>
-              <div className="flex gap-2 flex-wrap">
-                <button
-                  onClick={() => setSelectedFaculty(null)}
-                  className={`px-4 py-2 rounded-lg transition-colors ${
-                    selectedFaculty === null
-                      ? 'bg-linear-to-r from-unipas-primary to-unipas-accent text-white'
-                      : 'bg-unipas-muted text-unipas-primary hover:bg-unipas-primary/10'
-                  }`}
-                >
-                  Semua
-                </button>
-                {faculties.map((faculty) => (
+            </motion.div>
+          </div>
+        </div>
+
+        {/* Search and Filter */}
+        <div className="container mx-auto px-4 py-8">
+          <div className="max-w-4xl mx-auto">
+            <div className="bg-white rounded-xl shadow-lg border border-unipas-primary/20 p-6">
+              <div className="flex flex-col md:flex-row gap-4">
+                <div className="flex-1">
+                  <div className="relative">
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-unipas-text h-4 w-4" />
+                    <Input
+                      placeholder="Cari fakultas atau program studi..."
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      className="pl-10 border-unipas-primary/20 focus:border-unipas-accent"
+                    />
+                  </div>
+                </div>
+                <div className="flex gap-2 flex-wrap">
                   <button
-                    key={faculty.id}
-                    onClick={() => setSelectedFaculty(faculty.name)}
+                    onClick={() => setSelectedFaculty(null)}
                     className={`px-4 py-2 rounded-lg transition-colors ${
-                      selectedFaculty === faculty.name
-                        ? 'bg-linear-to-r from-unipas-primary to-unipas-accent text-white'
+                      selectedFaculty === null
+                        ? 'bg-gradient-to-r from-unipas-primary to-unipas-accent text-white'
                         : 'bg-unipas-muted text-unipas-primary hover:bg-unipas-primary/10'
                     }`}
                   >
-                    {faculty.name.split(' ')[0]}
+                    Semua
                   </button>
-                ))}
+                  {faculties.map((faculty) => (
+                    <button
+                      key={faculty.id}
+                      onClick={() => setSelectedFaculty(faculty.name)}
+                      className={`px-4 py-2 rounded-lg transition-colors ${
+                        selectedFaculty === faculty.name
+                          ? 'bg-gradient-to-r from-unipas-primary to-unipas-accent text-white'
+                          : 'bg-unipas-muted text-unipas-primary hover:bg-unipas-primary/10'
+                      }`}
+                    >
+                      {faculty.name.split(' ')[0]}
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
       {/* Main Content */}
       <div className="container mx-auto px-4 pb-12">
@@ -475,7 +509,6 @@ export default function FacultiesPage() {
             <div className="text-sm text-unipas-text">Kualitas</div>
           </motion.div>
         </div>
-      </div>
       </main>
       <Footer />
     </div>
