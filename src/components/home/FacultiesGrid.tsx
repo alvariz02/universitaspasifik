@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 
-import { Building2, ArrowRight, GraduationCap, Users, Calendar } from 'lucide-react'
+import { Building2, ArrowRight, GraduationCap, Users, Calendar, ChevronDown } from 'lucide-react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { motion } from 'framer-motion'
@@ -40,6 +40,97 @@ interface Department {
 
 interface FacultiesGridProps {
   faculties: Faculty[]
+}
+
+// Component for Department Accordion
+function DepartmentAccordion({ department }: { department: Department }) {
+  const [isOpen, setIsOpen] = useState(false)
+
+  const handleToggle = () => {
+    setIsOpen(!isOpen)
+  }
+
+  return (
+    <div className="bg-gray-50 rounded-lg border border-gray-200 relative z-50">
+      <div
+        onClick={handleToggle}
+        onMouseDown={(e) => e.stopPropagation()}
+        className="flex items-center justify-between cursor-pointer p-3 w-full hover:bg-gray-100 transition-colors rounded-lg select-none"
+      >
+        <div className="flex-1 min-w-0 text-left pointer-events-none">
+          <div className="font-medium text-unipas-navy text-sm truncate">{department.name}</div>
+          <div className="text-xs text-gray-500">{department.degreeLevel || 'S1'}</div>
+        </div>
+        <ChevronDown 
+          className={`h-4 w-4 text-gray-400 transition-transform duration-200 shrink-0 ml-2 pointer-events-none ${isOpen ? 'rotate-180' : ''}`}
+        />
+      </div>
+      {isOpen && department.head && (
+        <div className="px-3 pb-3 pt-1 animate-in slide-in-from-top-2 duration-200">
+          <div className="bg-white rounded-lg p-2 border border-gray-200">
+            <div className="flex items-start gap-2">
+              <div className="w-6 h-6 bg-unipas-accent/10 rounded-full flex items-center justify-center shrink-0 mt-0.5">
+                <Users className="h-3 w-3 text-unipas-accent" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="text-xs text-gray-500 mb-1">Ketua Program Studi:</div>
+                <div className="font-medium text-unipas-navy text-sm">{department.head.name}</div>
+                {department.head.email && (
+                  <div className="text-xs text-gray-500 truncate mt-1">
+                    📧 {department.head.email}
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
+// Fungsi untuk mendapatkan warna berdasarkan nama fakultas
+const getFacultyColor = (facultyName: string): string => {
+  const name = facultyName.toLowerCase()
+  
+  if (name.includes('teknik')) {
+    return 'from-cyan-500 to-cyan-700' // Biru toska
+  } else if (name.includes('perikanan') || name.includes('kelautan')) {
+    return 'from-blue-700 to-blue-900' // Biru tua
+  } else if (name.includes('keguruan') || name.includes('fkip') || name.includes('pendidikan')) {
+    return 'from-green-500 to-green-700' // Hijau
+  } else if (name.includes('ekonomi')) {
+    return 'from-orange-500 to-orange-700' // Oranye
+  } else if (name.includes('pisif') || name.includes('politik') || name.includes('sosial')) {
+    return 'from-yellow-500 to-yellow-700' // Kuning
+  } else if (name.includes('mipa') || name.includes('matematika') || name.includes('pengetahuan alam')) {
+    return 'from-red-500 to-red-700' // Merah
+  }
+  
+  // Default color
+  return 'from-unipas-primary to-unipas-accent'
+}
+
+// Fungsi untuk mendapatkan warna solid (untuk hover title)
+const getFacultySolidColor = (facultyName: string): string => {
+  const name = facultyName.toLowerCase()
+  
+  if (name.includes('teknik')) {
+    return 'text-cyan-600' // Biru toska
+  } else if (name.includes('perikanan') || name.includes('kelautan')) {
+    return 'text-blue-800' // Biru tua
+  } else if (name.includes('keguruan') || name.includes('fkip') || name.includes('pendidikan')) {
+    return 'text-green-600' // Hijau
+  } else if (name.includes('ekonomi')) {
+    return 'text-orange-600' // Oranye
+  } else if (name.includes('pisif') || name.includes('politik') || name.includes('sosial')) {
+    return 'text-yellow-600' // Kuning
+  } else if (name.includes('mipa') || name.includes('matematika') || name.includes('pengetahuan alam')) {
+    return 'text-red-600' // Merah
+  }
+  
+  // Default color
+  return 'text-blue-500'
 }
 
 export default function FacultiesGrid({ faculties: initialFaculties }: FacultiesGridProps) {
@@ -146,6 +237,8 @@ export default function FacultiesGrid({ faculties: initialFaculties }: Faculties
           {featuredFaculties.map((faculty, index) => {
             // Get departments with heads
             const departmentsWithHeads = faculty.departments?.filter(dept => dept.head) || []
+            const facultyColor = getFacultyColor(faculty.name)
+            const facultySolidColor = getFacultySolidColor(faculty.name)
             
             return (
               <motion.div
@@ -158,16 +251,11 @@ export default function FacultiesGrid({ faculties: initialFaculties }: Faculties
                   duration: 0.8, 
                   ease: "easeOut" 
                 }}
-                whileHover={{ 
-                  y: -15, 
-                  scale: 1.05,
-                  transition: { duration: 0.3 }
-                }}
                 className="group relative"
               >
-                <div className="h-full bg-white/90 backdrop-blur-md rounded-3xl overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-500 border border-white/50 hover:border-blue-500/30">
+                <div className="h-full bg-white/90 backdrop-blur-md rounded-3xl overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-500 border border-white/50 hover:border-blue-500/30 hover:-translate-y-4 hover:scale-105 pointer-events-auto">
                   {/* Animated Background */}
-                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
                     <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-unipas-accent/5"></div>
                   </div>
 
@@ -180,8 +268,8 @@ export default function FacultiesGrid({ faculties: initialFaculties }: Faculties
                         className="object-cover w-full h-full group-hover:scale-110 transition-transform duration-700"
                       />
                       
-                      {/* Glass Morphism Overlay */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                      {/* Glass Morphism Overlay with Faculty Color */}
+                      <div className={`absolute inset-0 bg-gradient-to-t ${facultyColor} opacity-60 group-hover:opacity-70 transition-opacity duration-500`}></div>
                       
                       {/* Floating Icon */}
                       <motion.div
@@ -201,7 +289,7 @@ export default function FacultiesGrid({ faculties: initialFaculties }: Faculties
                       initial={{ opacity: 0, y: 20 }}
                       whileInView={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.4 + index * 0.1 }}
-                      className="text-xl md:text-2xl font-black text-gray-800 mb-4 line-clamp-2 group-hover:text-blue-500 transition-colors duration-300"
+                      className={`text-xl md:text-2xl font-black text-gray-800 mb-4 line-clamp-2 group-hover:${facultySolidColor} transition-colors duration-300`}
                     >
                       {faculty.name}
                     </motion.h3>
@@ -234,40 +322,17 @@ export default function FacultiesGrid({ faculties: initialFaculties }: Faculties
                         </motion.div>
                       )}
                       
-                      {/* Department Heads */}
-                      {departmentsWithHeads.length > 0 && (
-                        <motion.div
-                          initial={{ opacity: 0, x: -20 }}
-                          whileInView={{ opacity: 1, x: 0 }}
-                          transition={{ delay: 0.7 + index * 0.1 }}
-                          className="mt-4 space-y-2"
-                        >
-                          <div className="text-sm font-medium text-muted-foreground mb-2">Ketua Program Studi:</div>
-                          <div className="space-y-2 max-h-32 overflow-y-auto">
-                            {departmentsWithHeads.slice(0, 3).map((dept, headIndex) => (
-                              <motion.div
-                                key={dept.id}
-                                initial={{ opacity: 0, x: -20 }}
-                                whileInView={{ opacity: 1, x: 0 }}
-                                transition={{ delay: 0.8 + index * 0.1 + headIndex * 0.05 }}
-                                className="flex items-start gap-2 text-sm bg-gray-50 rounded-lg p-2 border border-gray-200"
-                              >
-                                <div className="w-6 h-6 bg-unipas-accent/10 rounded-full flex items-center justify-center shrink-0 mt-0.5">
-                                  <Users className="h-3 w-3 text-unipas-accent" />
-                                </div>
-                                <div className="flex-1 min-w-0">
-                                  <div className="font-medium text-unipas-navy truncate">{dept.head?.name}</div>
-                                  <div className="text-xs text-gray-500 truncate">{dept.name}</div>
-                                </div>
-                              </motion.div>
-                            ))}
-                            {departmentsWithHeads.length > 3 && (
-                              <div className="text-xs text-center text-muted-foreground">
-                                +{departmentsWithHeads.length - 3} lainnya
-                              </div>
-                            )}
+                      {/* Program Studi List with Accordion for Kaprodi */}
+                      {faculty.departments && faculty.departments.length > 0 && (
+                        <div className="mt-4 space-y-2" onMouseDown={(e) => e.stopPropagation()}>
+                          <div className="text-sm font-medium text-muted-foreground mb-2 flex items-center gap-2">
+                            <GraduationCap className="h-4 w-4 text-unipas-accent" />
+                            <span>Program Studi ({faculty.departments.length})</span>
                           </div>
-                        </motion.div>
+                          {faculty.departments.map((dept) => (
+                            <DepartmentAccordion key={dept.id} department={dept} />
+                          ))}
+                        </div>
                       )}
 
                       {faculty.location && (
@@ -299,14 +364,26 @@ export default function FacultiesGrid({ faculties: initialFaculties }: Faculties
                       )}
                     </div>
 
-                    {/* CTA Button */}
+                    {/* CTA Button with Faculty Color */}
                     <motion.div
                       initial={{ opacity: 0, y: 20 }}
                       whileInView={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.9 + index * 0.1 }}
+                      className="relative z-50"
+                      onMouseDown={(e) => e.stopPropagation()}
                     >
-                      <Link href={`/fakultas/${faculty.slug}`}>
-                        <Button className="w-full bg-gradient-to-r from-blue-500 to-unipas-accent text-white hover:from-unipas-accent hover:to-blue-500 font-bold px-6 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+                      <Link 
+                        href={`/fakultas/${faculty.slug}`}
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          console.log('Navigating to:', `/fakultas/${faculty.slug}`)
+                        }}
+                        className="block w-full"
+                      >
+                        <Button 
+                          type="button"
+                          className={`w-full bg-gradient-to-r ${facultyColor} text-white hover:opacity-90 font-bold px-6 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105`}
+                        >
                           <span className="flex items-center justify-center gap-2">
                             <Users className="h-4 w-4" />
                             Jelajahi Fakultas
@@ -317,8 +394,8 @@ export default function FacultiesGrid({ faculties: initialFaculties }: Faculties
                     </motion.div>
                   </div>
 
-                  {/* Hover Effects */}
-                  <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-blue-500/50 to-unipas-accent transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></div>
+                  {/* Hover Effects with Faculty Color */}
+                  <div className={`absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r ${facultyColor} transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500`}></div>
                 </div>
               </motion.div>
             )

@@ -1,140 +1,163 @@
-// Sitemap for Next.js App Router
-// This file generates sitemap.xml for better SEO
+// app/sitemap.ts
 
 import { MetadataRoute } from 'next'
+import { createClient } from '@supabase/supabase-js'
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'
+export const revalidate = 3600 // re-generate sitemap tiap 1 jam (ISR)
 
-  // Static pages
+// Supabase client (server side only)
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+)
+
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const baseUrl = 'https://www.univpasifik.ac.id'
+  const staticDate = new Date('2025-01-01')
+
+  // ======================
+  // STATIC PAGES
+  // ======================
+
   const staticPages: MetadataRoute.Sitemap = [
     {
       url: baseUrl,
       lastModified: new Date(),
-      changeFrequency: 'daily' as const,
+      changeFrequency: 'daily',
       priority: 1,
     },
     {
       url: `${baseUrl}/tentang`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly' as const,
+      lastModified: staticDate,
+      changeFrequency: 'monthly',
       priority: 0.8,
     },
     {
       url: `${baseUrl}/tentang/visi-misi`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly' as const,
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/tentang/struktur`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly' as const,
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/tentang/sejarah`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly' as const,
+      lastModified: staticDate,
+      changeFrequency: 'monthly',
       priority: 0.8,
     },
     {
       url: `${baseUrl}/fakultas`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly' as const,
+      lastModified: staticDate,
+      changeFrequency: 'weekly',
       priority: 0.9,
     },
     {
       url: `${baseUrl}/program-studi`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly' as const,
+      lastModified: staticDate,
+      changeFrequency: 'weekly',
       priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/syarat`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly' as const,
-      priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/pengumuman`,
-      lastModified: new Date(),
-      changeFrequency: 'daily' as const,
-      priority: 0.8,
     },
     {
       url: `${baseUrl}/berita`,
       lastModified: new Date(),
-      changeFrequency: 'daily' as const,
-      priority: 0.8,
+      changeFrequency: 'daily',
+      priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/pengumuman`,
+      lastModified: new Date(),
+      changeFrequency: 'daily',
+      priority: 0.9,
     },
     {
       url: `${baseUrl}/event`,
       lastModified: new Date(),
-      changeFrequency: 'weekly' as const,
+      changeFrequency: 'weekly',
       priority: 0.8,
     },
     {
-      url: `${baseUrl}/penelitian`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly' as const,
-      priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/pengabdian`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly' as const,
-      priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/prestasi`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly' as const,
-      priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/fasilitas`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly' as const,
+      url: `${baseUrl}/jurnal`,
+      lastModified: staticDate,
+      changeFrequency: 'monthly',
       priority: 0.7,
     },
     {
       url: `${baseUrl}/kontak`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly' as const,
-      priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/penerimaan`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly' as const,
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/video-kegiatan`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly' as const,
-      priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/jurnal`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly' as const,
-      priority: 0.7,
+      lastModified: staticDate,
+      changeFrequency: 'monthly',
+      priority: 0.6,
     },
     {
       url: `${baseUrl}/privasi`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly' as const,
-      priority: 0.5,
-    },
-    {
-      url: `${baseUrl}/login`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly' as const,
+      lastModified: staticDate,
+      changeFrequency: 'yearly',
       priority: 0.3,
     },
   ]
 
-  return staticPages
+  // ======================
+  // DYNAMIC DATA
+  // ======================
+
+  const { data: berita } = await supabase
+    .from('berita')
+    .select('slug, updated_at')
+    .eq('status', 'published')
+
+  const { data: pengumuman } = await supabase
+    .from('pengumuman')
+    .select('slug, updated_at')
+    .eq('status', 'published')
+
+  const { data: event } = await supabase
+    .from('event')
+    .select('slug, updated_at')
+    .eq('status', 'published')
+
+  const { data: jurnal } = await supabase
+    .from('jurnal')
+    .select('slug, updated_at')
+    .eq('status', 'published')
+
+  // ======================
+  // MAP DYNAMIC ROUTES
+  // ======================
+
+  const beritaUrls =
+    berita?.map((item) => ({
+      url: `${baseUrl}/berita/${item.slug}`,
+      lastModified: new Date(item.updated_at),
+      changeFrequency: 'weekly' as const,
+      priority: 0.8,
+    })) ?? []
+
+  const pengumumanUrls =
+    pengumuman?.map((item) => ({
+      url: `${baseUrl}/pengumuman/${item.slug}`,
+      lastModified: new Date(item.updated_at),
+      changeFrequency: 'weekly' as const,
+      priority: 0.8,
+    })) ?? []
+
+  const eventUrls =
+    event?.map((item) => ({
+      url: `${baseUrl}/event/${item.slug}`,
+      lastModified: new Date(item.updated_at),
+      changeFrequency: 'monthly' as const,
+      priority: 0.7,
+    })) ?? []
+
+  const jurnalUrls =
+    jurnal?.map((item) => ({
+      url: `${baseUrl}/jurnal/${item.slug}`,
+      lastModified: new Date(item.updated_at),
+      changeFrequency: 'monthly' as const,
+      priority: 0.6,
+    })) ?? []
+
+  // ======================
+  // RETURN ALL
+  // ======================
+
+  return [
+    ...staticPages,
+    ...beritaUrls,
+    ...pengumumanUrls,
+    ...eventUrls,
+    ...jurnalUrls,
+  ]
 }
