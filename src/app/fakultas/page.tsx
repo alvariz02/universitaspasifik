@@ -308,7 +308,7 @@ export default function FacultiesPage() {
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 className="bg-white rounded-xl shadow-lg border border-unipas-primary/20 overflow-hidden hover:shadow-xl transition-shadow"
               >
-                <div className={`bg-linear-to-r ${color} p-6 text-white`}>
+                <div className={`bg-gradient-to-r ${color} p-6 text-white`}>
                   <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mb-4">
                     <Icon className="h-8 w-8" />
                   </div>
@@ -381,7 +381,7 @@ export default function FacultiesPage() {
         {/* Detailed Programs List */}
         <div className="max-w-6xl mx-auto">
           <div className="bg-white rounded-xl shadow-lg border border-unipas-primary/20 overflow-hidden">
-            <div className="bg-linear-to-r from-unipas-primary to-unipas-accent text-white p-6">
+            <div className="bg-gradient-to-r from-unipas-primary to-unipas-accent text-white p-6">
               <h2 className="text-2xl font-bold flex items-center gap-3">
                 <BookOpen className="h-6 w-6" />
                 Daftar Lengkap Program Studi
@@ -413,7 +413,7 @@ export default function FacultiesPage() {
                         >
                           <td className="py-4 px-4">
                             <div className="flex items-center gap-3">
-                              <div className={`w-8 h-8 bg-linear-to-r ${program.facultyColor} rounded-lg flex items-center justify-center text-white`}>
+                              <div className={`w-8 h-8 bg-gradient-to-r ${program.facultyColor} rounded-lg flex items-center justify-center text-white`}>
                                 <Icon className="h-4 w-4" />
                               </div>
                               <span className="font-medium text-unipas-primary">{program.name}</span>
@@ -463,7 +463,7 @@ export default function FacultiesPage() {
             transition={{ duration: 0.5, delay: 0.1 }}
             className="bg-white rounded-xl shadow-lg border border-unipas-primary/20 p-6 text-center"
           >
-            <div className="w-12 h-12 bg-linear-to-r from-unipas-primary to-unipas-accent rounded-full flex items-center justify-center text-white mx-auto mb-3">
+            <div className="w-12 h-12 bg-gradient-to-r from-unipas-primary to-unipas-accent rounded-full flex items-center justify-center text-white mx-auto mb-3">
               <Building2 className="h-6 w-6" />
             </div>
             <div className="text-2xl font-bold text-unipas-primary">{faculties.length}</div>
@@ -489,7 +489,7 @@ export default function FacultiesPage() {
             transition={{ duration: 0.5, delay: 0.3 }}
             className="bg-white rounded-xl shadow-lg border border-unipas-primary/20 p-6 text-center"
           >
-            <div className="w-12 h-12 bg-linear-to-r from-unipas-primary to-unipas-accent rounded-full flex items-center justify-center text-white mx-auto mb-3">
+            <div className="w-12 h-12 bg-gradient-to-r from-unipas-primary to-unipas-accent rounded-full flex items-center justify-center text-white mx-auto mb-3">
               <GraduationCap className="h-6 w-6" />
             </div>
             <div className="text-2xl font-bold text-unipas-primary">S1</div>
@@ -502,7 +502,7 @@ export default function FacultiesPage() {
             transition={{ duration: 0.5, delay: 0.4 }}
             className="bg-white rounded-xl shadow-lg border border-unipas-primary/20 p-6 text-center"
           >
-            <div className="w-12 h-12 bg-linear-to-r from-unipas-primary to-unipas-accent rounded-full flex items-center justify-center text-white mx-auto mb-3">
+            <div className="w-12 h-12 bg-gradient-to-r from-unipas-primary to-unipas-accent rounded-full flex items-center justify-center text-white mx-auto mb-3">
               <Award className="h-6 w-6" />
             </div>
             <div className="text-2xl font-bold text-unipas-primary">Terakreditasi</div>
