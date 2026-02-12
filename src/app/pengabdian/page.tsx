@@ -41,7 +41,7 @@ export default function PengabdianPage() {
   useEffect(() => {
     const fetchNews = async () => {
       try {
-        const response = await fetch('/api/news?limit=100')
+        const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/news?limit=100`)
         const data = await response.json()
         
         // Filter berita dengan kategori pengabdian (KKN, UMKM, dll)

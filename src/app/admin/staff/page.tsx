@@ -31,9 +31,9 @@ export default function AdminStaffPage() {
     try {
       setLoading(true)
       const [staffRes, facultiesRes, departmentsRes] = await Promise.all([
-        fetch('/api/staff?limit=100'),
-        fetch('/api/faculties?limit=100'),
-        fetch('/api/departments?limit=100'),
+        fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/staff?limit=100`),
+        fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/faculties?limit=100`),
+        fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/departments?limit=100`),
       ])
       
       const staffData = await staffRes.json()

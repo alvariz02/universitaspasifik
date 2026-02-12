@@ -142,7 +142,7 @@ export default function FacultiesGrid({ faculties: initialFaculties }: Faculties
       try {
         setLoading(true)
         // Fetch all faculties with departments included
-        const res = await fetch('/api/faculties?limit=100')
+        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/faculties?limit=100`)
         if (res.ok) {
           const facultiesData = await res.json()
           setFaculties(facultiesData)

@@ -27,7 +27,7 @@ export default function AdminAnnouncementsPage() {
   const fetchAnnouncements = async () => {
     try {
       setLoading(true)
-      const res = await fetch('/api/announcements')
+      const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/announcements?limit=100`)
       const data = await res.json()
       setAnnouncements(data)
     } catch (error) {
@@ -63,7 +63,7 @@ export default function AdminAnnouncementsPage() {
     if (!confirmed) return
     
     try {
-      const res = await fetch(`/api/announcements/${id}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/announcements/${id}`, {
         method: 'DELETE',
       })
 
@@ -94,7 +94,7 @@ export default function AdminAnnouncementsPage() {
 
   const handleSubmit = async (data: any) => {
     try {
-      const url = editingId ? `/api/announcements/${editingId}` : '/api/announcements'
+      const url = editingId ? `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/announcements/${editingId}` : `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/announcements`
       const method = editingId ? 'PUT' : 'POST'
 
       const res = await fetch(url, {

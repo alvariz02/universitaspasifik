@@ -27,7 +27,7 @@ export default function AdminAchievementsPage() {
   const fetchAchievements = async () => {
     try {
       setLoading(true)
-      const res = await fetch('/api/achievements?limit=100')
+      const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/achievements?limit=100`)
       const data = await res.json()
       setAchievements(data)
     } catch (error) {

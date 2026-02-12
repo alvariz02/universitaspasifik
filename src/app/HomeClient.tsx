@@ -17,14 +17,14 @@ async function fetchHomeData() {
   try {
     // Fetch data from API routes instead of direct database calls
     const [slidersRes, statisticsRes, newsRes, eventsRes, announcementsRes, achievementsRes, facultiesRes, videosRes] = await Promise.all([
-      fetch('/api/hero-sliders?limit=10&offset=0'),
-      fetch('/api/statistics'),
-      fetch('/api/news?limit=6&offset=0'),
-      fetch('/api/events?limit=6&offset=0'),
-      fetch('/api/announcements?limit=5&offset=0'),
-      fetch('/api/achievements?limit=6&offset=0'),
-      fetch('/api/faculties'),
-      fetch('/api/videos?limit=6&offset=0')
+      fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/hero-sliders?limit=10&offset=0`),
+      fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/statistics`),
+      fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/news?limit=6&offset=0`),
+      fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/events?limit=6&offset=0`),
+      fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/announcements?limit=5&offset=0`),
+      fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/achievements?limit=6&offset=0`),
+      fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/faculties`),
+      fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/videos?limit=6&offset=0`)
     ])
 
     const slidersData = slidersRes.ok ? await slidersRes.json() : { sliders: [] }

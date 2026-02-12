@@ -53,7 +53,7 @@ export default function FileUpload({
 
       console.log('📤 Sending to /api/upload...')
 
-      const response = await fetch('/api/upload', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/upload`, {
         method: 'POST',
         body: formData,
       })

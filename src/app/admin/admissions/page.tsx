@@ -24,7 +24,7 @@ export default function AdminAdmissionsPage() {
   const fetchAdmissions = async () => {
     try {
       setLoading(true)
-      const res = await fetch('/api/admissions?limit=100')
+      const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/admissions?limit=100`)
       const data = await res.json()
       setAdmissions(data)
     } catch (error) {

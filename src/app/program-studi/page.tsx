@@ -42,8 +42,8 @@ export default function ProgramStudiPage() {
       try {
         setLoading(true)
         const [deptsRes, facsRes] = await Promise.all([
-          fetch('/api/departments'),
-          fetch('/api/faculties')
+          fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/departments`),
+          fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/faculties`)
         ])
 
         if (deptsRes.ok) {

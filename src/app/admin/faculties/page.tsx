@@ -25,7 +25,7 @@ export default function AdminFacultiesPage() {
   const fetchFaculties = async () => {
     try {
       setLoading(true)
-      const res = await fetch('/api/faculties?limit=100')
+      const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/faculties?limit=100`)
       const data = await res.json()
       setFaculties(data)
     } catch (error) {
@@ -134,11 +134,11 @@ export default function AdminFacultiesPage() {
   const fetchFacultiesWithStaff = async () => {
     try {
       setLoading(true)
-      const res = await fetch('/api/faculties?limit=100')
+      const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/faculties?limit=100`)
       const facultiesData = await res.json()
       
       // Fetch staff untuk mendapatkan dekan
-      const staffRes = await fetch('/api/staff?limit=100')
+      const staffRes = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/staff?limit=100`)
       if (staffRes.ok) {
         const staffData = await staffRes.json()
         

@@ -13,13 +13,10 @@ import {
   Fish,
   Calculator,
   Cpu,
-  TreePine,
   Building,
   Users,
-  Globe,
   Award,
   ChevronRight,
-  Filter,
   User,
   Mail,
   Phone
@@ -122,17 +119,12 @@ export default function FacultiesPage() {
 
   const fetchFaculties = async () => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/faculties?limit=50`)
+      const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/faculties?limit=50`)
       if (!res.ok) throw new Error('Failed to fetch faculties')
       const data = await res.json()
-      
-      console.log('📊 Faculties data:', data)
-      
-      // Data sudah include departments dengan head dari API
       setFaculties(data)
     } catch (error) {
       console.error('Error fetching faculties:', error)
-      // Fallback data jika API gagal
       setFaculties([])
     } finally {
       setLoading(false)
@@ -229,8 +221,6 @@ export default function FacultiesPage() {
               <p className="text-xl text-white/90 max-w-2xl mx-auto mb-8">
                 Temukan fakultas dan program studi yang sesuai dengan minat dan bakat Anda
               </p>
-              
-              {/* Search Bar */}
               <div className="max-w-md mx-auto mb-8">
                 <div className="relative">
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white/60 h-5 w-5" />
@@ -247,7 +237,7 @@ export default function FacultiesPage() {
           </div>
         </div>
 
-        {/* Search and Filter */}
+        {/* Filter */}
         <div className="container mx-auto px-4 py-8">
           <div className="max-w-4xl mx-auto">
             <div className="bg-white rounded-xl shadow-lg border border-unipas-primary/20 p-6">
@@ -293,102 +283,94 @@ export default function FacultiesPage() {
           </div>
         </div>
 
-      {/* Main Content */}
-      <div className="container mx-auto px-4 pb-12">
         {/* Faculty Cards */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-          {filteredFaculties.map((faculty, index) => {
-            const Icon = getFacultyIcon(faculty.name)
-            const color = getFacultyColor(faculty.name)
-            return (
-              <motion.div
-                key={faculty.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="bg-white rounded-xl shadow-lg border border-unipas-primary/20 overflow-hidden hover:shadow-xl transition-shadow"
-              >
-                <div className={`bg-gradient-to-r ${color} p-6 text-white`}>
-                  <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mb-4">
-                    <Icon className="h-8 w-8" />
-                  </div>
-                  <h3 className="text-xl font-bold mb-2">{faculty.name}</h3>
-                  <p className="text-white/90 text-sm">{faculty.description || 'Mengembangkan pendidikan berkualitas di bidang ini'}</p>
-                </div>
-                <div className="p-6">
-                  {/* Dean Information */}
-                  {faculty.dean && (
-                    <div className="mb-6 p-4 bg-unipas-muted rounded-lg border-l-4 border-unipas-accent">
-                      <div className="flex items-center gap-3 mb-2">
-                        <div className="w-10 h-10 bg-unipas-primary rounded-full flex items-center justify-center text-white">
-                          <User className="h-5 w-5" />
-                        </div>
-                        <div>
-                          <h5 className="font-semibold text-unipas-primary">Dekan</h5>
-                          <p className="text-sm font-medium text-unipas-text">{faculty.dean.name}</p>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-4 text-sm text-unipas-text">
-                        {faculty.dean.email && (
-                          <div className="flex items-center gap-1">
-                            <Mail className="h-3 w-3" />
-                            <span className="truncate">{faculty.dean.email}</span>
-                          </div>
-                        )}
-                        {faculty.dean.phone && (
-                          <div className="flex items-center gap-1">
-                            <Phone className="h-3 w-3" />
-                            <span>{faculty.dean.phone}</span>
-                          </div>
-                        )}
-                      </div>
+        <div className="container mx-auto px-4 pb-12">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+            {filteredFaculties.map((faculty, index) => {
+              const Icon = getFacultyIcon(faculty.name)
+              const color = getFacultyColor(faculty.name)
+              return (
+                <motion.div
+                  key={faculty.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  className="bg-white rounded-xl shadow-lg border border-unipas-primary/20 overflow-hidden hover:shadow-xl transition-shadow"
+                >
+                  <div className={`bg-gradient-to-r ${color} p-6 text-white`}>
+                    <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mb-4">
+                      <Icon className="h-8 w-8" />
                     </div>
-                  )}
-                  
-                  <div className="flex items-center justify-between mb-4">
-                    <h4 className="font-semibold text-unipas-primary">Program Studi</h4>
-                    <span className="bg-unipas-accent/10 text-unipas-accent px-2 py-1 rounded-full text-sm font-medium">
-                      {faculty.departments.length} Program
-                    </span>
+                    <h3 className="text-xl font-bold mb-2">{faculty.name}</h3>
+                    <p className="text-white/90 text-sm">{faculty.description || 'Mengembangkan pendidikan berkualitas di bidang ini'}</p>
                   </div>
-                  <div className="space-y-3">
-                    {faculty.departments.map((department) => (
-                      <div key={department.id} className="flex items-center justify-between p-3 bg-unipas-muted rounded-lg hover:bg-unipas-primary/5 transition-colors">
-                        <div className="flex-1">
-                          <div className="font-medium text-unipas-primary">{department.name}</div>
-                          <div className="text-sm text-unipas-text">{department.degreeLevel || 'S1'}</div>
-                          {department.head && (
-                            <div className="text-xs text-unipas-text mt-1">
-                              Kaprodi: {department.head.name}
+                  <div className="p-6">
+                    {faculty.dean && (
+                      <div className="mb-6 p-4 bg-unipas-muted rounded-lg border-l-4 border-unipas-accent">
+                        <div className="flex items-center gap-3 mb-2">
+                          <div className="w-10 h-10 bg-unipas-primary rounded-full flex items-center justify-center text-white">
+                            <User className="h-5 w-5" />
+                          </div>
+                          <div>
+                            <h5 className="font-semibold text-unipas-primary">Dekan</h5>
+                            <p className="text-sm font-medium text-unipas-text">{faculty.dean.name}</p>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-4 text-sm text-unipas-text">
+                          {faculty.dean.email && (
+                            <div className="flex items-center gap-1">
+                              <Mail className="h-3 w-3" />
+                              <span className="truncate">{faculty.dean.email}</span>
+                            </div>
+                          )}
+                          {faculty.dean.phone && (
+                            <div className="flex items-center gap-1">
+                              <Phone className="h-3 w-3" />
+                              <span>{faculty.dean.phone}</span>
                             </div>
                           )}
                         </div>
-                        <ChevronRight className="h-4 w-4 text-unipas-accent shrink-0" />
-                      </div>
-                    ))}
-                    {faculty.departments.length === 0 && (
-                      <div className="text-center py-4 text-unipas-text">
-                        Belum ada program studi
                       </div>
                     )}
+                    
+                    <div className="flex items-center justify-between mb-4">
+                      <h4 className="font-semibold text-unipas-primary">Program Studi</h4>
+                      <span className="bg-unipas-accent/10 text-unipas-accent px-2 py-1 rounded-full text-sm font-medium">
+                        {faculty.departments.length} Program
+                      </span>
+                    </div>
+                    <div className="space-y-3">
+                      {faculty.departments.map((department) => (
+                        <div key={department.id} className="flex items-center justify-between p-3 bg-unipas-muted rounded-lg hover:bg-unipas-primary/5 transition-colors">
+                          <div className="flex-1">
+                            <div className="font-medium text-unipas-primary">{department.name}</div>
+                            <div className="text-sm text-unipas-text">{department.degreeLevel || 'S1'}</div>
+                            {department.head && (
+                              <div className="text-xs text-unipas-text mt-1">
+                                Kaprodi: {department.head.name}
+                              </div>
+                            )}
+                          </div>
+                          <ChevronRight className="h-4 w-4 text-unipas-accent shrink-0" />
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              </motion.div>
-            )
-          })}
-        </div>
+                </motion.div>
+              )
+            })}
+          </div>
 
-        {/* Detailed Programs List */}
-        <div className="max-w-6xl mx-auto">
-          <div className="bg-white rounded-xl shadow-lg border border-unipas-primary/20 overflow-hidden">
-            <div className="bg-gradient-to-r from-unipas-primary to-unipas-accent text-white p-6">
-              <h2 className="text-2xl font-bold flex items-center gap-3">
-                <BookOpen className="h-6 w-6" />
-                Daftar Lengkap Program Studi
-              </h2>
-            </div>
-            <div className="p-6">
-              <div className="overflow-x-auto">
+          {/* Table Section */}
+          <div className="max-w-6xl mx-auto">
+            <div className="bg-white rounded-xl shadow-lg border border-unipas-primary/20 overflow-hidden">
+              <div className="bg-gradient-to-r from-unipas-primary to-unipas-accent text-white p-6">
+                <h2 className="text-2xl font-bold flex items-center gap-3">
+                  <BookOpen className="h-6 w-6" />
+                  Daftar Lengkap Program Studi
+                </h2>
+              </div>
+              <div className="p-6 overflow-x-auto">
                 <table className="w-full">
                   <thead>
                     <tr className="border-b border-unipas-primary/20">
@@ -396,118 +378,70 @@ export default function FacultiesPage() {
                       <th className="text-left py-3 px-4 font-semibold text-unipas-primary">Fakultas</th>
                       <th className="text-left py-3 px-4 font-semibold text-unipas-primary">Jenjang</th>
                       <th className="text-left py-3 px-4 font-semibold text-unipas-primary">Akreditasi</th>
-                      <th className="text-left py-3 px-4 font-semibold text-unipas-primary">Kaprodi</th>
-                      <th className="text-left py-3 px-4 font-semibold text-unipas-primary">Deskripsi</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {filteredPrograms.map((program, index) => {
-                      const Icon = program.facultyIcon
-                      return (
-                        <motion.tr
-                          key={program.id}
-                          initial={{ opacity: 0, x: -20 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ duration: 0.3, delay: index * 0.05 }}
-                          className="border-b border-unipas-primary/10 hover:bg-unipas-muted/50 transition-colors"
-                        >
-                          <td className="py-4 px-4">
-                            <div className="flex items-center gap-3">
-                              <div className={`w-8 h-8 bg-gradient-to-r ${program.facultyColor} rounded-lg flex items-center justify-center text-white`}>
-                                <Icon className="h-4 w-4" />
-                              </div>
-                              <span className="font-medium text-unipas-primary">{program.name}</span>
-                            </div>
-                          </td>
-                          <td className="py-4 px-4 text-unipas-text">{program.faculty}</td>
-                          <td className="py-4 px-4">
-                            <span className="bg-unipas-accent/10 text-unipas-accent px-2 py-1 rounded-full text-sm font-medium">
-                              {program.degreeLevel || 'S1'}
+                    {filteredPrograms.map((program, index) => (
+                      <motion.tr
+                        key={program.id}
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.3, delay: index * 0.05 }}
+                        className="border-b border-unipas-primary/10 hover:bg-unipas-muted/50 transition-colors"
+                      >
+                        <td className="py-4 px-4 font-medium text-unipas-primary">{program.name}</td>
+                        <td className="py-4 px-4 text-unipas-text">{program.faculty}</td>
+                        <td className="py-4 px-4">
+                          <span className="bg-unipas-accent/10 text-unipas-accent px-2 py-1 rounded-full text-sm font-medium">
+                            {program.degreeLevel || 'S1'}
+                          </span>
+                        </td>
+                        <td className="py-4 px-4">
+                          {program.accreditation && (
+                            <span className="bg-green-100 text-green-800 px-2 py-1 rounded-full text-sm font-medium">
+                              {program.accreditation}
                             </span>
-                          </td>
-                          <td className="py-4 px-4">
-                            {program.accreditation && (
-                              <span className="bg-green-100 text-green-800 px-2 py-1 rounded-full text-sm font-medium">
-                                {program.accreditation}
-                              </span>
-                            )}
-                          </td>
-                          <td className="py-4 px-4 text-sm text-unipas-text">
-                            {program.head?.name || '-'}
-                          </td>
-                          <td className="py-4 px-4 text-unipas-text text-sm">{program.description || '-'}</td>
-                        </motion.tr>
-                      )
-                    })}
+                          )}
+                        </td>
+                      </motion.tr>
+                    ))}
                   </tbody>
                 </table>
               </div>
-              
-              {filteredPrograms.length === 0 && (
-                <div className="text-center py-12">
-                  <div className="w-16 h-16 bg-unipas-muted rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Search className="h-8 w-8 text-unipas-text" />
-                  </div>
-                  <p className="text-unipas-text">Tidak ada program studi yang ditemukan</p>
-                </div>
-              )}
             </div>
           </div>
-        </div>
 
-        {/* Statistics */}
-        <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="bg-white rounded-xl shadow-lg border border-unipas-primary/20 p-6 text-center"
-          >
-            <div className="w-12 h-12 bg-gradient-to-r from-unipas-primary to-unipas-accent rounded-full flex items-center justify-center text-white mx-auto mb-3">
-              <Building2 className="h-6 w-6" />
+          {/* Statistics */}
+          <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div className="bg-white rounded-xl shadow-lg border border-unipas-primary/20 p-6 text-center">
+              <div className="w-12 h-12 bg-gradient-to-r from-unipas-primary to-unipas-accent rounded-full flex items-center justify-center text-white mx-auto mb-3">
+                <Building2 className="h-6 w-6" />
+              </div>
+              <div className="text-2xl font-bold text-unipas-primary">{faculties.length}</div>
+              <div className="text-sm text-unipas-text">Fakultas</div>
             </div>
-            <div className="text-2xl font-bold text-unipas-primary">{faculties.length}</div>
-            <div className="text-sm text-unipas-text">Fakultas</div>
-          </motion.div>
-          
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="bg-white rounded-xl shadow-lg border border-unipas-primary/20 p-6 text-center"
-          >
-            <div className="w-12 h-12 bg-linear-to-r from-unipas-primary to-unipas-accent rounded-full flex items-center justify-center text-white mx-auto mb-3">
-              <BookOpen className="h-6 w-6" />
+            <div className="bg-white rounded-xl shadow-lg border border-unipas-primary/20 p-6 text-center">
+              <div className="w-12 h-12 bg-gradient-to-r from-unipas-primary to-unipas-accent rounded-full flex items-center justify-center text-white mx-auto mb-3">
+                <BookOpen className="h-6 w-6" />
+              </div>
+              <div className="text-2xl font-bold text-unipas-primary">{allPrograms.length}</div>
+              <div className="text-sm text-unipas-text">Program Studi</div>
             </div>
-            <div className="text-2xl font-bold text-unipas-primary">{allPrograms.length}</div>
-            <div className="text-sm text-unipas-text">Program Studi</div>
-          </motion.div>
-          
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-            className="bg-white rounded-xl shadow-lg border border-unipas-primary/20 p-6 text-center"
-          >
-            <div className="w-12 h-12 bg-gradient-to-r from-unipas-primary to-unipas-accent rounded-full flex items-center justify-center text-white mx-auto mb-3">
-              <GraduationCap className="h-6 w-6" />
+            <div className="bg-white rounded-xl shadow-lg border border-unipas-primary/20 p-6 text-center">
+              <div className="w-12 h-12 bg-gradient-to-r from-unipas-primary to-unipas-accent rounded-full flex items-center justify-center text-white mx-auto mb-3">
+                <GraduationCap className="h-6 w-6" />
+              </div>
+              <div className="text-2xl font-bold text-unipas-primary">S1</div>
+              <div className="text-sm text-unipas-text">Jenjang</div>
             </div>
-            <div className="text-2xl font-bold text-unipas-primary">S1</div>
-            <div className="text-sm text-unipas-text">Jenjang</div>
-          </motion.div>
-          
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-            className="bg-white rounded-xl shadow-lg border border-unipas-primary/20 p-6 text-center"
-          >
-            <div className="w-12 h-12 bg-gradient-to-r from-unipas-primary to-unipas-accent rounded-full flex items-center justify-center text-white mx-auto mb-3">
-              <Award className="h-6 w-6" />
+            <div className="bg-white rounded-xl shadow-lg border border-unipas-primary/20 p-6 text-center">
+              <div className="w-12 h-12 bg-gradient-to-r from-unipas-primary to-unipas-accent rounded-full flex items-center justify-center text-white mx-auto mb-3">
+                <Award className="h-6 w-6" />
+              </div>
+              <div className="text-2xl font-bold text-unipas-primary">Terakreditasi</div>
+              <div className="text-sm text-unipas-text">Kualitas</div>
             </div>
-            <div className="text-2xl font-bold text-unipas-primary">Terakreditasi</div>
-            <div className="text-sm text-unipas-text">Kualitas</div>
-          </motion.div>
+          </div>
         </div>
       </main>
       <Footer />
