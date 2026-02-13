@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useSyncExternalStore } from 'react'
 import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import Underline from '@tiptap/extension-underline'
@@ -13,9 +13,6 @@ import {
   Heading1 as H1Icon,
   Heading2 as H2Icon,
   Heading3 as H3Icon,
-  AlignLeft as AlignLeftIcon,
-  AlignCenter as AlignCenterIcon,
-  AlignRight as AlignRightIcon,
   List as ListIcon,
   ListOrdered as ListOrderedIcon
 } from 'lucide-react'
@@ -27,12 +24,17 @@ interface RichTextEditorProps {
   className?: string
 }
 
-export default function RichTextEditor({ value, onChange, placeholder = "Mulai menulis...", className = "" }: RichTextEditorProps) {
-  const [isClient, setIsClient] = useState(false)
+// SSR-safe client detection using useSyncExternalStore
+function useIsClient() {
+  return useSyncExternalStore(
+    () => () => {},          // subscribe (no-op, never changes)
+    () => true,              // getSnapshot (client)
+    () => false              // getServerSnapshot (server)
+  )
+}
 
-  useEffect(() => {
-    setIsClient(true)
-  }, [])
+export default function RichTextEditor({ value, onChange, placeholder = "Mulai menulis...", className = "" }: RichTextEditorProps) {
+  const isClient = useIsClient()
 
   const editor = useEditor({
     extensions: [
@@ -47,7 +49,6 @@ export default function RichTextEditor({ value, onChange, placeholder = "Mulai m
     onUpdate: ({ editor }) => {
       onChange(editor.getHTML())
     },
-    // prevent SSR hydration mismatch
     immediatelyRender: false,
     editorProps: {
       attributes: {
@@ -57,11 +58,10 @@ export default function RichTextEditor({ value, onChange, placeholder = "Mulai m
     },
   })
 
-  useEffect(() => {
-    if (editor && value !== editor.getHTML()) {
-      editor.commands.setContent(value)
-    }
-  }, [value, editor])
+  // Sync external value changes into the editor
+  if (editor && value !== editor.getHTML()) {
+    editor.commands.setContent(value)
+  }
 
   if (!isClient) {
     return (
