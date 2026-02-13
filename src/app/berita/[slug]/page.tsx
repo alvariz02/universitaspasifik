@@ -8,6 +8,7 @@ import { format } from 'date-fns'
 import { id } from 'date-fns/locale'
 import { db } from '@/lib/db'
 import ShareButton from '@/components/ShareButton'
+import { Metadata } from 'next'
 
 async function getNewsBySlug(slug: string) {
   try {
@@ -70,6 +71,44 @@ export default async function BeritaDetailPage({
   const { slug } = await params
   const news = await getNewsBySlug(slug)
   const relatedNews = news ? await getRelatedNews(news.id) : []
+
+  // Dynamic metadata for SEO and social sharing
+  const metadata: Metadata = {
+    title: news?.title || "Berita tidak ditemukan",
+    description: news?.excerpt || "Baca berita terbaru dari Universitas Pasifik",
+    openGraph: {
+      title: news?.title || "Berita Universitas Pasifik",
+      description: news?.excerpt || "Baca berita terbaru dari Universitas Pasifik",
+      url: `https://www.univpasifik.ac.id/berita/${news?.slug}`,
+      siteName: "Universitas Pasifik",
+      locale: "id_ID",
+      type: "article",
+      publishedTime: news?.publishedDate?.toISOString(),
+      modifiedTime: news?.updatedAt?.toISOString(),
+      authors: news?.authorName ? [news.authorName] : undefined,
+      images: news?.imageUrl ? [
+        {
+          url: news.imageUrl,
+          width: 1200,
+          height: 630,
+          alt: news.title || "Berita Universitas Pasifik",
+        },
+      ] : [
+        {
+          url: "https://www.univpasifik.ac.id/logounipasreal.jpeg",
+          width: 1200,
+          height: 630,
+          alt: "Universitas Pasifik - Kampus Unggul",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: news?.title || "Berita Universitas Pasifik",
+      description: news?.excerpt || "Baca berita terbaru dari Universitas Pasifik",
+      images: news?.imageUrl ? [news.imageUrl] : ["https://www.univpasifik.ac.id/logounipasreal.jpeg"],
+    },
+  }
 
   if (!news) {
     return (
