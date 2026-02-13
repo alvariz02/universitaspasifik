@@ -14,7 +14,6 @@ async function getNewsBySlug(slug: string) {
   try {
     console.log('🔍 Fetching news for slug:', slug)
     
-    // Direct database query - more reliable on Vercel
     let news = await db.news.findFirst({
       where: {
         slug: slug
@@ -23,12 +22,11 @@ async function getNewsBySlug(slug: string) {
     
     console.log('🔍 News found by slug:', news?.title || 'Not found')
     
-    // If not found by slug, try numeric ID
     if (!news && !isNaN(Number(slug))) {
-      const id = Number(slug)
+      const numericId = Number(slug)
       news = await db.news.findFirst({
         where: {
-          id: id
+          id: numericId
         }
       })
       console.log('🔍 News found by ID:', news?.title || 'Not found')
@@ -43,7 +41,6 @@ async function getNewsBySlug(slug: string) {
 
 async function getRelatedNews(excludeId: number) {
   try {
-    // Direct database query - more reliable on Vercel
     const news = await db.news.findMany({
       where: {
         id: {
@@ -63,6 +60,56 @@ async function getRelatedNews(excludeId: number) {
   }
 }
 
+// ✅ Proper exported generateMetadata function — this is what Next.js reads for OG/Twitter tags
+export async function generateMetadata({
+  params
+}: {
+  params: Promise<{ slug: string }>
+}): Promise<Metadata> {
+  const { slug } = await params
+  const news = await getNewsBySlug(slug)
+
+  const defaultImage = {
+    url: 'https://www.univpasifik.ac.id/logounipasreal.jpeg',
+    width: 1200,
+    height: 630,
+    alt: 'Universitas Pasifik - Kampus Unggul',
+  }
+
+  // ✅ Gunakan foto berita jika tersedia, fallback ke logo website
+  const ogImage = news?.imageUrl
+    ? {
+        url: news.imageUrl,
+        width: 1200,
+        height: 630,
+        alt: news.title || 'Berita Universitas Pasifik',
+      }
+    : defaultImage
+
+  return {
+    title: news?.title || 'Berita tidak ditemukan',
+    description: news?.excerpt || 'Baca berita terbaru dari Universitas Pasifik',
+    openGraph: {
+      title: news?.title || 'Berita Universitas Pasifik',
+      description: news?.excerpt || 'Baca berita terbaru dari Universitas Pasifik',
+      url: `https://www.univpasifik.ac.id/berita/${news?.slug}`,
+      siteName: 'Universitas Pasifik',
+      locale: 'id_ID',
+      type: 'article',
+      publishedTime: news?.publishedDate?.toISOString(),
+      modifiedTime: news?.updatedAt?.toISOString(),
+      authors: news?.authorName ? [news.authorName] : undefined,
+      images: [ogImage], // ✅ foto berita dipakai di sini
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: news?.title || 'Berita Universitas Pasifik',
+      description: news?.excerpt || 'Baca berita terbaru dari Universitas Pasifik',
+      images: [ogImage.url], // ✅ foto berita dipakai di sini
+    },
+  }
+}
+
 export default async function BeritaDetailPage({
   params
 }: {
@@ -71,44 +118,6 @@ export default async function BeritaDetailPage({
   const { slug } = await params
   const news = await getNewsBySlug(slug)
   const relatedNews = news ? await getRelatedNews(news.id) : []
-
-  // Dynamic metadata for SEO and social sharing
-  const metadata: Metadata = {
-    title: news?.title || "Berita tidak ditemukan",
-    description: news?.excerpt || "Baca berita terbaru dari Universitas Pasifik",
-    openGraph: {
-      title: news?.title || "Berita Universitas Pasifik",
-      description: news?.excerpt || "Baca berita terbaru dari Universitas Pasifik",
-      url: `https://www.univpasifik.ac.id/berita/${news?.slug}`,
-      siteName: "Universitas Pasifik",
-      locale: "id_ID",
-      type: "article",
-      publishedTime: news?.publishedDate?.toISOString(),
-      modifiedTime: news?.updatedAt?.toISOString(),
-      authors: news?.authorName ? [news.authorName] : undefined,
-      images: news?.imageUrl ? [
-        {
-          url: news.imageUrl,
-          width: 1200,
-          height: 630,
-          alt: news.title || "Berita Universitas Pasifik",
-        },
-      ] : [
-        {
-          url: "https://www.univpasifik.ac.id/logounipasreal.jpeg",
-          width: 1200,
-          height: 630,
-          alt: "Universitas Pasifik - Kampus Unggul",
-        },
-      ],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: news?.title || "Berita Universitas Pasifik",
-      description: news?.excerpt || "Baca berita terbaru dari Universitas Pasifik",
-      images: news?.imageUrl ? [news.imageUrl] : ["https://www.univpasifik.ac.id/logounipasreal.jpeg"],
-    },
-  }
 
   if (!news) {
     return (

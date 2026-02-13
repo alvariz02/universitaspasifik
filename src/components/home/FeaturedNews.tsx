@@ -299,6 +299,17 @@ export default function FeaturedNews({ news }: FeaturedNewsProps) {
                     >
                       {newsItem.title}
                     </motion.h3>
+                    
+                    {newsItem.excerpt && (
+                      <motion.p
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.45 + index * 0.1 }}
+                        className="text-sm text-muted-foreground line-clamp-2 mb-4 leading-relaxed"
+                      >
+                        {newsItem.excerpt}
+                      </motion.p>
+                    )}
                   </div>
                   
                   <motion.div

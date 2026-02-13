@@ -30,7 +30,8 @@ export default function EventCard({
   const formatTime = (date: Date) => format(date, 'HH:mm')
 
   return (
-    <Card className="group overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer border-2 hover:border-ui-yellow h-full flex flex-col">
+    <Link href={`/event/${slug}`}>
+      <Card className="group overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer border-2 hover:border-ui-yellow h-full flex flex-col">
       {imageUrl && (
         <div className="relative aspect-video overflow-hidden">
           <img
@@ -83,5 +84,6 @@ export default function EventCard({
         </Button>
       </CardContent>
     </Card>
+    </Link>
   )
 }

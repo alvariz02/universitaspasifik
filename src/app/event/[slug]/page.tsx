@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge'
 import { Calendar, Clock, MapPin, Users, ExternalLink, ArrowLeft, Check } from 'lucide-react'
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
+import ShareButton from '@/components/ShareButton'
 
 import { id as localeId } from 'date-fns/locale'
 import { db } from '@/lib/db'
@@ -32,6 +33,27 @@ async function getEventBySlug(slug: string) {
   }
 }
 
+async function getRelatedEvents(excludeId: number) {
+  try {
+    const events = await db.event.findMany({
+      where: {
+        id: {
+          not: excludeId
+        }
+      },
+      orderBy: {
+        eventDate: 'desc'
+      },
+      take: 3
+    })
+    
+    return events
+  } catch (error) {
+    console.error('❌ Error fetching related events:', error)
+    return []
+  }
+}
+
 export default async function EventDetailPage({
   params
 }: {
@@ -39,6 +61,7 @@ export default async function EventDetailPage({
 }) {
   const { slug } = await params
   const event = await getEventBySlug(slug)
+  const relatedEvents = event ? await getRelatedEvents(event.id) : []
 
   if (!event) {
     return (
@@ -200,6 +223,18 @@ export default async function EventDetailPage({
                     </div>
                   )}
 
+                  {/* Share Button */}
+                  <div className="bg-gray-50 rounded-lg p-6 border-2">
+                    <h3 className="font-bold text-ui-navy mb-4">
+                      Bagikan Event
+                    </h3>
+                    <ShareButton 
+                      title={event.title}
+                      url={`/event/${event.slug}`}
+                      description={event.description || undefined}
+                    />
+                  </div>
+
                   {/* Registration Button */}
                   {event.registrationUrl && !isPast && (
                     <a
@@ -270,6 +305,51 @@ export default async function EventDetailPage({
             </div>
           </div>
         </section>
+
+        {/* Related Events */}
+        {relatedEvents.length > 0 && (
+          <section className="py-16 bg-gray-50">
+            <div className="container mx-auto px-4">
+              <h2 className="text-2xl md:text-3xl font-bold text-ui-navy mb-8">
+                Event Terkait
+              </h2>
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {relatedEvents.map((item: any) => (
+                  <Link
+                    key={item.id}
+                    href={`/event/${item.slug}`}
+                    className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-shadow border-2 hover:border-ui-yellow"
+                  >
+                    {item.imageUrl && (
+                      <div className="aspect-video overflow-hidden">
+                        <img
+                          src={item.imageUrl}
+                          alt={item.title}
+                          className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                        />
+                      </div>
+                    )}
+                    <div className="p-4">
+                      <h3 className="font-bold text-ui-navy mb-2 line-clamp-2 hover:text-ui-navy/80">
+                        {item.title}
+                      </h3>
+                      <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
+                        <Calendar className="h-3 w-3" />
+                        <span>{format(new Date(item.eventDate), 'dd MMM yyyy', { locale: localeId })}</span>
+                      </div>
+                      {item.location && (
+                        <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                          <MapPin className="h-3 w-3" />
+                          <span className="line-clamp-1">{item.location}</span>
+                        </div>
+                      )}
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
       </main>
       <Footer />
     </div>
