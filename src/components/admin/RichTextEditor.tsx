@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useLayoutEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import Underline from '@tiptap/extension-underline'
@@ -30,7 +30,7 @@ interface RichTextEditorProps {
 export default function RichTextEditor({ value, onChange, placeholder = "Mulai menulis...", className = "" }: RichTextEditorProps) {
   const [isClient, setIsClient] = useState(false)
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     setIsClient(true)
   }, [])
 
