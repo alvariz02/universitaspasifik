@@ -116,7 +116,7 @@ export default function NewsFormPage({ initialData, onSubmit, title, subtitle, s
           <ArrowLeft className="h-4 w-4" />
           Kembali ke Daftar Berita
         </Link>
-        <div className="bg-linear-to-r from-unipas-primary to-unipas-accent rounded-xl p-6 text-white shadow-lg">
+        <div className="bg-gradient-to-r from-unipas-primary to-unipas-accent rounded-xl p-6 text-white shadow-lg">
           <h1 className="text-3xl font-bold mb-2">{title}</h1>
           <p className="text-white/90">{subtitle}</p>
         </div>

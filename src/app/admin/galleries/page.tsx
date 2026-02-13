@@ -23,7 +23,7 @@ export default function AdminGalleriesPage() {
   const fetchGalleries = async () => {
     try {
       setLoading(true)
-      const res = await fetch('/api/galleries?limit=100')
+      const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/galleries?limit=100`)
       const data = await res.json()
       setGalleries(data)
     } catch (error) {
@@ -45,7 +45,7 @@ export default function AdminGalleriesPage() {
     if (!confirmed) return
     
     try {
-      const res = await fetch(`/api/galleries/${id}`, { method: 'DELETE' })
+      const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/galleries/${id}`, { method: 'DELETE' })
       if (res.ok) {
         setGalleries(galleries.filter((item) => item.id !== id))
         toast({

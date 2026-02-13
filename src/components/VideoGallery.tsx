@@ -76,7 +76,7 @@ export default function VideoGallery({ videos: initialVideos }: VideoGalleryProp
     
     // Increment view count
     try {
-      await fetch(`/api/videos/${video.id}`, {
+      await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/videos/${video.id}`, {
         method: 'GET'
       })
       // Update local state

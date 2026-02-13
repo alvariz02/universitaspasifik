@@ -37,7 +37,7 @@ export default function AdminHeroSlidersPage() {
   const fetchData = async () => {
     try {
       setLoading(true)
-      const res = await fetch('/api/hero-sliders?limit=100')
+      const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/hero-sliders?limit=100`)
       const data = await res.json()
       setSliders(Array.isArray(data) ? data : data.sliders || [])
     } catch (error) {
@@ -69,7 +69,8 @@ export default function AdminHeroSlidersPage() {
     if (!confirmed) return
     
     try {
-      const res = await fetch(`/api/hero-sliders/${id}`, { method: 'DELETE' })
+      const url = `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/hero-sliders/${id}`
+      const res = await fetch(url, { method: 'DELETE' })
       if (res.ok) {
         setSliders(sliders.filter((item) => item.id !== id))
         toast({

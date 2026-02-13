@@ -28,7 +28,7 @@ export default function AdminVideosPage() {
   const fetchVideos = async () => {
     try {
       setLoading(true)
-      const res = await fetch('/api/videos?limit=100')
+      const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/videos?limit=100`)
       const data = await res.json()
       setVideos(data)
     } catch (error) {
@@ -64,7 +64,7 @@ export default function AdminVideosPage() {
     if (!confirmed) return
 
     try {
-      const res = await fetch(`/api/videos/${id}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/videos/${id}`, {
         method: 'DELETE',
       })
 
@@ -95,7 +95,7 @@ export default function AdminVideosPage() {
 
   const handleSubmit = async (data: any) => {
     try {
-      const url = editingId ? `/api/videos/${editingId}` : '/api/videos'
+      const url = editingId ? `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/videos/${editingId}` : `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/videos`
       const method = editingId ? 'PUT' : 'POST'
 
       const res = await fetch(url, {

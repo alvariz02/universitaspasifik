@@ -58,7 +58,7 @@ export default function AdminAdmissionsPage() {
     if (!confirmed) return
 
     try {
-      const res = await fetch(`/api/admissions/${row.slug}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/admissions/${row.slug}`, {
         method: 'DELETE',
       })
 
@@ -89,7 +89,7 @@ export default function AdminAdmissionsPage() {
 
   const handleSubmit = async (data: any) => {
     try {
-      const url = editingId ? `/api/admissions/${editingId}` : '/api/admissions'
+      const url = editingId ? `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/admissions/${editingId}` : `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/admissions`
       const method = editingId ? 'PUT' : 'POST'
 
       const res = await fetch(url, {

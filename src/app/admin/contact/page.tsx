@@ -46,7 +46,7 @@ export default function AdminContactPage() {
 
   const handleUpdateStatus = async (id: number, newStatus: string) => {
     try {
-      const res = await fetch(`/api/contact/${id}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/contact/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status: newStatus }),
@@ -90,7 +90,7 @@ export default function AdminContactPage() {
     if (!confirmed) return
     
     try {
-      const res = await fetch(`/api/contact/${id}`, { method: 'DELETE' })
+      const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/contact/${id}`, { method: 'DELETE' })
       if (res.ok) {
         setSubmissions(submissions.filter((item) => item.id !== id))
         toast({

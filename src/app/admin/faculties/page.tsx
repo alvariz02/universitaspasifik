@@ -59,7 +59,7 @@ export default function AdminFacultiesPage() {
     if (!confirmed) return
 
     try {
-      const res = await fetch(`/api/faculties/${id}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/faculties/${id}`, {
         method: 'DELETE',
       })
 
@@ -90,7 +90,7 @@ export default function AdminFacultiesPage() {
 
   const handleSubmit = async (data: any) => {
     try {
-      const url = editingId ? `/api/faculties/${editingId}` : '/api/faculties'
+      const url = editingId ? `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/faculties/${editingId}` : `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/faculties`
       const method = editingId ? 'PUT' : 'POST'
 
       const res = await fetch(url, {

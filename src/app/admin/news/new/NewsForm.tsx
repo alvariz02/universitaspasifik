@@ -36,7 +36,7 @@ export default function NewsForm() {
 
     setSubmitting(true)
     try {
-      const res = await fetch('/api/news', {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/news`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

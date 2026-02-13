@@ -79,7 +79,7 @@ export default function AdminStaffPage() {
     if (!confirmed) return
     
     try {
-      const res = await fetch(`/api/staff/${id}`, { method: 'DELETE' })
+      const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/staff/${id}`, { method: 'DELETE' })
       if (res.ok) {
         setStaff(staff.filter((item) => item.id !== id))
         toast({
@@ -107,11 +107,11 @@ export default function AdminStaffPage() {
 
   const handleSubmit = async (data: any) => {
     try {
-      let url = '/api/staff'
+      let url = `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/staff`
       let method = 'POST'
 
       if (selectedStaff) {
-        url = `/api/staff/${selectedStaff.id}`
+        url = `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/staff/${selectedStaff.id}`
         method = 'PUT'
       }
 
@@ -192,7 +192,7 @@ export default function AdminStaffPage() {
             </div>
             <Button 
               onClick={handleAdd}
-              className="bg-linear-to-r from-unipas-primary to-unipas-accent text-white"
+              className="bg-gradient-to-r from-unipas-primary to-unipas-accent text-white"
             >
               <Plus className="w-4 h-4 mr-2" />
               Tambah Staff

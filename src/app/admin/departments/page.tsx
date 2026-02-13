@@ -68,11 +68,11 @@ export default function AdminDepartmentsPage() {
 
     if (confirmed) {
       try {
-        const response = await fetch(`/api/departments/${id}`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/departments/${id}`, {
           method: 'DELETE'
         })
 
-        if (response.ok) {
+        if (res.ok) {
           toast({
             title: "Berhasil",
             description: "Departemen berhasil dihapus"
@@ -94,8 +94,8 @@ export default function AdminDepartmentsPage() {
   const handleSubmit = async (data: any) => {
     try {
       const url = selectedDepartment 
-        ? `/api/departments/${selectedDepartment.id}`
-        : '/api/departments'
+        ? `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/departments/${selectedDepartment.id}`
+        : `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/departments`
       
       const method = selectedDepartment ? 'PUT' : 'POST'
       

@@ -49,7 +49,7 @@ function HeroSliderForm() {
 
   const fetchSlider = async () => {
     try {
-      const res = await fetch(`/api/hero-sliders/${id}`)
+      const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/hero-sliders/${id}`)
       if (res.ok) {
         const data = await res.json()
         setFormData({
@@ -69,7 +69,7 @@ function HeroSliderForm() {
 
   const fetchMaxOrder = async () => {
     try {
-      const res = await fetch('/api/hero-sliders?limit=100')
+      const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/hero-sliders?limit=100`)
       if (res.ok) {
         const data = await res.json()
         const sliders = Array.isArray(data) ? data : data.sliders || []
@@ -107,7 +107,7 @@ function HeroSliderForm() {
     setIsSubmitting(true)
 
     try {
-      const url = id ? `/api/hero-sliders/${id}` : '/api/hero-sliders'
+      const url = id ? `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/hero-sliders/${id}` : `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/hero-sliders`
       const method = id ? 'PUT' : 'POST'
 
       const res = await fetch(url, {

@@ -25,7 +25,7 @@ export default function AdminStatisticsPage() {
   const fetchStatistics = async () => {
     try {
       setLoading(true)
-      const res = await fetch('/api/statistics')
+      const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/statistics`)
       const data = await res.json()
       setStats(data)
     } catch (error) {
@@ -53,7 +53,7 @@ export default function AdminStatisticsPage() {
     if (!confirmed) return
 
     try {
-      const res = await fetch(`/api/statistics/${id}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/statistics/${id}`, {
         method: 'DELETE',
       })
 
@@ -84,7 +84,7 @@ export default function AdminStatisticsPage() {
 
   const handleSubmit = async (data: any) => {
     try {
-      const url = editingId ? `/api/statistics/${editingId}` : '/api/statistics'
+      const url = editingId ? `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/statistics/${editingId}` : `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/statistics`
       const method = editingId ? 'PUT' : 'POST'
 
       const res = await fetch(url, {

@@ -2,11 +2,12 @@ import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { Calendar, User, ArrowLeft, Share2, Clock } from 'lucide-react'
+import { Calendar, User, ArrowLeft, Clock } from 'lucide-react'
 import Link from 'next/link'
 import { format } from 'date-fns'
 import { id } from 'date-fns/locale'
 import { db } from '@/lib/db'
+import ShareButton from '@/components/ShareButton'
 
 async function getNewsBySlug(slug: string) {
   try {
@@ -180,10 +181,11 @@ export default async function BeritaDetailPage({
               {/* Share & Actions */}
               <div className="flex flex-wrap items-center justify-between mt-12 pt-8 border-t gap-4">
                 <div className="flex items-center gap-2">
-                  <Button variant="outline" className="gap-2">
-                    <Share2 className="h-4 w-4" />
-                    Bagikan
-                  </Button>
+                  <ShareButton 
+                    title={news.title}
+                    url={`/berita/${news.slug}`}
+                    description={news.excerpt || undefined}
+                  />
                 </div>
 
                 <Link href="/berita">

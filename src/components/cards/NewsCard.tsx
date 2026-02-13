@@ -6,6 +6,7 @@ import { id } from 'date-fns/locale'
 import { Calendar, User, ArrowRight } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent } from '@/components/ui/card'
+import ShareButton from '@/components/ShareButton'
 
 interface NewsCardProps {
   slug: string
@@ -74,9 +75,16 @@ export default function NewsCard({
             <p className="text-unipas-text/70 line-clamp-3 mb-4 text-sm">{excerpt}</p>
           )}
         </div>
-        <div className="flex items-center gap-2 text-unipas-accent font-semibold group-hover:gap-3 transition-all">
-          Baca Selengkapnya
-          <ArrowRight className="h-4 w-4" />
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2 text-unipas-accent font-semibold group-hover:gap-3 transition-all">
+            Baca Selengkapnya
+            <ArrowRight className="h-4 w-4" />
+          </div>
+          <ShareButton 
+            title={title}
+            url={`/berita/${slug}`}
+            description={excerpt || undefined}
+          />
         </div>
       </CardContent>
     </Card>

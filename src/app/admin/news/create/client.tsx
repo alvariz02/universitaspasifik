@@ -24,7 +24,7 @@ export default function CreateNewsClient() {
       }
       try {
         console.log('📡 Fetching news data for ID:', idParam)
-        const res = await fetch(`/api/news/${idParam}`)
+        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/news/${idParam}`)
         console.log('📡 API response status:', res.status)
         
         if (res.ok) {
@@ -57,7 +57,7 @@ export default function CreateNewsClient() {
     try {
       console.log('📝 Submitting news data:', data)
       
-      const url = idParam ? `/api/news/${idParam}` : '/api/news'
+      const url = idParam ? `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/news/${idParam}` : `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/news`
       const method = idParam ? 'PUT' : 'POST'
       
       const response = await fetch(url, {

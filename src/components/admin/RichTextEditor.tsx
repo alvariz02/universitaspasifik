@@ -3,12 +3,7 @@
 import { useState, useEffect, useLayoutEffect } from 'react'
 import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
-import Bold from '@tiptap/extension-bold'
-import Italic from '@tiptap/extension-italic'
 import Underline from '@tiptap/extension-underline'
-import Heading from '@tiptap/extension-heading'
-import Paragraph from '@tiptap/extension-paragraph'
-import Text from '@tiptap/extension-text'
 import { Button } from '@/components/ui/button'
 import { 
   Bold as BoldIcon, 
@@ -35,17 +30,18 @@ interface RichTextEditorProps {
 export default function RichTextEditor({ value, onChange, placeholder = "Mulai menulis...", className = "" }: RichTextEditorProps) {
   const [isClient, setIsClient] = useState(false)
 
+  useLayoutEffect(() => {
+    setIsClient(true)
+  }, [])
+
   const editor = useEditor({
     extensions: [
-      StarterKit,
-      Bold,
-      Italic,
-      Underline,
-      Heading.configure({
-        levels: [1, 2, 3],
+      StarterKit.configure({
+        heading: {
+          levels: [1, 2, 3],
+        },
       }),
-      Paragraph,
-      Text,
+      Underline,
     ],
     content: value,
     onUpdate: ({ editor }) => {

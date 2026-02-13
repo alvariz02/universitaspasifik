@@ -13,6 +13,7 @@ export default function AdminFacilitiesPage() {
   const { confirm, isOpen, options, handleConfirm, handleCancel, setIsOpen } = useConfirm()
   const [facilities, setFacilities] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
+  const url = `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/facilities`
 
   useEffect(() => {
     fetchFacilities()
@@ -21,7 +22,7 @@ export default function AdminFacilitiesPage() {
   const fetchFacilities = async () => {
     try {
       setLoading(true)
-      const res = await fetch('/api/facilities?limit=100')
+      const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/facilities?limit=100`)
       const data = await res.json()
       setFacilities(data)
     } catch (error) {
@@ -43,7 +44,7 @@ export default function AdminFacilitiesPage() {
     if (!confirmed) return
     
     try {
-      const res = await fetch(`/api/facilities/${id}`, { method: 'DELETE' })
+      const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/facilities/${id}`, { method: 'DELETE' })
       if (res.ok) {
         setFacilities(facilities.filter((item) => item.id !== id))
         toast({

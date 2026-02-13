@@ -63,7 +63,7 @@ export default function AdminAchievementsPage() {
     if (!confirmed) return
     
     try {
-      const res = await fetch(`/api/achievements/${id}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/achievements/${id}`, {
         method: 'DELETE',
       })
 
@@ -94,7 +94,7 @@ export default function AdminAchievementsPage() {
 
   const handleSubmit = async (data: any) => {
     try {
-      const url = editingId ? `/api/achievements/${editingId}` : '/api/achievements'
+      const url = editingId ? `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/achievements/${editingId}` : `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/achievements`
       const method = editingId ? 'PUT' : 'POST'
 
       const res = await fetch(url, {

@@ -28,7 +28,7 @@ export default function AdminNewsPage() {
   const fetchNews = async () => {
     try {
       setLoading(true)
-      const res = await fetch('/api/news?limit=100')
+      const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/news?limit=100`)
       const data = await res.json()
       setNews(data.news || data)
     } catch (error) {
@@ -56,7 +56,7 @@ export default function AdminNewsPage() {
     if (!confirmed) return
 
     try {
-      const res = await fetch(`/api/news/${id}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/news/${id}`, {
         method: 'DELETE',
       })
 

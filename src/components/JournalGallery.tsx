@@ -181,7 +181,7 @@ export default function JournalGallery({
   const handleJournalClick = (journal: Journal) => {
     setSelectedJournal(journal)
 
-    fetch(`/api/journals/${journal.id}`)
+    fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/journals/${journal.id}`)
       .then(res => {
         if (res.ok) {
           setJournals(prev =>

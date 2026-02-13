@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge'
 import { format } from 'date-fns'
 import { id } from 'date-fns/locale'
 import { motion } from 'framer-motion'
+import ShareButton from '@/components/ShareButton'
 
 interface News {
   id: number
@@ -203,10 +204,17 @@ export default function FeaturedNews({ news }: FeaturedNewsProps) {
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.7 }}
-                    className="flex items-center gap-3 text-unipas-primary font-bold group-hover:gap-4 transition-all duration-300"
+                    className="flex items-center justify-between"
                   >
-                    <span>Baca Selengkapnya</span>
-                    <ArrowRight className="h-5 w-5 group-hover:translate-x-2 transition-transform duration-300" />
+                    <div className="flex items-center gap-3 text-unipas-primary font-bold group-hover:gap-4 transition-all duration-300">
+                      <span>Baca Selengkapnya</span>
+                      <ArrowRight className="h-5 w-5 group-hover:translate-x-2 transition-transform duration-300" />
+                    </div>
+                    <ShareButton 
+                      title={featuredNews.title}
+                      url={`/berita/${featuredNews.slug}`}
+                      description={featuredNews.excerpt || undefined}
+                    />
                   </motion.div>
                 </div>
 
@@ -297,10 +305,17 @@ export default function FeaturedNews({ news }: FeaturedNewsProps) {
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.5 + index * 0.1 }}
-                    className="flex items-center gap-2 text-unipas-primary font-bold text-sm group-hover:gap-3 transition-all duration-300"
+                    className="flex items-center justify-between"
                   >
-                    <span>Baca</span>
-                    <ArrowRight className="h-3 w-3 group-hover:translate-x-1 transition-transform duration-300" />
+                    <div className="flex items-center gap-2 text-unipas-primary font-bold text-sm group-hover:gap-3 transition-all duration-300">
+                      <span>Baca</span>
+                      <ArrowRight className="h-3 w-3 group-hover:translate-x-1 transition-transform duration-300" />
+                    </div>
+                    <ShareButton 
+                      title={newsItem.title}
+                      url={`/berita/${newsItem.slug}`}
+                      description={newsItem.excerpt || undefined}
+                    />
                   </motion.div>
                 </div>
 

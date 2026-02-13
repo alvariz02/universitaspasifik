@@ -19,6 +19,7 @@ export default function AdminEventsPage() {
   const { confirm, isOpen, options, handleConfirm, handleCancel, setIsOpen } = useConfirm()
   const [events, setEvents] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
+  const url = `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/events`
 
   useEffect(() => {
     fetchEvents()
@@ -27,7 +28,7 @@ export default function AdminEventsPage() {
   const fetchEvents = async () => {
     try {
       setLoading(true)
-      const res = await fetch('/api/events?limit=100')
+      const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/events?limit=100`)
       const data = await res.json()
       setEvents(data || [])
     } catch (error) {
@@ -59,7 +60,7 @@ export default function AdminEventsPage() {
     if (!confirmed) return
 
     try {
-      const res = await fetch(`/api/events/${id}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/events/${id}`, {
         method: 'DELETE',
       })
 
@@ -137,7 +138,7 @@ export default function AdminEventsPage() {
     <AdminLayout>
       <div className="p-6 bg-unipas-muted min-h-screen">
         <div className="mb-6">
-          <div className="bg-linear-to-r from-unipas-primary to-unipas-accent rounded-xl p-6 text-white shadow-lg mb-4">
+          <div className="bg-gradient-to-r from-unipas-primary to-unipas-accent rounded-xl p-6 text-white shadow-lg mb-4">
             <h1 className="text-3xl font-bold mb-2">
               Kelola Event
             </h1>

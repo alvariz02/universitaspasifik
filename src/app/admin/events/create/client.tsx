@@ -22,7 +22,7 @@ export default function CreateEventClient() {
       }
       try {
         console.log('📡 Fetching event data for ID:', idParam)
-        const res = await fetch(`/api/events/${idParam}`)
+        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/events/${idParam}`)
         console.log('📡 API response status:', res.status)
         
         if (res.ok) {
@@ -54,7 +54,7 @@ export default function CreateEventClient() {
     try {
       console.log('📝 Submitting event data:', data)
       
-      const url = idParam ? `/api/events/${idParam}` : '/api/events'
+      const url = idParam ? `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/events/${idParam}` : `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/events`
       const method = idParam ? 'PUT' : 'POST'
       
       const response = await fetch(url, {
