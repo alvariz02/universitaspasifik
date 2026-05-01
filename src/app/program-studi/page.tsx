@@ -114,7 +114,7 @@ export default function ProgramStudiPage() {
               <div className="bg-white/20 rounded-lg w-20 h-20 flex items-center justify-center mx-auto mb-6">
                 <BookOpen className="h-10 w-10 text-white" />
               </div>
-              <h1 className="text-4xl md:text-5xl font-bold mb-4">
+              <h1 className="text-4xl md:text-5xl font-bold text-blue-100 mb-4">
                 Program Studi UNIPAS Morotai
               </h1>
               <p className="text-xl text-white/90 max-w-2xl mx-auto">

@@ -202,7 +202,7 @@ export default function StrukturPage() {
               transition={{ duration: 0.8 }}
               className="text-center mb-12 md:mb-20"
             >
-              <h1 className="text-3xl md:text-5xl lg:text-6xl font-black bg-gradient-to-r from-unipas-primary to-unipas-accent bg-clip-text text-transparent mb-4 md:mb-6">
+              <h1 className="text-3xl md:text-5xl lg:text-6xl font-black text-unipas-primary mb-4 md:mb-6">
                 Struktur Organisasi
               </h1>
               <p className="text-base md:text-xl text-gray-600 max-w-2xl md:max-w-3xl mx-auto">
@@ -216,7 +216,7 @@ export default function StrukturPage() {
               transition={{ duration: 0.8 }}
               className="text-center mb-12 md:mb-20"
             >
-              <h2 className="text-2xl md:text-4xl lg:text-5xl font-black bg-gradient-to-r from-unipas-primary to-unipas-accent bg-clip-text text-transparent mb-4 md:mb-6">
+              <h2 className="text-2xl md:text-4xl lg:text-5xl font-black text-unipas-primary mb-4 md:mb-6">
                 Pimpinan Utama
               </h2>
               <p className="text-base md:text-xl text-gray-600 max-w-2xl md:max-w-3xl mx-auto">
@@ -267,7 +267,7 @@ export default function StrukturPage() {
               transition={{ duration: 0.8 }}
               className="text-center mb-12 md:mb-20"
             >
-              <h2 className="text-2xl md:text-4xl lg:text-5xl font-black bg-gradient-to-r from-unipas-primary to-unipas-accent bg-clip-text text-transparent mb-4 md:mb-6">
+              <h2 className="text-2xl md:text-4xl lg:text-5xl font-black text-unipas-primary mb-4 md:mb-6">
                 Di bawah Rektor
               </h2>
             </motion.div>
@@ -505,7 +505,7 @@ export default function StrukturPage() {
               transition={{ duration: 0.8 }}
               className="text-center mb-12 md:mb-20"
             >
-              <h2 className="text-2xl md:text-4xl lg:text-5xl font-black bg-gradient-to-r from-unipas-primary to-unipas-accent bg-clip-text text-transparent mb-4 md:mb-6">
+              <h2 className="text-2xl md:text-4xl lg:text-5xl font-black text-unipas-primary mb-4 md:mb-6">
                 6 Fakultas UNIPAS Morotai
               </h2>
               <p className="text-base md:text-xl text-gray-600 max-w-2xl md:max-w-3xl mx-auto">

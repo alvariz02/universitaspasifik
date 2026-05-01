@@ -53,19 +53,23 @@ export default async function PrestasiPage() {
     <div className="min-h-screen flex flex-col">
       <Header />
       <main className="flex-1">
-        {/* Page Header */}
-        <section className="bg-ui-navy py-16">
+        {/* Hero Section */}
+        <section className="bg-gradient-to-br from-unipas-primary via-unipas-accent to-unipas-primary text-white">
           <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto text-center">
-              <div className="bg-ui-yellow/10 rounded-lg w-20 h-20 flex items-center justify-center mx-auto mb-6">
-                <Trophy className="h-10 w-10 text-ui-yellow" />
+            <div className="py-16">
+              <div className="max-w-4xl mx-auto text-center">
+                <div className="flex justify-center mb-6">
+                  <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center">
+                    <Trophy className="h-10 w-10 text-white" />
+                  </div>
+                </div>
+                <h1 className="text-4xl md:text-5xl font-bold text-blue-100 mb-4">
+                  Prestasi Universitas Pasifik
+                </h1>
+                <p className="text-xl text-white/90 max-w-2xl mx-auto">
+                  Pencapaian membanggakan dari mahasiswa, dosen, dan alumni UP di berbagai bidang
+                </p>
               </div>
-              <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-                Prestasi Universitas Pasifik
-              </h1>
-              <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-                Pencapaian membanggakan dari mahasiswa, dosen, dan alumni UP di berbagai bidang
-              </p>
             </div>
           </div>
         </section>

@@ -149,7 +149,7 @@ export default function AboutPage() {
                   transition={{ delay: 0.2, duration: 0.6 }}
                   className="text-4xl md:text-6xl lg:text-7xl font-black leading-tight"
                 >
-                  <span className="bg-gradient-to-r from-white via-blue-100 to-cyan-200 bg-clip-text text-transparent drop-shadow-2xl">
+                  <span className="text-blue-100 drop-shadow-2xl">
                     Tentang Universitas Pasifik
                   </span>
                 </motion.h1>
@@ -159,7 +159,7 @@ export default function AboutPage() {
                   transition={{ delay: 0.4, duration: 0.6 }}
                   className="text-lg md:text-xl lg:text-2xl leading-relaxed max-w-4xl mx-auto"
                 >
-                  <span className="bg-gradient-to-r from-white/95 via-blue-50 to-cyan-100/90 bg-clip-text text-transparent drop-shadow-lg">
+                  <span className="text-blue-50 drop-shadow-lg">
                     Mengenal lebih dekat visi, misi, dan komitmen UNIPAS dalam mewujudkan pendidikan unggul berbasis potensi lokal
                   </span>
                 </motion.p>
@@ -218,7 +218,7 @@ export default function AboutPage() {
                   transition={{ delay: 0.2, duration: 0.6 }}
                   className="space-y-6"
                 >
-                  <h2 className="text-3xl md:text-4xl font-black bg-gradient-to-r from-unipas-primary to-unipas-accent bg-clip-text text-transparent">
+                  <h2 className="text-3xl md:text-4xl font-black text-unipas-primary">
                     Latar Belakang
                   </h2>
                   <div className="space-y-4 text-lg leading-relaxed text-gray-700">
@@ -271,7 +271,7 @@ export default function AboutPage() {
                 >
                   <Star className="h-8 w-8 text-white" />
                 </motion.div>
-                <h3 className="text-3xl font-black bg-gradient-to-r from-unipas-primary to-unipas-accent bg-clip-text text-transparent">
+                <h3 className="text-3xl font-black text-unipas-primary">
                   Visi
                 </h3>
                 <p className="text-xl leading-relaxed max-w-3xl mx-auto text-gray-700">
@@ -320,7 +320,7 @@ export default function AboutPage() {
                 transition={{ delay: 0.2, duration: 0.6 }}
                 className="text-center mb-12"
               >
-                <h2 className="text-3xl md:text-4xl font-black bg-gradient-to-r from-unipas-primary to-unipas-accent bg-clip-text text-transparent mb-4">
+                <h2 className="text-3xl md:text-4xl font-black text-unipas-primary mb-4">
                   Nilai-Nilai Inti
                 </h2>
                 <p className="text-xl text-gray-600 max-w-3xl mx-auto">
@@ -365,7 +365,7 @@ export default function AboutPage() {
               transition={{ duration: 0.6 }}
               className="space-y-8"
             >
-              <h2 className="text-3xl md:text-4xl font-black bg-gradient-to-r from-unipas-primary to-unipas-accent bg-clip-text text-transparent">
+              <h2 className="text-3xl md:text-4xl font-black text-unipas-primary">
                 Dasar Hukum
               </h2>
               <div className="bg-gradient-to-br from-unipas-primary/10 to-unipas-accent/5 p-8 rounded-3xl border border-unipas-primary/20">
@@ -383,7 +383,7 @@ export default function AboutPage() {
               transition={{ duration: 0.6 }}
               className="space-y-8"
             >
-              <h2 className="text-3xl md:text-4xl font-black bg-gradient-to-r from-unipas-primary to-unipas-accent bg-clip-text text-transparent">
+              <h2 className="text-3xl md:text-4xl font-black text-unipas-primary">
                 Tujuan Penyusunan
               </h2>
               <div className="bg-gradient-to-br from-unipas-primary/10 to-unipas-accent/5 p-8 rounded-3xl border border-unipas-primary/20">

@@ -119,7 +119,7 @@ export default function FacultiesPage() {
 
   const fetchFaculties = async () => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/faculties?limit=50`)
+      const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/faculties?limit=50`)
       if (!res.ok) throw new Error('Failed to fetch faculties')
       const data = await res.json()
       setFaculties(data)
@@ -217,22 +217,10 @@ export default function FacultiesPage() {
                   <Building2 className="h-10 w-10 text-white" />
                 </div>
               </div>
-              <h1 className="text-4xl md:text-5xl font-bold mb-4">Jelajahi Fakultas</h1>
+              <h1 className="text-4xl md:text-5xl font-bold text-blue-100 mb-4">Jelajahi Fakultas</h1>
               <p className="text-xl text-white/90 max-w-2xl mx-auto mb-8">
                 Temukan fakultas dan program studi yang sesuai dengan minat dan bakat Anda
               </p>
-              <div className="max-w-md mx-auto mb-8">
-                <div className="relative">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white/60 h-5 w-5" />
-                  <Input
-                    type="text"
-                    placeholder="Cari fakultas atau program studi..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="pl-10 bg-white/20 border-white/30 text-white placeholder-white/60 focus:bg-white/30 focus:border-white/50"
-                  />
-                </div>
-              </div>
             </motion.div>
           </div>
         </div>
@@ -264,19 +252,6 @@ export default function FacultiesPage() {
                   >
                     Semua
                   </button>
-                  {faculties.map((faculty) => (
-                    <button
-                      key={faculty.id}
-                      onClick={() => setSelectedFaculty(faculty.name)}
-                      className={`px-4 py-2 rounded-lg transition-colors ${
-                        selectedFaculty === faculty.name
-                          ? 'bg-gradient-to-r from-unipas-primary to-unipas-accent text-white'
-                          : 'bg-unipas-muted text-unipas-primary hover:bg-unipas-primary/10'
-                      }`}
-                    >
-                      {faculty.name.split(' ')[0]}
-                    </button>
-                  ))}
                 </div>
               </div>
             </div>

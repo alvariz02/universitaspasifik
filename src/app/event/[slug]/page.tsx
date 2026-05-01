@@ -105,8 +105,8 @@ export default async function EventDetailPage({
           </div>
         </div>
 
-        {/* Event Header with Image */}
-        {event.imageUrl && (
+        {/* Event Header */}
+        {event.imageUrl ? (
           <div className="relative h-100 md:h-125">
             <img
               src={event.imageUrl}
@@ -136,6 +136,30 @@ export default async function EventDetailPage({
               </div>
             </div>
           </div>
+        ) : (
+          <section className="bg-ui-navy py-16">
+            <div className="container mx-auto px-4">
+              {isFeatured && (
+                <Badge className="bg-ui-yellow text-ui-navy mb-4 text-sm font-medium">
+                  Event Unggulan
+                </Badge>
+              )}
+              <h1 className="text-3xl md:text-5xl font-bold text-white mb-4">
+                {event.title}
+              </h1>
+              <div className="flex items-center gap-2">
+                {isPast ? (
+                  <Badge variant="outline" className="border-white text-white bg-ui-navy/30">
+                    Selesai
+                  </Badge>
+                ) : (
+                  <Badge className="bg-green-500 text-white">
+                    Mendatang
+                  </Badge>
+                )}
+              </div>
+            </div>
+          </section>
         )}
 
         {/* Event Content */}

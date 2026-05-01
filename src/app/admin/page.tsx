@@ -8,18 +8,66 @@ import {
 import { Button } from '@/components/ui/button'
 import { Newspaper, Calendar, Bell, Building2, Trophy, Image as ImageIcon, Users, Plus, TrendingUp, Activity, FileText } from 'lucide-react'
 import Link from 'next/link'
+import { db } from '@/lib/db'
 
 export const dynamic = 'force-dynamic'
 
-// Static dashboard untuk prevent database issues
 export default async function AdminDashboard() {
+  const [
+    newsCount,
+    eventsCount,
+    announcementsCount,
+    facultiesCount,
+    achievementsCount,
+    galleriesCount,
+    recentNews,
+    recentEvents,
+  ] = await Promise.all([
+    db.news.count(),
+    db.event.count(),
+    db.announcement.count(),
+    db.faculty.count(),
+    db.achievement.count(),
+    db.gallery.count(),
+    db.news.findMany({
+      orderBy: { createdAt: 'desc' },
+      take: 3,
+      select: { id: true, title: true, createdAt: true }
+    }),
+    db.event.findMany({
+      orderBy: { createdAt: 'desc' },
+      take: 3,
+      select: { id: true, title: true, createdAt: true }
+    })
+  ])
+
   const stats = {
-    newsCount: 0,
-    eventsCount: 0,
-    announcementsCount: 0,
-    facultiesCount: 0,
-    achievementsCount: 0
+    newsCount,
+    eventsCount,
+    announcementsCount,
+    facultiesCount,
+    achievementsCount,
+    galleriesCount,
   }
+
+  const recentActivities = [
+    ...recentNews.map((item) => ({
+      id: `news-${item.id}`,
+      type: 'Berita',
+      title: item.title,
+      createdAt: item.createdAt,
+      href: '/admin/news',
+    })),
+    ...recentEvents.map((item) => ({
+      id: `event-${item.id}`,
+      type: 'Event',
+      title: item.title,
+      createdAt: item.createdAt,
+      href: '/admin/events',
+    })),
+  ]
+    .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
+    .slice(0, 5)
 
   const cards = [
     {
@@ -59,7 +107,7 @@ export default async function AdminDashboard() {
     },
     {
       title: 'Total Galeri',
-      value: 0,
+      value: stats.galleriesCount,
       icon: ImageIcon,
       color: 'bg-pink-500',
       href: '/admin/galleries'
@@ -122,10 +170,24 @@ export default async function AdminDashboard() {
                 Aktivitas Terbaru
               </CardTitle>
             </CardHeader>
-            <CardContent>
-              <p className="text-muted-foreground">
-                Dashboard sedang dalam mode maintenance. Data statistik akan muncul setelah database connection stabil.
-              </p>
+            <CardContent className="space-y-3">
+              {recentActivities.length === 0 ? (
+                <p className="text-muted-foreground">
+                  Belum ada aktivitas terbaru di database.
+                </p>
+              ) : (
+                recentActivities.map((activity) => (
+                  <Link key={activity.id} href={activity.href} className="block">
+                    <div className="rounded-lg border p-3 hover:bg-muted/50 transition-colors">
+                      <div className="text-xs text-muted-foreground">{activity.type}</div>
+                      <div className="font-medium line-clamp-1">{activity.title}</div>
+                      <div className="text-xs text-muted-foreground">
+                        {activity.createdAt.toLocaleString('id-ID')}
+                      </div>
+                    </div>
+                  </Link>
+                ))
+              )}
             </CardContent>
           </Card>
 

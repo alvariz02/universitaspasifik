@@ -61,7 +61,7 @@ export default async function EventPage({
         {/* Page Header */}
         <section className="bg-ui-navy py-16">
           <div className="container mx-auto px-4">
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
+            <h1 className="text-4xl md:text-5xl font-bold text-blue-200 drop-shadow-sm mb-4">
               Event & Kegiatan Universitas Pasifik
             </h1>
             <p className="text-xl text-gray-300">

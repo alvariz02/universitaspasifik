@@ -101,7 +101,7 @@ export default function VisiMisiPage() {
               transition={{ duration: 0.6 }}
               className="max-w-4xl mx-auto text-center"
             >
-              <h1 className="text-4xl md:text-5xl font-bold mb-4">
+              <h1 className="text-4xl md:text-5xl font-bold text-blue-100 mb-4">
                 Visi & Misi UNIPAS Morotai
               </h1>
               <p className="text-xl text-white/90">

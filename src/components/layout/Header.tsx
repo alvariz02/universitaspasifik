@@ -151,8 +151,7 @@ export default function Header() {
                       {[
                         { href: "/tentang/sejarah", label: "Sejarah", desc: "Perjalanan panjang Unipas" },
                         { href: "/tentang/visi-misi", label: "Visi & Misi", desc: "Tujuan dan arah pengembangan" },
-                        { href: "/tentang/struktur", label: "Struktur Organisasi", desc: "Struktur kepemimpinan Unipas" },
-                        { href: "/tentang/rektorat", label: "Pimpinan Unipas", desc: "Rektorat dan dekanat" }
+                        { href: "/tentang/struktur", label: "Struktur Organisasi", desc: "Struktur kepemimpinan Unipas" }
                       ].map((item) => (
                         <NavigationMenuLink key={item.href} asChild>
                           <Link href={item.href} className="block select-none space-y-2 rounded-xl p-4 hover:bg-gradient-to-r hover:from-unipas-primary/10 hover:to-unipas-accent/10 transition-all duration-300 group">
@@ -368,8 +367,7 @@ export default function Header() {
                     { title: "Tentang Unipas", items: [
                       { href: "/tentang/sejarah", label: "Sejarah", desc: "Perjalanan Unipas" },
                       { href: "/tentang/visi-misi", label: "Visi & Misi", desc: "Tujuan pengembangan" },
-                      { href: "/tentang/struktur", label: "Struktur Organisasi", desc: "Kepemimpinan Unipas" },
-                      { href: "/tentang/rektorat", label: "Pimpinan Unipas", desc: "Rektorat dan dekanat" }
+                      { href: "/tentang/struktur", label: "Struktur Organisasi", desc: "Kepemimpinan Unipas" }
                     ]},
                     { title: "Akademik", items: [
                       { href: "/fakultas", label: "Fakultas", desc: "Daftar fakultas" },

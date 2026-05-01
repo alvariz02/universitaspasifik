@@ -25,7 +25,11 @@ interface UpcomingEventsProps {
 }
 
 export default function UpcomingEvents({ events }: UpcomingEventsProps) {
-  const upcomingEvents = events.slice(0, 3)
+  const now = new Date()
+  const upcomingEvents = events
+    .filter((event) => new Date(event.eventDate) >= now)
+    .sort((a, b) => new Date(a.eventDate).getTime() - new Date(b.eventDate).getTime())
+    .slice(0, 3)
 
   return (
     <section className="relative py-20 overflow-hidden bg-gradient-to-br from-unipas-secondary/20 via-white to-unipas-primary/10">
@@ -77,7 +81,7 @@ export default function UpcomingEvents({ events }: UpcomingEventsProps) {
                 <Calendar className="h-8 w-8 text-white" />
               </motion.div>
               <div className="text-left">
-                <h2 className="text-5xl md:text-6xl font-black bg-gradient-to-r from-unipas-accent to-unipas-primary bg-clip-text text-transparent leading-tight">
+                <h2 className="text-5xl md:text-6xl font-black text-blue-800 leading-tight">
                   Event Mendatang
                 </h2>
                 <p className="text-xl text-muted-foreground max-w-2xl mt-2">

@@ -164,7 +164,7 @@ export default function SejarahPage() {
               transition={{ delay: 0.3, duration: 1 }}
               className="text-3xl md:text-5xl lg:text-7xl xl:text-9xl font-black leading-tight mb-6 px-4"
             >
-              <span className="bg-gradient-to-r from-white via-blue-100 to-cyan-200 bg-clip-text text-transparent drop-shadow-2xl">
+              <span className="text-blue-100 drop-shadow-2xl">
                 Sejarah Universitas Pasifik
               </span>
             </motion.h1>
@@ -175,7 +175,7 @@ export default function SejarahPage() {
               transition={{ delay: 0.5, duration: 1 }}
               className="text-lg md:text-xl lg:text-2xl leading-relaxed max-w-4xl lg:max-w-5xl mx-auto mb-8 px-4"
             >
-              <span className="bg-gradient-to-r from-white/98 via-blue-100 to-cyan-200/95 bg-clip-text text-transparent drop-shadow-xl">
+              <span className="text-blue-50 drop-shadow-xl">
                 Perjalanan panjang UNIPAS Morotai dari visi hingga menjadi perguruan tinggi unggul di kawasan perbatasan
               </span>
             </motion.p>
@@ -260,7 +260,7 @@ export default function SejarahPage() {
               transition={{ duration: 0.8 }}
               className="text-center mb-12 md:mb-20"
             >
-              <h2 className="text-2xl md:text-4xl lg:text-5xl font-black bg-gradient-to-r from-unipas-primary to-unipas-accent bg-clip-text text-transparent mb-4 md:mb-6">
+              <h2 className="text-2xl md:text-4xl lg:text-5xl font-black text-unipas-primary mb-4 md:mb-6">
                 Perjalanan Waktu
               </h2>
               <p className="text-base md:text-xl text-gray-600 max-w-2xl md:max-w-3xl mx-auto">
@@ -352,7 +352,7 @@ export default function SejarahPage() {
               transition={{ duration: 0.8 }}
               className="text-center mb-12 md:mb-20"
             >
-              <h2 className="text-2xl md:text-4xl lg:text-5xl font-black bg-gradient-to-r from-unipas-primary to-unipas-accent bg-clip-text text-transparent mb-4 md:mb-6">
+              <h2 className="text-2xl md:text-4xl lg:text-5xl font-black text-unipas-primary mb-4 md:mb-6">
                 Tokoh Pendiri
               </h2>
               <p className="text-base md:text-xl text-gray-600 max-w-2xl md:max-w-3xl mx-auto">
@@ -421,7 +421,7 @@ export default function SejarahPage() {
               transition={{ duration: 0.8 }}
               className="text-center mb-12 md:mb-20"
             >
-              <h2 className="text-2xl md:text-4xl lg:text-5xl font-black bg-gradient-to-r from-unipas-primary to-unipas-accent bg-clip-text text-transparent mb-4 md:mb-6">
+              <h2 className="text-2xl md:text-4xl lg:text-5xl font-black text-unipas-primary mb-4 md:mb-6">
                 Perjalanan Pengembangan
               </h2>
             </motion.div>
@@ -519,7 +519,7 @@ export default function SejarahPage() {
               transition={{ duration: 0.8 }}
               className="text-center mb-12 md:mb-20"
             >
-              <h2 className="text-2xl md:text-4xl lg:text-5xl font-black bg-gradient-to-r from-unipas-primary to-unipas-accent bg-clip-text text-transparent mb-4 md:mb-6">
+              <h2 className="text-2xl md:text-4xl lg:text-5xl font-black text-unipas-primary mb-4 md:mb-6">
                 Visi Masa Depan
               </h2>
             </motion.div>

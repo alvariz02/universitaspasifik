@@ -77,13 +77,23 @@ export async function PUT(
         id: eventId
       },
       data: {
-        title: body.title,
-        slug: body.slug,
-        description: body.description,
+        title: body.title ?? existingEvent.title,
+        slug: body.slug ?? existingEvent.slug,
+        description: body.description ?? existingEvent.description,
         eventDate: body.eventDate ? new Date(body.eventDate) : existingEvent.eventDate,
-        endDate: body.endDate ? new Date(body.endDate) : existingEvent.endDate,
-        location: body.location || existingEvent.location,
-        imageUrl: body.imageUrl || existingEvent.imageUrl,
+        // Allow clearing optional endDate by sending empty string/null
+        endDate:
+          body.endDate === '' || body.endDate === null
+            ? null
+            : body.endDate
+              ? new Date(body.endDate)
+              : existingEvent.endDate,
+        location: body.location ?? existingEvent.location,
+        imageUrl: body.imageUrl ?? existingEvent.imageUrl,
+        organizer: body.organizer ?? existingEvent.organizer,
+        contactEmail: body.contactEmail ?? existingEvent.contactEmail,
+        registrationUrl: body.registrationUrl ?? existingEvent.registrationUrl,
+        isFeatured: body.isFeatured ?? existingEvent.isFeatured,
       }
     })
 

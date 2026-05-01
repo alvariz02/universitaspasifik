@@ -174,7 +174,7 @@ export default function PengabdianPage() {
               transition={{ duration: 0.6 }}
               className="max-w-3xl"
             >
-              <h1 className="text-4xl md:text-5xl font-bold mb-6">Pengabdian Masyarakat</h1>
+              <h1 className="text-4xl md:text-5xl font-bold text-blue-100 mb-6">Pengabdian Masyarakat</h1>
               <p className="text-lg md:text-xl text-white/90 leading-relaxed">
                 Komitmen Universitas Pasifik Morotai untuk memberikan dampak positif kepada masyarakat melalui berbagai program pengabdian dan tanggung jawab sosial
               </p>
