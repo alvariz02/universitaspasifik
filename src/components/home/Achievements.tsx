@@ -105,7 +105,7 @@ export default function Achievements({ achievements }: AchievementsProps) {
               </motion.div>
               <div className="text-left">
                 <h2 className="text-5xl md:text-6xl font-black bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent leading-tight">
-                  Prestasi Unipas
+                  Prestasi
                 </h2>
                 <p className="text-xl text-muted-foreground max-w-2xl mt-2">
                   Pencapaian membanggakan dari mahasiswa, dosen, dan alumni

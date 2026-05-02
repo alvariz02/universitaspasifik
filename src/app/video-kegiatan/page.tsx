@@ -1,6 +1,8 @@
 import { Metadata } from 'next'
 import VideoGallery from '@/components/VideoGallery'
 import { db } from '@/lib/db'
+import Header from '@/components/layout/Header'
+import Footer from '@/components/layout/Footer'
 
 export const metadata: Metadata = {
   title: 'Video Kegiatan - Universitas Pasifik Morotai',
@@ -29,25 +31,29 @@ export default async function VideoKegiatanPage() {
   const videos = await getVideos()
 
   return (
-    <div className="min-h-screen bg-unipas-muted">
-      {/* Hero Section */}
-      <div className="bg-gradient-to-r from-unipas-primary to-unipas-accent text-white py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <h1 className="text-4xl md:text-5xl font-bold text-blue-100 mb-4">
-              Video Kegiatan Kampus
-            </h1>
-            <p className="text-xl text-white/90 max-w-3xl mx-auto">
-              Saksikan berbagai kegiatan dan aktivitas menarik di Universitas Pasifik Morotai
-            </p>
+    <div className="min-h-screen flex flex-col bg-unipas-muted">
+      <Header />
+      <main className="flex-1">
+        {/* Hero Section */}
+        <div className="bg-gradient-to-r from-unipas-primary to-unipas-accent text-white py-16">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center">
+              <h1 className="text-4xl md:text-5xl font-bold text-blue-100 mb-4">
+                Video Kegiatan Kampus
+              </h1>
+              <p className="text-xl text-white/90 max-w-3xl mx-auto">
+                Saksikan berbagai kegiatan dan aktivitas menarik di Universitas Pasifik Morotai
+              </p>
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Video Gallery */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <VideoGallery videos={videos as any} />
-      </div>
+        {/* Video Gallery */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <VideoGallery videos={videos as any} />
+        </div>
+      </main>
+      <Footer />
     </div>
   )
 }

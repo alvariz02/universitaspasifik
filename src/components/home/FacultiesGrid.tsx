@@ -210,7 +210,7 @@ export default function FacultiesGrid({ faculties: initialFaculties }: Faculties
               </motion.div>
               <div className="text-left">
                 <h2 className="text-5xl md:text-6xl font-black bg-gradient-to-r from-blue-500 to-unipas-accent bg-clip-text text-transparent leading-tight">
-                  Fakultas Unipas
+                  Fakultas
                 </h2>
                 <p className="text-xl text-muted-foreground max-w-2xl mt-2">
                   {faculties.length} fakultas dengan program studi berkualitas

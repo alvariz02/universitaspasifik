@@ -1,6 +1,8 @@
 import { Metadata } from 'next'
 import JournalGallery from '@/components/JournalGallery'
 import { db } from '@/lib/db'
+import Header from '@/components/layout/Header'
+import Footer from '@/components/layout/Footer'
 
 export const dynamic = 'force-dynamic'
 
@@ -50,7 +52,9 @@ export default async function JurnalPage() {
   ])
 
   return (
-    <div className="min-h-screen bg-unipas-muted">
+    <div className="min-h-screen flex flex-col bg-unipas-muted">
+      <Header />
+      <main className="flex-1">
       {/* Hero Section */}
       <div className="bg-gradient-to-r from-unipas-primary to-unipas-accent text-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -81,6 +85,8 @@ export default async function JurnalPage() {
           <JournalGallery journals={journals as any} faculties={faculties} />
         )}
       </div>
+      </main>
+      <Footer />
     </div>
   )
 }
