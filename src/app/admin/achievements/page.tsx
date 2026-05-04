@@ -3,22 +3,20 @@
 import { useState, useEffect } from 'react'
 import AdminLayout from '@/components/admin/AdminLayout'
 import DataTable from '@/components/admin/DataTable'
-import AchievementForm from '@/components/admin/AchievementForm'
 import { Badge } from '@/components/ui/badge'
 import { format } from 'date-fns'
-import { id as localeId } from 'date-fns/locale'
+import { id } from 'date-fns/locale'
 import { useToast } from '@/hooks/use-toast'
 import { useConfirm } from '@/hooks/use-confirm'
 import { ConfirmDialog } from '@/components/ui/confirm-dialog'
+import { useRouter } from 'next/navigation'
 
 export default function AdminAchievementsPage() {
   const { toast } = useToast()
   const { confirm, isOpen, options, handleConfirm, handleCancel, setIsOpen } = useConfirm()
+  const router = useRouter()
   const [achievements, setAchievements] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
-  const [formOpen, setFormOpen] = useState(false)
-  const [editingId, setEditingId] = useState<number | null>(null)
-  const [editingData, setEditingData] = useState<any>(null)
 
   useEffect(() => {
     fetchAchievements()
@@ -38,15 +36,11 @@ export default function AdminAchievementsPage() {
   }
 
   const handleCreate = () => {
-    setEditingId(null)
-    setEditingData(null)
-    setFormOpen(true)
+    router.push('/admin/achievements/new')
   }
 
   const handleEdit = (id: number, row: any) => {
-    setEditingId(id)
-    setEditingData(row)
-    setFormOpen(true)
+    router.push(`/admin/achievements/${id}`)
   }
 
   const handleDelete = async (id: number) => {
@@ -89,49 +83,6 @@ export default function AdminAchievementsPage() {
         description: "Gagal menghapus prestasi. Silakan coba lagi.",
         variant: "destructive",
       })
-    }
-  }
-
-  const handleSubmit = async (data: any) => {
-    try {
-      const url = editingId ? `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/achievements/${editingId}` : `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/achievements`
-      const method = editingId ? 'PUT' : 'POST'
-
-      const res = await fetch(url, {
-        method,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      })
-
-      if (res.ok) {
-        await fetchAchievements()
-        toast({
-          title: editingId ? "Prestasi Diperbarui" : "Prestasi Ditambahkan",
-          description: `"${data.title}" berhasil ${editingId ? 'diperbarui' : 'ditambahkan'}`,
-          variant: "default",
-        })
-        setFormOpen(false)
-        setEditingId(null)
-        setEditingData(null)
-      } else {
-        const errorData = await res.json()
-        toast({
-          title: "Gagal Menyimpan",
-          description: errorData.error || 'Gagal menyimpan prestasi',
-          variant: "destructive",
-        })
-        throw new Error('Failed to save')
-      }
-    } catch (error) {
-      console.error('Error saving achievement:', error)
-      toast({
-        title: "Terjadi Kesalahan",
-        description: "Gagal menyimpan prestasi. Silakan coba lagi.",
-        variant: "destructive",
-      })
-      throw error
     }
   }
 
@@ -188,7 +139,7 @@ export default function AdminAchievementsPage() {
       key: 'achievementDate',
       title: 'Tanggal',
       render: (value: any) =>
-        value ? format(new Date(value), 'dd MMM yyyy', { locale: localeId }) : '-',
+        value ? format(new Date(value), 'dd MMM yyyy', { locale: id }) : '-',
     },
   ]
 
@@ -222,13 +173,6 @@ export default function AdminAchievementsPage() {
             addButtonText="Tambah Prestasi"
           />
         )}
-
-        <AchievementForm
-          open={formOpen}
-          onClose={() => setFormOpen(false)}
-          onSubmit={handleSubmit}
-          initialData={editingData}
-        />
 
         <ConfirmDialog
           open={isOpen}

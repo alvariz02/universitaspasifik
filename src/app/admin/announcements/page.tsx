@@ -3,22 +3,20 @@
 import { useState, useEffect } from 'react'
 import AdminLayout from '@/components/admin/AdminLayout'
 import DataTable from '@/components/admin/DataTable'
-import AnnouncementForm from '@/components/admin/AnnouncementForm'
 import { Badge } from '@/components/ui/badge'
 import { format } from 'date-fns'
-import { id as localeId } from 'date-fns/locale'
+import { id } from 'date-fns/locale'
 import { useToast } from '@/hooks/use-toast'
 import { useConfirm } from '@/hooks/use-confirm'
 import { ConfirmDialog } from '@/components/ui/confirm-dialog'
+import { useRouter } from 'next/navigation'
 
 export default function AdminAnnouncementsPage() {
   const { toast } = useToast()
   const { confirm, isOpen, options, handleConfirm, handleCancel, setIsOpen } = useConfirm()
+  const router = useRouter()
   const [announcements, setAnnouncements] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
-  const [formOpen, setFormOpen] = useState(false)
-  const [editingId, setEditingId] = useState<number | null>(null)
-  const [editingData, setEditingData] = useState<any>(null)
 
   useEffect(() => {
     fetchAnnouncements()
@@ -38,15 +36,11 @@ export default function AdminAnnouncementsPage() {
   }
 
   const handleCreate = () => {
-    setEditingId(null)
-    setEditingData(null)
-    setFormOpen(true)
+    router.push('/admin/announcements/new')
   }
 
   const handleEdit = (id: number, row: any) => {
-    setEditingId(id)
-    setEditingData(row)
-    setFormOpen(true)
+    router.push(`/admin/announcements/${id}`)
   }
 
   const handleDelete = async (id: number) => {
@@ -92,49 +86,6 @@ export default function AdminAnnouncementsPage() {
     }
   }
 
-  const handleSubmit = async (data: any) => {
-    try {
-      const url = editingId ? `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/announcements/${editingId}` : `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/announcements`
-      const method = editingId ? 'PUT' : 'POST'
-
-      const res = await fetch(url, {
-        method,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      })
-
-      if (res.ok) {
-        await fetchAnnouncements()
-        toast({
-          title: editingId ? "Pengumuman Diperbarui" : "Pengumuman Ditambahkan",
-          description: `"${data.title}" berhasil ${editingId ? 'diperbarui' : 'ditambahkan'}`,
-          variant: "default",
-        })
-        setFormOpen(false)
-        setEditingId(null)
-        setEditingData(null)
-      } else {
-        const errorData = await res.json()
-        toast({
-          title: "Gagal Menyimpan",
-          description: errorData.error || 'Gagal menyimpan pengumuman',
-          variant: "destructive",
-        })
-        throw new Error('Failed to save')
-      }
-    } catch (error) {
-      console.error('Error saving announcement:', error)
-      toast({
-        title: "Terjadi Kesalahan",
-        description: "Gagal menyimpan pengumuman. Silakan coba lagi.",
-        variant: "destructive",
-      })
-      throw error
-    }
-  }
-
   const columns = [
     {
       key: 'id',
@@ -175,7 +126,7 @@ export default function AdminAnnouncementsPage() {
       key: 'createdAt',
       title: 'Dibuat',
       render: (value: any) =>
-        value ? format(new Date(value), 'dd MMM yyyy', { locale: localeId }) : '-',
+        value ? format(new Date(value), 'dd MMM yyyy', { locale: id }) : '-',
     },
   ]
 
@@ -209,13 +160,6 @@ export default function AdminAnnouncementsPage() {
             addButtonText="Tambah Pengumuman"
           />
         )}
-
-        <AnnouncementForm
-          open={formOpen}
-          onClose={() => setFormOpen(false)}
-          onSubmit={handleSubmit}
-          initialData={editingData}
-        />
 
         <ConfirmDialog
           open={isOpen}

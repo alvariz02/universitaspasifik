@@ -54,6 +54,7 @@
     "@tanstack/react-table": "^8.21.3",
     "@tiptap/extension-bold": "^3.18.0",
     "@tiptap/extension-heading": "^3.18.0",
+    "@tiptap/extension-image": "^3.22.5",
     "@tiptap/extension-italic": "^3.18.0",
     "@tiptap/extension-paragraph": "^3.18.0",
     "@tiptap/extension-text": "^3.18.0",

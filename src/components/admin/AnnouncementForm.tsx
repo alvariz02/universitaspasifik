@@ -6,7 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Textarea } from '@/components/ui/textarea'
+import RichTextEditor from '@/components/admin/RichTextEditor'
 import {
   Dialog,
   DialogContent,
@@ -102,12 +102,13 @@ export default function AnnouncementForm({ open, onClose, onSubmit, initialData 
 
           <div>
             <Label htmlFor="content">Konten *</Label>
-            <Textarea
-              id="content"
-              {...register('content')}
-              placeholder="Konten lengkap pengumuman"
-              rows={6}
-            />
+            <div className="mt-2">
+              <RichTextEditor
+                value={watch('content') || ''}
+                onChange={(value) => setValue('content', value)}
+                placeholder="Konten lengkap pengumuman - bisa tambahkan foto surat edaran di sini"
+              />
+            </div>
             {errors.content && (
               <p className="text-red-500 text-sm mt-1">{errors.content.message}</p>
             )}

@@ -130,27 +130,30 @@ export default function Achievements({ achievements }: AchievementsProps) {
         {/* Achievements Grid */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
           {featuredAchievements.map((achievement, index) => (
-            <motion.div
+            <Link
               key={achievement.id}
+              href={`/prestasi/${achievement.id}`}
+              className="block group relative"
+              style={{ perspective: 1000 }}
+            >
+            <motion.div
               initial={{ opacity: 0, y: 60, scale: 0.9, rotateY: 180 }}
               whileInView={{ opacity: 1, y: 0, scale: 1, rotateY: 0 }}
               viewport={{ once: true }}
-              transition={{ 
-                delay: index * 0.2, 
-                duration: 0.8, 
+              transition={{
+                delay: index * 0.2,
+                duration: 0.8,
                 ease: "easeOut",
                 type: "spring"
               }}
-              whileHover={{ 
-                y: -15, 
+              whileHover={{
+                y: -15,
                 scale: 1.05,
                 rotateY: 5,
                 transition: { duration: 0.3 }
               }}
-              className="group relative"
-              style={{ perspective: 1000 }}
+              className="h-full bg-white/90 backdrop-blur-md rounded-3xl overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-500 border border-white/50 hover:border-yellow-400/30"
             >
-              <div className="h-full bg-white/90 backdrop-blur-md rounded-3xl overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-500 border border-white/50 hover:border-yellow-400/30">
                 {/* 3D Card Effect */}
                 <div className="absolute inset-0 bg-gradient-to-br from-yellow-400/5 to-orange-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 
@@ -253,8 +256,8 @@ export default function Achievements({ achievements }: AchievementsProps) {
                 {/* 3D Hover Effects */}
                 <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-yellow-400/50 to-orange-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></div>
                 <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-transparent via-yellow-400/50 to-orange-500 transform scale-y-0 group-hover:scale-y-100 transition-transform duration-500"></div>
-              </div>
             </motion.div>
+            </Link>
           ))}
         </div>
 

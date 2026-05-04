@@ -34,8 +34,8 @@ async function fetchHomeData() {
     console.log('📊 Raw events API response:', eventsData)
     console.log('📊 Events response type:', typeof eventsData)
     console.log('📊 Events is array:', Array.isArray(eventsData))
-    const announcementsData = announcementsRes.ok ? await announcementsRes.json() : { announcements: [] }
-    const achievementsData = achievementsRes.ok ? await achievementsRes.json() : { achievements: [] }
+    const announcementsData = announcementsRes.ok ? await announcementsRes.json() : []
+    const achievementsData = achievementsRes.ok ? await achievementsRes.json() : []
     const facultiesData = facultiesRes.ok ? await facultiesRes.json() : []
     const videosData = videosRes.ok ? await videosRes.json() : []
     console.log('📼 Raw videos API response:', videosData)
@@ -47,8 +47,8 @@ async function fetchHomeData() {
       statistics: statisticsData || [],
       news: newsData.news || [],
       events: eventsData || [], // Direct array, not eventsData.events
-      announcements: announcementsData.announcements || [],
-      achievements: achievementsData.achievements || [],
+      announcements: announcementsData || [], // Direct array, not announcementsData.announcements
+      achievements: achievementsData || [],
       faculties: facultiesData || [],
       videos: videosData || [] // Direct array, not videosData.videos
     }

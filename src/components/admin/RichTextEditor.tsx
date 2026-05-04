@@ -1,9 +1,10 @@
 'use client'
 
-import { useSyncExternalStore } from 'react'
+import { useSyncExternalStore, useState, useRef } from 'react'
 import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import Underline from '@tiptap/extension-underline'
+import Image from '@tiptap/extension-image'
 import { Button } from '@/components/ui/button'
 import { 
   Bold as BoldIcon, 
@@ -14,7 +15,9 @@ import {
   Heading2 as H2Icon,
   Heading3 as H3Icon,
   List as ListIcon,
-  ListOrdered as ListOrderedIcon
+  ListOrdered as ListOrderedIcon,
+  Image as ImageIcon,
+  Upload
 } from 'lucide-react'
 
 interface RichTextEditorProps {
@@ -36,6 +39,9 @@ function useIsClient() {
 export default function RichTextEditor({ value, onChange, placeholder = "Mulai menulis...", className = "" }: RichTextEditorProps) {
   const isClient = useIsClient()
 
+  const fileInputRef = useRef<HTMLInputElement>(null)
+  const [isUploading, setIsUploading] = useState(false)
+
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
@@ -44,6 +50,10 @@ export default function RichTextEditor({ value, onChange, placeholder = "Mulai m
         },
       }),
       Underline,
+      Image.configure({
+        inline: true,
+        allowBase64: true,
+      }),
     ],
     content: value,
     onUpdate: ({ editor }) => {
@@ -103,6 +113,38 @@ export default function RichTextEditor({ value, onChange, placeholder = "Mulai m
 
   const setParagraph = () => {
     editor.chain().focus().setParagraph().run()
+  }
+
+  const handleImageUpload = async (file: File) => {
+    if (!file || !file.type.startsWith('image/')) return
+    
+    setIsUploading(true)
+    try {
+      const formData = new FormData()
+      formData.append('file', file)
+
+      const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/upload`, {
+        method: 'POST',
+        body: formData,
+      })
+
+      if (!response.ok) throw new Error('Upload failed')
+
+      const data = await response.json()
+      
+      if (data.url) {
+        editor.chain().focus().setImage({ src: data.url }).run()
+      }
+    } catch (error) {
+      console.error('Image upload error:', error)
+      alert('Gagal mengupload gambar')
+    } finally {
+      setIsUploading(false)
+    }
+  }
+
+  const triggerImageUpload = () => {
+    fileInputRef.current?.click()
   }
 
   return (
@@ -188,7 +230,7 @@ export default function RichTextEditor({ value, onChange, placeholder = "Mulai m
         </div>
 
         {/* Lists */}
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-1 border-r border-unipas-primary/20 pr-2">
           <Button
             type="button"
             variant="ghost"
@@ -208,6 +250,38 @@ export default function RichTextEditor({ value, onChange, placeholder = "Mulai m
             title="Ordered List"
           >
             <ListOrderedIcon className="h-4 w-4" />
+          </Button>
+        </div>
+
+        {/* Image Upload */}
+        <div className="flex items-center gap-1">
+          <input
+            type="file"
+            ref={fileInputRef}
+            accept="image/*"
+            className="hidden"
+            onChange={(e) => {
+              const file = e.target.files?.[0]
+              if (file) handleImageUpload(file)
+            }}
+          />
+          <Button
+            type="button"
+            variant="ghost"
+            size="sm"
+            onClick={triggerImageUpload}
+            disabled={isUploading}
+            className="h-8 px-2 flex items-center gap-1 text-unipas-primary hover:bg-unipas-primary/10"
+            title="Upload Gambar"
+          >
+            {isUploading ? (
+              <span className="text-xs">...</span>
+            ) : (
+              <>
+                <ImageIcon className="h-4 w-4" />
+                <span className="text-xs">Gambar</span>
+              </>
+            )}
           </Button>
         </div>
       </div>
