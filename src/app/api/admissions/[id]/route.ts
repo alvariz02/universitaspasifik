@@ -3,29 +3,22 @@ import { db } from '@/lib/db'
 
 export async function PUT(
   request: Request,
-  { params }: { params: Promise<{ slug: string }> }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { slug } = await params
+    const { id } = await params
     const body = await request.json()
 
     const admission = await db.admission.update({
-      where: {
-        slug
-      },
+      where: { id: parseInt(id) },
       data: {
-        name: body.name,
+        title: body.title,
         slug: body.slug,
-        description: body.description,
-        registrationStart: body.registrationStart ? new Date(body.registrationStart) : null,
-        registrationEnd: body.registrationEnd ? new Date(body.registrationEnd) : null,
-        examDate: body.examDate ? new Date(body.examDate) : null,
-        announcementDate: body.announcementDate ? new Date(body.announcementDate) : null,
-        requirements: body.requirements,
-        documentsNeeded: body.documentsNeeded,
-        fee: body.fee,
-        quota: body.quota,
-        infoUrl: body.infoUrl,
+        image1Url: body.image1Url || null,
+        image2Url: body.image2Url || null,
+        image3Url: body.image3Url || null,
+        displayStart: body.displayStart ? new Date(body.displayStart) : new Date(),
+        displayEnd: body.displayEnd ? new Date(body.displayEnd) : new Date(),
         isActive: body.isActive,
       }
     })
@@ -42,15 +35,13 @@ export async function PUT(
 
 export async function DELETE(
   request: Request,
-  { params }: { params: Promise<{ slug: string }> }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { slug } = await params
+    const { id } = await params
 
     await db.admission.delete({
-      where: {
-        slug
-      }
+      where: { id: parseInt(id) }
     })
 
     return NextResponse.json({ success: true })

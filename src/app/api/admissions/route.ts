@@ -5,10 +5,21 @@ export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url)
     const limit = parseInt(searchParams.get('limit') || '10')
+    const active = searchParams.get('active')
+
+    const where: any = {}
+    
+    if (active === 'true') {
+      const now = new Date()
+      where.isActive = true
+      where.displayStart = { lte: now }
+      where.displayEnd = { gte: now }
+    }
 
     const admissions = await db.admission.findMany({
+      where,
       orderBy: {
-        name: 'asc'
+        displayStart: 'desc'
       },
       take: limit
     })
@@ -29,18 +40,13 @@ export async function POST(request: Request) {
 
     const admission = await db.admission.create({
       data: {
-        name: body.name,
+        title: body.title,
         slug: body.slug,
-        description: body.description,
-        registrationStart: body.registrationStart ? new Date(body.registrationStart) : null,
-        registrationEnd: body.registrationEnd ? new Date(body.registrationEnd) : null,
-        examDate: body.examDate ? new Date(body.examDate) : null,
-        announcementDate: body.announcementDate ? new Date(body.announcementDate) : null,
-        requirements: body.requirements,
-        documentsNeeded: body.documentsNeeded,
-        fee: body.fee,
-        quota: body.quota,
-        infoUrl: body.infoUrl,
+        image1Url: body.image1Url || null,
+        image2Url: body.image2Url || null,
+        image3Url: body.image3Url || null,
+        displayStart: body.displayStart ? new Date(body.displayStart) : new Date(),
+        displayEnd: body.displayEnd ? new Date(body.displayEnd) : new Date(),
         isActive: body.isActive !== undefined ? body.isActive : true,
       }
     })

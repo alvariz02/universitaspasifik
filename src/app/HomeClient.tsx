@@ -10,13 +10,14 @@ import Announcements from '@/components/home/Announcements'
 import Achievements from '@/components/home/Achievements'
 import FacultiesGrid from '@/components/home/FacultiesGrid'
 import VideoSection from '@/components/home/VideoSection'
+import AdmissionsSection from '@/components/home/AdmissionsSection'
 import CTASection from '@/components/home/CTASection'
 import { useCache } from '@/hooks/useCache'
 
 async function fetchHomeData() {
   try {
     // Fetch data from API routes instead of direct database calls
-    const [slidersRes, statisticsRes, newsRes, eventsRes, announcementsRes, achievementsRes, facultiesRes, videosRes] = await Promise.all([
+    const [slidersRes, statisticsRes, newsRes, eventsRes, announcementsRes, achievementsRes, facultiesRes, videosRes, admissionsRes] = await Promise.all([
       fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/hero-sliders?limit=10&offset=0`),
       fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/statistics`),
       fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/news?limit=6&offset=0`),
@@ -24,7 +25,8 @@ async function fetchHomeData() {
       fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/announcements?limit=5&offset=0`),
       fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/achievements?limit=6&offset=0`),
       fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/faculties`),
-      fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/videos?limit=6&offset=0`)
+      fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/videos?limit=6&offset=0`),
+      fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/admissions?active=true&limit=3`)
     ])
 
     const slidersData = slidersRes.ok ? await slidersRes.json() : { sliders: [] }
@@ -38,6 +40,7 @@ async function fetchHomeData() {
     const achievementsData = achievementsRes.ok ? await achievementsRes.json() : []
     const facultiesData = facultiesRes.ok ? await facultiesRes.json() : []
     const videosData = videosRes.ok ? await videosRes.json() : []
+    const admissionsData = admissionsRes.ok ? await admissionsRes.json() : []
     console.log('📼 Raw videos API response:', videosData)
     console.log('📼 Videos response type:', typeof videosData)
     console.log('📼 Videos is array:', Array.isArray(videosData))
@@ -50,7 +53,8 @@ async function fetchHomeData() {
       announcements: announcementsData || [], // Direct array, not announcementsData.announcements
       achievements: achievementsData || [],
       faculties: facultiesData || [],
-      videos: videosData || [] // Direct array, not videosData.videos
+      videos: videosData || [], // Direct array, not videosData.videos
+      admissions: admissionsData || [] // Active admissions from API
     }
   } catch (error) {
     console.error('Error fetching data:', error)
@@ -121,6 +125,7 @@ export default function HomeClient() {
       <main className="flex-1">
         <HeroSlider slides={data?.sliders || []} />
         <QuickStats statistics={data?.statistics || []} />
+        <AdmissionsSection admissions={data?.admissions || []} />
         <FeaturedNews news={data?.news || []} />
         <UpcomingEvents events={data?.events || []} />
         <Announcements announcements={data?.announcements || []} />

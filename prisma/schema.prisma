@@ -124,22 +124,17 @@ model Research {
 
 // Tabel: admissions (Jalur Penerimaan)
 model Admission {
-  id                Int       @id @default(autoincrement())
-  name              String // SNBP, SNBT, SIMAK UI
-  slug              String    @unique
-  description       String?
-  registrationStart DateTime?
-  registrationEnd   DateTime?
-  examDate          DateTime?
-  announcementDate  DateTime?
-  requirements      String? // JSON
-  documentsNeeded   String? // JSON
-  fee               Float?
-  quota             Int?
-  infoUrl           String?
-  isActive          Boolean   @default(true)
-  createdAt         DateTime  @default(now())
-  updatedAt         DateTime  @updatedAt
+  id              Int       @id @default(autoincrement())
+  title           String    // Judul penerimaan
+  slug            String    @unique
+  image1Url       String?   // Foto brosur/poster 1 (1200x628)
+  image2Url       String?   // Foto brosur/poster 2 (1200x628)
+  image3Url       String?   // Foto brosur/poster 3 (1200x628)
+  displayStart    DateTime  // Waktu mulai tayang di homepage
+  displayEnd      DateTime  // Waktu akhir tayang di homepage
+  isActive        Boolean   @default(true)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
 }
 
 // Tabel: facilities (Fasilitas)
