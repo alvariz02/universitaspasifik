@@ -14,8 +14,8 @@ interface Admission {
   image1Url: string | null
   image2Url: string | null
   image3Url: string | null
-  displayStart: string
-  displayEnd: string
+  displayStart: string | Date
+  displayEnd: string | Date
   isActive: boolean
 }
 
@@ -40,9 +40,9 @@ export default function AdmissionDetailClient({ admission }: AdmissionDetailClie
     setCurrentImageIndex((prev) => (prev - 1 + images.length) % images.length)
   }
 
-  const formatDate = (dateStr: string | null) => {
-    if (!dateStr) return '-'
-    const date = new Date(dateStr)
+  const formatDate = (dateValue: string | Date | null) => {
+    if (!dateValue) return '-'
+    const date = dateValue instanceof Date ? dateValue : new Date(dateValue)
     return date.toLocaleDateString('id-ID', {
       day: 'numeric',
       month: 'long',
