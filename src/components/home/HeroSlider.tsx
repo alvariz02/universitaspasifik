@@ -54,8 +54,8 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
     <section className="relative w-full h-[400px] md:h-[500px] lg:h-[400px] overflow-hidden">
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-20 -right-20 w-40 h-40 bg-unipas-primary/10 rounded-full blur-2xl"></div>
-        <div className="absolute -bottom-20 -left-20 w-32 h-32 bg-unipas-accent/10 rounded-full blur-xl"></div>
+        <div className="absolute -top-20 -right-20 w-40 h-40 bg-unipas-primary/10 rounded-full"></div>
+        <div className="absolute -bottom-20 -left-20 w-32 h-32 bg-unipas-accent/10 rounded-full"></div>
         
         {/* Floating Particles */}
         {[...Array(8)].map((_, i) => (
@@ -99,12 +99,9 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
               className="w-full h-full object-cover"
             />
             
-            {/* Modern Gradient Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent"></div>
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-            
-            {/* Glass Morphism Effect */}
-            <div className="absolute inset-0 backdrop-blur-sm bg-white/5"></div>
+            {/* Subtle Gradient Overlay for text readability */}
+            <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-black/20 to-transparent"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent"></div>
           </div>
         </motion.div>
 
@@ -118,7 +115,7 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
               transition={{ delay: 0.3, duration: 0.8, ease: "easeOut" }}
               className="text-center space-y-8"
             >
-              {currentSlide.title && (
+              {/* {currentSlide.title && (
                 <motion.h1
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -142,7 +139,7 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
                     {currentSlide.subtitle}
                   </span>
                 </motion.p>
-              )}
+              )} */}
               
               {currentSlide.linkUrl && currentSlide.linkText && (
                 <motion.div
