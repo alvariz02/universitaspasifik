@@ -95,8 +95,57 @@ export default function FileUpload({
   }
 
   const handleUrlChange = (url: string) => {
-    onChange(url)
+    // Just update preview, don't upload yet
     setPreview(url)
+  }
+
+  const uploadUrlToCloudinary = async (url: string) => {
+    if (!url || !url.startsWith('http')) {
+      setError('URL tidak valid')
+      return
+    }
+
+    setIsUploading(true)
+    setError('')
+
+    try {
+      console.log('📤 Uploading URL to Cloudinary:', url)
+
+      const formData = new FormData()
+      formData.append('imageUrl', url)
+
+      const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/upload`, {
+        method: 'POST',
+        body: formData,
+      })
+
+      console.log('📡 API response status:', response.status)
+
+      if (!response.ok) {
+        const errorData = await response.json()
+        console.log('❌ API error response:', errorData)
+        throw new Error(errorData.error || `HTTP ${response.status}`)
+      }
+
+      const data = await response.json()
+      console.log('✅ URL upload success:', data)
+
+      if (!data.url) {
+        console.log('❌ No URL in response:', data)
+        throw new Error('Upload successful but no URL returned')
+      }
+
+      // Update with Cloudinary URL
+      onChange(data.url)
+      setPreview(data.url)
+    } catch (error) {
+      console.error('🚨 URL upload error:', error)
+      setError('Gagal mengupload URL: ' + (error instanceof Error ? error.message : 'Unknown error'))
+      // Still save the original URL as fallback
+      onChange(url)
+    } finally {
+      setIsUploading(false)
+    }
   }
 
   return (
@@ -165,19 +214,34 @@ export default function FileUpload({
         </span>
       </div>
 
-      {/* URL Input (fallback) - hanya tampilkan jika belum ada preview */}
+      {/* URL Input with Upload Button */}
       {!preview && (
         <div className="space-y-2">
           <Label htmlFor="imageUrl" className="text-sm text-muted-foreground">
             Atau masukkan URL gambar:
           </Label>
-          <Input
-            id="imageUrl"
-            type="url"
-            placeholder="https://example.com/image.jpg"
-            value={value || ""}
-            onChange={(e) => handleUrlChange(e.target.value)}
-          />
+          <div className="flex gap-2">
+            <Input
+              id="imageUrl"
+              type="url"
+              placeholder="https://example.com/image.jpg"
+              value={value || ""}
+              onChange={(e) => handleUrlChange(e.target.value)}
+              className="flex-1"
+            />
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => uploadUrlToCloudinary(value || '')}
+              disabled={isUploading || !value}
+              className="whitespace-nowrap"
+            >
+              {isUploading ? 'Mengupload...' : 'Upload URL'}
+            </Button>
+          </div>
+          <p className="text-xs text-muted-foreground">
+            URL akan diupload ke Cloudinary untuk penyimpanan yang lebih aman
+          </p>
         </div>
       )}
 

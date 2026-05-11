@@ -37,9 +37,9 @@ export const metadata: Metadata = {
     "Kampus di Indonesia",
   ],
 
-  authors: [{ name: "Universitas Pasifik" }],
+  authors: [{ name: "Anpal Alparis" }],
   creator: "Universitas Pasifik",
-  publisher: "Universitas Pasifik",
+  publisher: "Anpal Alparis",
 
   formatDetection: {
     email: false,

@@ -7,33 +7,42 @@ export async function POST(request: NextRequest) {
     
     const formData = await request.formData()
     const file = formData.get('file') as File
+    const imageUrl = formData.get('imageUrl') as string
 
-    console.log('📁 File received:', { name: file?.name, size: file?.size, type: file?.type })
+    console.log('📁 Input received:', { 
+      hasFile: !!file, 
+      fileName: file?.name, 
+      fileSize: file?.size,
+      hasImageUrl: !!imageUrl 
+    })
 
-    if (!file) {
-      console.log('❌ No file provided')
+    if (!file && !imageUrl) {
+      console.log('❌ No file or URL provided')
       return NextResponse.json(
-        { error: 'No file provided' },
+        { error: 'No file or image URL provided' },
         { status: 400 }
       )
     }
 
-    // Validate file type
-    if (!file.type.startsWith('image/')) {
-      console.log('❌ Invalid file type:', file.type)
-      return NextResponse.json(
-        { error: 'Only image files are allowed' },
-        { status: 400 }
-      )
-    }
+    // Handle file upload (existing logic)
+    if (file) {
+      // Validate file type
+      if (!file.type.startsWith('image/')) {
+        console.log('❌ Invalid file type:', file.type)
+        return NextResponse.json(
+          { error: 'Only image files are allowed' },
+          { status: 400 }
+        )
+      }
 
-    // Validate file size (5MB max)
-    if (file.size > 5 * 1024 * 1024) {
-      console.log('❌ File too large:', file.size)
-      return NextResponse.json(
-        { error: 'File size must be less than 5MB' },
-        { status: 400 }
-      )
+      // Validate file size (5MB max)
+      if (file.size > 5 * 1024 * 1024) {
+        console.log('❌ File too large:', file.size)
+        return NextResponse.json(
+          { error: 'File size must be less than 5MB' },
+          { status: 400 }
+        )
+      }
     }
 
     // Check Cloudinary credentials
@@ -64,33 +73,122 @@ export async function POST(request: NextRequest) {
 
     console.log('⚙️ Cloudinary configured')
 
-    const bytes = await file.arrayBuffer()
-    const buffer = Buffer.from(bytes)
+    let uploadedFile: any
 
-    console.log('📤 Starting Cloudinary upload...')
-
-    // Upload to Cloudinary
-    const result = await new Promise((resolve, reject) => {
-      cloudinary.uploader.upload_stream(
-        {
-          resource_type: 'auto',
-          folder: 'universitas-pasifik',
-          use_filename: true,
-          unique_filename: true,
-        },
-        (error, result) => {
-          if (error) {
-            console.log('❌ Cloudinary upload error:', error)
-            reject(error)
-          } else {
-            console.log('✅ Cloudinary upload success:', result)
-            resolve(result)
+    // Handle URL upload (Facebook and other restricted URLs need server-side download first)
+    if (imageUrl) {
+      console.log('📤 Processing URL:', imageUrl)
+      try {
+        // Detect if URL is from restricted domain (Facebook, Instagram, etc.)
+        const isRestrictedDomain = /facebook\.com|fb\.cdn|instagram\.com|ig\.cdn/i.test(imageUrl)
+        
+        if (isRestrictedDomain) {
+          console.log('🔒 Detected restricted domain, downloading server-side...')
+          
+          // Download image from restricted URL (bypass CORS by doing it server-side)
+          const response = await fetch(imageUrl, {
+            headers: {
+              'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+            }
+          })
+          
+          if (!response.ok) {
+            throw new Error(`Failed to download image: ${response.status}`)
           }
+          
+          const arrayBuffer = await response.arrayBuffer()
+          const buffer = Buffer.from(arrayBuffer)
+          
+          console.log('📥 Downloaded', buffer.length, 'bytes')
+          
+          // Upload buffer to Cloudinary
+          const result = await new Promise((resolve, reject) => {
+            const uploadStream = cloudinary.uploader.upload_stream(
+              {
+                resource_type: 'image',
+                folder: 'universitas-pasifik/hero-sliders',
+                use_filename: true,
+                unique_filename: true,
+                overwrite: false,
+              },
+              (error, result) => {
+                if (error) reject(error)
+                else if (!result) reject(new Error('No result'))
+                else resolve(result)
+              }
+            )
+            uploadStream.end(buffer)
+          })
+          
+          uploadedFile = result
+        } else {
+          // Direct upload for non-restricted URLs
+          console.log('📤 Direct upload to Cloudinary:', imageUrl)
+          const result = await cloudinary.uploader.upload(imageUrl, {
+            resource_type: 'image',
+            folder: 'universitas-pasifik/hero-sliders',
+            use_filename: true,
+            unique_filename: true,
+            overwrite: false,
+          })
+          uploadedFile = result
         }
-      ).end(buffer)
-    })
+        
+        console.log('✅ URL upload success:', {
+          public_id: uploadedFile.public_id,
+          url: uploadedFile.secure_url
+        })
+      } catch (error) {
+        console.log('❌ URL upload error:', error)
+        return NextResponse.json(
+          { error: 'Failed to upload image from URL', details: error instanceof Error ? error.message : 'Unknown error' },
+          { status: 500 }
+        )
+      }
+    } else if (file) {
+      // Handle file upload
+      const bytes = await file.arrayBuffer()
+      const buffer = Buffer.from(bytes)
 
-    const uploadedFile = result as any
+      console.log('📤 Starting Cloudinary upload...')
+      console.log('📤 Uploading to Cloudinary folder: universitas-pasifik/hero-sliders')
+      
+      const result = await new Promise((resolve, reject) => {
+        const uploadStream = cloudinary.uploader.upload_stream(
+          {
+            resource_type: 'image',
+            folder: 'universitas-pasifik/hero-sliders',
+            use_filename: true,
+            unique_filename: true,
+            overwrite: false,
+          },
+          (error, result) => {
+            if (error) {
+              console.log('❌ Cloudinary upload error:', error)
+              reject(new Error(`Cloudinary error: ${error.message}`))
+            } else if (!result) {
+              console.log('❌ Cloudinary returned null result')
+              reject(new Error('Cloudinary returned null result'))
+            } else {
+              console.log('✅ Cloudinary upload success:', {
+                public_id: result.public_id,
+                url: result.secure_url
+              })
+              resolve(result)
+            }
+          }
+        )
+        
+        uploadStream.on('error', (err) => {
+          console.log('❌ Stream error:', err)
+          reject(new Error(`Stream error: ${err.message}`))
+        })
+        
+        uploadStream.end(buffer)
+      })
+      
+      uploadedFile = result
+    }
 
     console.log('🔗 Uploaded file details:', {
       secure_url: uploadedFile.secure_url,

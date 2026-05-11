@@ -83,7 +83,7 @@ export default function NewsCard({
           <ShareButton 
             title={title}
             url={`/berita/${slug}`}
-            description={excerpt || undefined}
+            description={excerpt || undefined} 
           />
         </div>
       </CardContent>
