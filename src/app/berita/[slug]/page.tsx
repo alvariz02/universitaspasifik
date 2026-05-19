@@ -85,7 +85,7 @@ export async function generateMetadata({
         alt: news.title || 'Berita Universitas Pasifik',
       }
     : defaultImage
-
+ 
   return {
     title: news?.title || 'Berita tidak ditemukan',
     description: news?.excerpt || 'Baca berita terbaru dari Universitas Pasifik',

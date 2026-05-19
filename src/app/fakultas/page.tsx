@@ -119,7 +119,7 @@ export default function FacultiesPage() {
 
   const fetchFaculties = async () => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/faculties?limit=50`)
+      const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/faculties?limit=50`)
       if (!res.ok) throw new Error('Failed to fetch faculties')
       const data = await res.json()
       setFaculties(data)
