@@ -56,7 +56,7 @@ export async function POST(request: Request) {
         imageUrl: body.imageUrl,
         // Optional fields with defaults
         organizer: body.organizer || 'Universitas Pasifik Morotai',
-        contactEmail: body.contactEmail || 'info@unipas.ac.id',
+        contactEmail: body.contactEmail || 'unipasmorotai@univpasifik.ac.id',
         registrationUrl: body.registrationUrl || null,
         isFeatured: body.isFeatured || false,
       }

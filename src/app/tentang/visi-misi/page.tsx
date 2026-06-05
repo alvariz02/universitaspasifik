@@ -62,29 +62,29 @@ export default function VisiMisiPage() {
 
   const missions = [
     {
-      title: 'Meningkatkan Mutu Pendidikan',
-      description: 'Mengembangkan kurikulum berbasis kompetensi industri 4.0 dan kebutuhan pasar kerja',
+      title: 'Menyelenggarakan Pendidikan dan pengajaran berkualitas berdaya saing',
+      description: 'Menyiapkan lulusan yang kompeten, adaptif, dan siap bersaing di tingkat regional dan nasional.',
       icon: GraduationCap
     },
     {
-      title: 'Memperkuat Riset dan Inovasi',
-      description: 'Mendorong penelitian yang berorientasi pada pemecahan masalah dan pengembangan berbasis potensi lokal',
+      title: 'Mendorong inovasi, kolaborasi Penelitian yang berbasis potensi lokal',
+      description: 'Memperkuat penelitian yang relevan dengan kekayaan alam dan budaya lokal sebagai sumber solusi cerdas.',
       icon: Microscope
     },
     {
-      title: 'Menumbuhkan Jiwa Kewirausahaan',
-      description: 'Mendirikan dan mengelola inkubator bisnis berbasis inovasi dan potensi lokal',
-      icon: Target
+      title: 'Meningkatkan inovasi dan kolaborasi Pengabdian Masyarakat berbasis potensi lokal',
+      description: 'Menghubungkan kampus dengan masyarakat melalui program pengabdian yang memberdayakan potensi lokal.',
+      icon: Handshake
     },
     {
-      title: 'Memperkuat Tata Kelola',
-      description: 'Mengembangkan sistem tata kelola berbasis digital untuk meningkatkan efisiensi dan transparansi',
+      title: 'Mengembangkan tata kelola institusi berbudaya mutu',
+      description: 'Menerapkan praktik manajemen yang transparan, akuntabel, dan berorientasi pada peningkatan kualitas.',
       icon: Building
     },
     {
-      title: 'Mengembangkan Kemitraan',
-      description: 'Membangun jaringan kerja sama strategis dengan pemerintah, dunia usaha, industri, dan komunitas',
-      icon: Handshake
+      title: 'Membangun kerjasama kemitraan strategis regional dan nasional di kawasan pasifik',
+      description: 'Menjalin sinergi dengan mitra strategis untuk memperkuat peran UNIPAS di kawasan Pasifik.',
+      icon: Users
     }
   ]
 
@@ -163,11 +163,11 @@ export default function VisiMisiPage() {
                 <div className="p-8 space-y-6">
                   <div className="bg-linear-to-r from-unipas-accent/10 to-unipas-primary/10 rounded-lg p-8 border-2 border-unipas-primary/20">
                     <p className="text-2xl font-semibold text-unipas-primary text-center italic leading-relaxed">
-                      "Pada tahun 2030, Universitas Pasifik Morotai menjadi pusat pendidikan unggul berbasis potensi lokal yang inovatif dan berdaya saing di kawasan Pasifik."
+                      "Unggul di Kawasan Pasifik Berbasis Potensi Lokal Tahun 2045"
                     </p>
                   </div>
                   <p className="text-unipas-text leading-relaxed">
-                    Visi ini mencerminkan aspirasi jangka panjang UNIPAS Morotai untuk menjadi institusi pendidikan terkemuka yang tidak hanya menyediakan pendidikan berkualitas tinggi, tetapi juga mampu memanfaatkan potensi lokal Morotai dalam setiap aspek akademik, riset, dan pengabdian kepada masyarakat.
+                    Visi ini menegaskan komitmen Universitas Pasifik Morotai untuk menjadi perguruan tinggi unggul di kawasan Pasifik yang berkembang bersama potensi lokal dan berorientasi masa depan.
                   </p>
                   <div className="space-y-4 pt-4">
                     <h3 className="font-semibold text-unipas-primary">Elemen Kunci Visi UNIPAS:</h3>
@@ -208,7 +208,7 @@ export default function VisiMisiPage() {
                 </div>
                 <div className="p-8 space-y-6">
                   <p className="text-unipas-text">
-                    UNIPAS Morotai berkomitmen melaksanakan misi sebagai berikut:
+                    Misi Universitas Pasifik Morotai adalah sebagai berikut:
                   </p>
                   <div className="space-y-6">
                     {missions.map((mission, index) => {

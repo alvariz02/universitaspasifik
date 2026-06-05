@@ -79,7 +79,7 @@ export default function Footer() {
               </li>
               <li className="flex items-center gap-3">
                 <Mail className="h-5 w-5 text-unipas-accent shrink-0" />
-                <span>info@unipas.ac.id</span>
+                <span>unipasmorotai@univpasifik.ac.id</span>
               </li>
             </ul>
           </div>
