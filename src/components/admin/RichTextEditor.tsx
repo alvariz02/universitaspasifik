@@ -1,6 +1,7 @@
 'use client'
 
-import { useSyncExternalStore, useState, useRef } from 'react'
+import { useSyncExternalStore, useState, useRef, useEffect } from 'react'
+
 import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import Underline from '@tiptap/extension-underline'
@@ -68,10 +69,20 @@ export default function RichTextEditor({ value, onChange, placeholder = "Mulai m
     },
   })
 
-  // Sync external value changes into the editor
-  if (editor && value !== editor.getHTML()) {
-    editor.commands.setContent(value)
-  }
+  // Sync external value changes into the editor (MUST NOT run during render)
+  // TipTap will call `onUpdate` internally when content changes.
+  // We only set content when it actually differs to avoid update loops.
+
+  useEffect(() => {
+    if (!editor) return
+
+    const current = editor.getHTML()
+    if (value !== current) {
+      editor.commands.setContent(value)
+
+    }
+  }, [editor, value])
+
 
   if (!isClient) {
     return (

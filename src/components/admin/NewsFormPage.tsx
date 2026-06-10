@@ -205,6 +205,8 @@ export default function NewsFormPage({ initialData, onSubmit, title, subtitle, s
                 <SelectContent>
                   <SelectItem value="akademik">Akademik</SelectItem>
                   <SelectItem value="penelitian">Penelitian</SelectItem>
+                  <SelectItem value="alumni">Alumni</SelectItem>
+                  <SelectItem value="kerjasama">Kerja Sama</SelectItem>
                   <SelectItem value="pengabdian">Pengabdian</SelectItem>
                   <SelectItem value="kkn">KKN (Kuliah Kerja Nyata)</SelectItem>
                   <SelectItem value="umkm">UMKM (Pengembangan Usaha Kecil Menengah)</SelectItem>
