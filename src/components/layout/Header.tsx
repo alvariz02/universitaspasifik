@@ -202,7 +202,7 @@ export default function Header() {
                   </NavigationMenuContent>
                 </NavigationMenuItem>
 
-                <NavigationMenuItem>
+                {/* <NavigationMenuItem>
                   <NavigationMenuLink asChild>
                     <Link 
                       href="/penerimaan" 
@@ -211,11 +211,11 @@ export default function Header() {
                       Penerimaan
                     </Link>
                   </NavigationMenuLink>
-                </NavigationMenuItem>
+                </NavigationMenuItem> */}
 
                 <NavigationMenuItem>
                   <NavigationMenuTrigger className="font-bold text-unipas-primary hover:text-unipas-accent hover:bg-gradient-to-r hover:from-unipas-primary/10 hover:to-unipas-accent/10 px-6 py-3 rounded-xl transition-all duration-300 border border-transparent hover:border-unipas-accent/20">
-                    Penelitian & Prestasi
+                    Prestasi
                   </NavigationMenuTrigger>
                   <NavigationMenuContent className="absolute left-1/2 -translate-x-full top-full mt-2 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden">
                     <div className="grid gap-4 p-6 w-[500px]">
@@ -223,7 +223,7 @@ export default function Header() {
                         <NavigationMenuLink asChild>
                           <Link href="/penelitian" className="flex h-full w-full select-none flex-col justify-end rounded-2xl bg-gradient-to-br from-unipas-primary/10 to-unipas-accent/5 p-6 no-underline outline-none hover:from-unipas-primary/20 hover:to-unipas-accent/10 transition-all duration-300 group">
                             <div className="mb-2 mt-4 text-xl font-black text-unipas-primary">
-                              Penelitian & Inovasi
+                              Inovasi
                             </div>
                             <p className="text-sm leading-tight text-muted-foreground">
                               Temuan penelitian dan inovasi dari Unipas
@@ -232,10 +232,9 @@ export default function Header() {
                         </NavigationMenuLink>
                       </div>
                       {[
-                        { href: "/penelitian", label: "Penelitian", desc: "Kegiatan penelitian dan publikasi" },
                         { href: "/prestasi", label: "Prestasi", desc: "Prestasi mahasiswa dan dosen" },
-                        { href: "/video-kegiatan", label: "Video Kegiatan", desc: "Video dokumentasi kegiatan kampus" },
-                        { href: "/jurnal", label: "Jurnal Penelitian", desc: "Publikasi ilmiah dan jurnal penelitian" }
+                        { href: "/video-kegiatan", label: "Video Kegiatan", desc: "Video dokumentasi kegiatan kampus" }
+                  
                       ].map((item) => (
                         <NavigationMenuLink key={item.href} asChild>
                           <Link href={item.href} className="block select-none space-y-2 rounded-xl p-4 hover:bg-gradient-to-r hover:from-unipas-primary/10 hover:to-unipas-accent/10 transition-all duration-300 group">
@@ -252,25 +251,25 @@ export default function Header() {
 
                 <NavigationMenuItem>
                   <NavigationMenuTrigger className="font-bold text-unipas-primary hover:text-unipas-accent hover:bg-gradient-to-r hover:from-unipas-primary/10 hover:to-unipas-accent/10 px-6 py-3 rounded-xl transition-all duration-300 border border-transparent hover:border-unipas-accent/20">
-                    Pengabdian
+                    Lembaga
                   </NavigationMenuTrigger>
                   <NavigationMenuContent className="absolute left-1/2 -translate-x-full top-full mt-2 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden">
                     <div className="grid gap-4 p-6 w-[500px]">
                       <div className="col-span-2">
                         <NavigationMenuLink asChild>
-                          <Link href="/pengabdian" className="flex h-full w-full select-none flex-col justify-end rounded-2xl bg-gradient-to-br from-unipas-primary/10 to-unipas-accent/5 p-6 no-underline outline-none hover:from-unipas-primary/20 hover:to-unipas-accent/10 transition-all duration-300 group">
+                          <Link href="https://lppm.univpasifik.ac.id/" className="flex h-full w-full select-none flex-col justify-end rounded-2xl bg-gradient-to-br from-unipas-primary/10 to-unipas-accent/5 p-6 no-underline outline-none hover:from-unipas-primary/20 hover:to-unipas-accent/10 transition-all duration-300 group">
                             <div className="mb-2 mt-4 text-xl font-black text-unipas-primary">
-                              Pengabdian Masyarakat
+                              LPPM & LPM
                             </div>
                             <p className="text-sm leading-tight text-muted-foreground">
-                              Program pengabdian dan tanggung jawab sosial Unipas
+                              Lembaga untuk penelitian, pengabdian, dan pengembangan kampus
                             </p>
                           </Link>
                         </NavigationMenuLink>
                       </div>
                       {[
-                        { href: "/pengabdian", label: "Program Pengabdian", desc: "Kegiatan pengabdian kepada masyarakat" },
-                        { href: "/pengabdian#kemitraan", label: "Kemitraan", desc: "Jaringan kemitraan strategis" }
+                        { href: "https://lppm.univpasifik.ac.id/", label: "LPPM", desc: "Lembaga Penelitian dan Pengabdian kepada Masyarakat" },
+                        { href: "/pengabdian", label: "LPM", desc: "Lembaga Pengabdian dan Pengembangan" }
                       ].map((item) => (
                         <NavigationMenuLink key={item.href} asChild>
                           <Link href={item.href} className="block select-none space-y-2 rounded-xl p-4 hover:bg-gradient-to-r hover:from-unipas-primary/10 hover:to-unipas-accent/10 transition-all duration-300 group">
@@ -380,9 +379,9 @@ export default function Header() {
                       { href: "/video-kegiatan", label: "Video Kegiatan", desc: "Dokumentasi" },
                       { href: "/jurnal", label: "Jurnal Penelitian", desc: "Publikasi ilmiah" }
                     ]},
-                    { title: "Pengabdian", items: [
-                      { href: "/pengabdian", label: "Program Pengabdian", desc: "Kegiatan masyarakat" },
-                      { href: "/pengabdian#kemitraan", label: "Kemitraan", desc: "Jaringan strategis" }
+                    { title: "Lembaga", items: [
+                      { href: "/penelitian", label: "LPPM", desc: "Lembaga Penelitian dan Pengabdian kepada Masyarakat" },
+                      { href: "/pengabdian", label: "LPM", desc: "Lembaga Pengabdian dan Pengembangan" }
                     ]}
                   ].map((section) => (
                     <div key={section.title}>
