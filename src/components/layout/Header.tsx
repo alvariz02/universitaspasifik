@@ -296,6 +296,7 @@ export default function Header() {
             <Button
               variant="ghost"
               size="icon"
+              aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
               className="hover:bg-unipas-primary/10 rounded-xl"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             >

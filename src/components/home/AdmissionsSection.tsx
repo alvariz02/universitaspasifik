@@ -120,6 +120,7 @@ export default function AdmissionsSection({ admissions }: AdmissionsSectionProps
                       <button
                         key={idx}
                         onClick={() => setCurrentIndex(idx)}
+                        aria-label={`Slide ${idx + 1}`}
                         className={`w-3 h-3 rounded-full transition-all ${
                           idx === 0 ? 'bg-white w-8' : 'bg-white/50'
                         }`}

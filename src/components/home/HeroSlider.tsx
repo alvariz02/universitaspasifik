@@ -39,7 +39,7 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
 
   if (slides.length === 0) {
     return (
-      <div className="relative w-full h-[600px] md:h-[600px] lg:h-[600px] flex items-center justify-center bg-gradient-to-br from-unipas-primary/10 to-unipas-accent/10">
+      <div className="relative w-full h-150 md:h-150 lg:h-150 flex items-center justify-center bg-linear-to-br from-unipas-primary/10 to-unipas-accent/10">
         <div className="text-center">
           <Globe className="h-8 w-8 text-white" />
           <p className="text-gray-500 text-lg">Tidak ada slide tersedia</p>
@@ -93,10 +93,15 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
           className="absolute inset-0"
         >
           <div className="relative w-full h-full">
+            {/* LCP optimization: render the hero image eagerly with explicit sizing */}
             <img
               src={currentSlide.imageUrl}
               alt={currentSlide.title || 'Hero Slide'}
               className="w-full h-full object-cover"
+              fetchPriority="high"
+              decoding="async"
+              loading="eager"
+              style={{ maxWidth: '100%', height: '100%' }}
             />
             
             {/* Subtle Gradient Overlay for text readability */}
