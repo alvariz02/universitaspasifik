@@ -199,7 +199,7 @@ export default function NewAdmissionPage() {
               </Button>
               <Button 
                 type="submit" 
-                className="bg-linear-to-r from-unipas-primary to-unipas-accent text-white" 
+                className="bg-gradient-to-r from-unipas-primary to-unipas-accent text-white" 
                 disabled={submitting}
               >
                 {submitting ? 'Menyimpan...' : 'Simpan'}

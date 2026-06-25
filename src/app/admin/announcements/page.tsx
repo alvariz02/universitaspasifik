@@ -134,7 +134,7 @@ export default function AdminAnnouncementsPage() {
     <AdminLayout>
       <div className="p-6 bg-unipas-muted min-h-screen">
         <div className="mb-6">
-          <div className="bg-linear-to-r from-unipas-primary to-unipas-accent rounded-xl p-6 text-white shadow-lg mb-4">
+          <div className="bg-gradient-to-r from-unipas-primary to-unipas-accent rounded-xl p-6 text-white shadow-lg mb-4">
             <h1 className="text-3xl font-bold mb-2">
               Kelola Pengumuman
             </h1>

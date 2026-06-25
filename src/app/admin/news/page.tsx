@@ -97,9 +97,9 @@ export default function AdminNewsPage() {
       key: 'title',
       title: 'Judul',
       render: (value: any, row: any) => (
-        <div className="max-w-md">
-          <div className="font-medium">{value}</div>
-          <div className="text-sm text-muted-foreground truncate">{row.slug}</div>
+        <div className="max-w-[300px]">
+          <div className="font-medium truncate" title={value}>{value}</div>
+          <div className="text-sm text-muted-foreground truncate" title={row.slug}>{row.slug}</div>
         </div>
       ),
     },
@@ -133,18 +133,28 @@ export default function AdminNewsPage() {
   return (
     <AdminLayout>
       <div className="p-6 bg-unipas-muted min-h-screen">
-        <div className="mb-6">
-          <Button
-            onClick={() => router.push('/admin/news/create')}
-            className="bg-linear-to-r from-unipas-primary to-unipas-accent text-white hover:from-unipas-accent hover:to-unipas-primary shadow-lg hover:shadow-xl transition-all duration-300"
-          >
-            <Plus className="h-4 w-4 mr-2" />
-            Tambah Berita
-          </Button>
-          <p className="text-white/90">
-            Tambah, edit, atau hapus berita Universitas Pasifik Morotai
-          </p>
+        {/* Header Section */}
+        <div className="mb-6 bg-white rounded-xl p-6 shadow-lg">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div>
+              <h1 className="text-2xl font-bold text-unipas-primary mb-2">
+                Kelola Berita
+              </h1>
+              <p className="text-unipas-text/70">
+                Tambah, edit, atau hapus berita Universitas Pasifik Morotai
+              </p>
+            </div>
+            <Button
+              onClick={() => router.push('/admin/news/create')}
+              className="bg-gradient-to-r from-unipas-primary to-unipas-accent text-white hover:from-unipas-accent hover:to-unipas-primary shadow-lg hover:shadow-xl transition-all duration-300"
+            >
+              <Plus className="h-4 w-4 mr-2" />
+              Tambah Berita
+            </Button>
+          </div>
         </div>
+
+        {/* Data Table Section */}
         {loading ? (
           <div className="text-center py-8 bg-white rounded-xl shadow-lg">
             <div className="text-unipas-primary">Memuat data...</div>

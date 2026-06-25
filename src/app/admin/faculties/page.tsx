@@ -208,7 +208,7 @@ export default function AdminFacultiesPage() {
       <div className="min-h-screen bg-unipas-muted">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-8">
           <div className="mb-6">
-            <div className="bg-linear-to-r from-unipas-primary to-unipas-accent rounded-xl p-6 text-white shadow-lg mb-4">
+            <div className="bg-gradient-to-r from-unipas-primary to-unipas-accent rounded-xl p-6 text-white shadow-lg mb-4">
               <h1 className="text-3xl font-bold mb-2">
                 Kelola Fakultas
               </h1>

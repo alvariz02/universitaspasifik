@@ -242,9 +242,9 @@ export default function EditAchievementPage() {
               >
                 Batal
               </Button>
-              <Button 
-                type="submit" 
-                className="bg-linear-to-r from-unipas-primary to-unipas-accent text-white" 
+              <Button
+                type="submit"
+                className="bg-gradient-to-r from-unipas-primary to-unipas-accent text-white"
                 disabled={submitting}
               >
                 {submitting ? 'Menyimpan...' : 'Simpan Perubahan'}

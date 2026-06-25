@@ -137,7 +137,7 @@ export default function NewsForm() {
               </div>
 
               <div>
-                <Button type="submit" className="bg-linear-to-r from-unipas-primary to-unipas-accent text-white" disabled={submitting}>
+                <Button type="submit" className="bg-gradient-to-r from-unipas-primary to-unipas-accent text-white" disabled={submitting}>
                   {submitting ? 'Menyimpan...' : 'Simpan Berita'}
                 </Button>
               </div>

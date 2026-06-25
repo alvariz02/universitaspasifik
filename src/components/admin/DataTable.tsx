@@ -72,7 +72,7 @@ export default function DataTable({
           </div>
         )}
         {onAdd && (
-          <Button onClick={onAdd} className="bg-linear-to-r from-unipas-primary to-unipas-accent text-white hover:from-unipas-accent hover:to-unipas-primary shadow-lg hover:shadow-xl transition-all duration-300">
+          <Button onClick={onAdd} className="bg-gradient-to-r from-unipas-primary to-unipas-accent text-white hover:from-unipas-accent hover:to-unipas-primary shadow-lg hover:shadow-xl transition-all duration-300">
             <Plus className="h-4 w-4 mr-2" />
             {addButtonText}
           </Button>
@@ -81,14 +81,14 @@ export default function DataTable({
 
       {/* Table */}
       <div className="rounded-xl border border-unipas-primary/20 bg-white overflow-x-auto shadow-lg">
-        <div className="min-w-180">
+        <div className="min-w-[800px]">
           <Table>
           <TableHeader>
             <TableRow className="bg-unipas-muted">
               {columns.map((column) => (
-                <TableHead key={column.key} className="text-unipas-primary font-semibold">{column.title}</TableHead>
+                <TableHead key={column.key} className="text-unipas-primary font-semibold whitespace-nowrap">{column.title}</TableHead>
               ))}
-              <TableHead className="w-25 text-unipas-primary font-semibold">Aksi</TableHead>
+              <TableHead className="w-[100px] text-unipas-primary font-semibold whitespace-nowrap">Aksi</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -105,19 +105,19 @@ export default function DataTable({
               filteredData.map((row, index) => (
                 <TableRow key={row.id || index}>
                   {columns.map((column) => (
-                    <TableCell key={column.key}>
+                    <TableCell key={column.key} className="whitespace-nowrap">
                       {column.render ? (
                         column.render(row[column.key], row)
                       ) : (
                         typeof row[column.key] === 'string' && row[column.key].length > 60 ? (
-                          <div title={row[column.key]} className="truncate max-w-75">{row[column.key].slice(0, 60)}…</div>
+                          <div title={row[column.key]} className="truncate max-w-[200px]">{row[column.key].slice(0, 60)}…</div>
                         ) : (
                           String(row[column.key] ?? '')
                         )
                       )}
                     </TableCell>
                   ))}
-                  <TableCell>
+                  <TableCell className="whitespace-nowrap">
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
                         <Button variant="ghost" size="icon" className="h-8 w-8 hover:bg-unipas-accent/10">
