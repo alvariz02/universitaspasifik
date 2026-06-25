@@ -137,7 +137,7 @@ export default function VideoSection({ videos }: VideoSectionProps) {
               className="group relative cursor-pointer"
               onClick={() => handleVideoClick(video)}
             >
-              <div className="h-full bg-white/10 backdrop-blur-md rounded-3xl overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-500 border border-white/20 hover:border-red-500/30">
+              <div className="h-full bg-white/10 backdrop-blur-md rounded-3xl overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-500 border border-white/20 hover:border-red-500/30 card-item">
                 {/* Cinematic Thumbnail */}
                 <div className="relative aspect-video bg-gray-900">
                   {video.thumbnail ? (
@@ -284,6 +284,7 @@ export default function VideoSection({ videos }: VideoSectionProps) {
                       title={selectedVideo.title}
                       className="w-full h-full"
                       allowFullScreen
+                      loading="lazy"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     />
                   </motion.div>

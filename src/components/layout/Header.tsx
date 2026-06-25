@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { useState } from 'react'
 import { Menu, X, ChevronDown, MapPin, Phone, Mail, Globe, Zap } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -87,10 +88,13 @@ export default function Header() {
               >
                 <div className="absolute inset-0 bg-gradient-to-br from-unipas-primary to-unipas-accent rounded-2xl blur-lg opacity-20 group-hover:opacity-30 transition-opacity"></div>
                 <div className="relative bg-white rounded-2xl p-3 shadow-lg group-hover:shadow-xl transition-shadow">
-                  <img 
-                    src="/logo-unipas02.png" 
-                    alt="Unipas Logo" 
-                    className="h-12 w-12 object-contain"
+                  <Image
+                    src="/logo-unipas02.png"
+                    alt="Unipas Logo"
+                    width={48}
+                    height={48}
+                    className="object-contain"
+                    priority
                   />
                 </div>
               </motion.div>

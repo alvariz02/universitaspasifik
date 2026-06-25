@@ -123,4 +123,25 @@
   line-clamp: 3;
 }
 
+/* CSS Containment for performance optimization */
+.contain-layout {
+  contain: layout;
+}
+
+.contain-style {
+  contain: style;
+}
+
+.contain-paint {
+  contain: paint;
+}
+
+.contain-all {
+  contain: layout style paint;
+}
+
+/* Apply containment to common card elements */
+.card-item {
+  contain: layout style paint;
+}
 

@@ -108,5 +108,17 @@
     "@tailwindcss/typography": "^0.5.15",
     "tw-animate-css": "^1.3.5",
     "typescript": "^5"
+  },
+  "browserslist": {
+    "production": [
+      "last 2 versions",
+      "not dead",
+      "not ie 11",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 version",
+      "not dead"
+    ]
   }
 }

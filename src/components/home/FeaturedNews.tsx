@@ -68,7 +68,7 @@ export default function FeaturedNews({ news }: FeaturedNewsProps) {
           {/* Featured News - Span 2 columns and 2 rows on large screens */}
           {featuredNews && (
             <div className="lg:col-span-2 lg:row-span-2 group relative">
-              <div className="h-full bg-white/90 backdrop-blur-md rounded-3xl overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-500 border border-white/50 hover:border-unipas-primary/30 cursor-pointer">
+              <div className="h-full bg-white/90 backdrop-blur-md rounded-3xl overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-500 border border-white/50 hover:border-unipas-primary/30 cursor-pointer card-item">
                 {/* Animated Background */}
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                   <div className="absolute inset-0 bg-gradient-to-br from-unipas-primary/5 to-unipas-accent/5"></div>
@@ -155,7 +155,7 @@ export default function FeaturedNews({ news }: FeaturedNewsProps) {
               className="group relative cursor-pointer"
               onClick={() => window.location.href = `/berita/${newsItem.slug}`}
             >
-              <div className="h-full bg-white/90 backdrop-blur-md rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 border border-white/50 hover:border-unipas-primary/30">
+              <div className="h-full bg-white/90 backdrop-blur-md rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 border border-white/50 hover:border-unipas-primary/30 card-item">
                 {/* Animated Background */}
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                   <div className="absolute inset-0 bg-gradient-to-br from-unipas-primary/5 to-unipas-accent/5"></div>

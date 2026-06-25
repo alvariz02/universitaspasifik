@@ -37,7 +37,7 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
 
   if (slides.length === 0) {
     return (
-      <div className="relative w-full h-150 md:h-150 lg:h-150 flex items-center justify-center bg-linear-to-br from-unipas-primary/10 to-unipas-accent/10">
+      <div className="relative w-full h-[400px] md:h-[500px] lg:h-[400px] flex items-center justify-center bg-gradient-to-br from-unipas-primary/10 to-unipas-accent/10">
         <div className="text-center">
           <Globe className="h-8 w-8 text-white" />
           <p className="text-gray-500 text-lg">Tidak ada slide tersedia</p>

@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { Facebook, Twitter, Instagram, Linkedin, Youtube, Mail, Phone, MapPin, Calendar } from 'lucide-react'
 
 export default function Footer() {
@@ -9,10 +10,12 @@ export default function Footer() {
           {/* Column 1: About Unipas */}
           <div className="space-y-4">
             <div className="flex items-center gap-3 mb-4">
-              <img 
-                src="/logo-unipas.jpeg" 
-                alt="Universitas Pasifik Morotai" 
-                className="h-12 w-12 rounded-lg object-cover"
+              <Image
+                src="/logo-unipas.jpeg"
+                alt="Universitas Pasifik Morotai"
+                width={48}
+                height={48}
+                className="rounded-lg object-cover"
               />
               <div>
                 <h3 className="text-lg font-bold">Universitas Pasifik Morotai</h3>

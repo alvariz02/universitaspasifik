@@ -7,7 +7,11 @@ import { useCache } from '@/hooks/useCache'
 
 // Dynamic imports for heavy components with animations
 const HeroSlider = dynamic(() => import('@/components/home/HeroSlider'), {
-  loading: () => <div className="h-96 bg-gray-100 animate-pulse" />,
+  loading: () => (
+    <div className="relative w-full h-[400px] md:h-[500px] lg:h-[400px] bg-gradient-to-br from-unipas-primary/10 to-unipas-accent/10 flex items-center justify-center">
+      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-unipas-primary"></div>
+    </div>
+  ),
   ssr: true
 })
 
@@ -72,6 +76,8 @@ async function fetchHomeData() {
     ])
 
     const slidersData = slidersRes.ok ? await slidersRes.json() : { sliders: [] }
+    console.log('🎠 Raw sliders API response:', slidersData)
+    console.log('🎠 Sliders count:', slidersData.sliders?.length || 0)
     const statisticsData = statisticsRes.ok ? await statisticsRes.json() : []
     const newsData = newsRes.ok ? await newsRes.json() : { news: [] }
     const eventsData = eventsRes.ok ? await eventsRes.json() : []
