@@ -1,7 +1,6 @@
 'use client'
 
 import React from 'react'
-import { motion } from 'framer-motion'
 import {
   Users,
   Building2,
@@ -43,52 +42,21 @@ export default function QuickStats({ statistics }: QuickStatsProps) {
   }
 
   return (
-    <section className="relative py-5 bg-black text-white overflow-hidden">
+    <section className="relative py-5 bg-black text-white overflow-hidden min-h-[200px]">
 
       {/* Background Glow */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(79,70,229,0.25),transparent_40%),radial-gradient(circle_at_80%_70%,rgba(14,165,233,0.25),transparent_40%)]"></div>
 
       <div className="relative max-w-7xl mx-auto px-6">
 
-        {/* Header
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-24"
-        >
-          <h2 className="text-5xl md:text-6xl font-bold tracking-tight bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent">
-            Prestasi dalam Angka
-          </h2>
-          <p className="mt-6 text-lg text-gray-400 max-w-2xl mx-auto">
-            Representasi visual kekuatan dan pertumbuhan Universitas Pasifik Morotai.
-          </p>
-        </motion.div> */}
-
         {/* Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
 
           {statistics.map((stat, index) => (
-            <motion.div
-              key={stat.id}
-              initial={{ opacity: 0, y: 60 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.2, duration: 0.7 }}
-              whileHover={{ y: -15 }}
-              className="group relative"
-            >
+            <div key={stat.id} className="group relative">
 
               {/* Card */}
               <div className="relative bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-10 text-center overflow-hidden transition-all duration-500 hover:border-indigo-500/40 hover:shadow-[0_0_40px_rgba(99,102,241,0.3)]">
-
-                {/* Animated Glow Orb */}
-                <motion.div
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                  className="absolute -top-16 -right-16 w-40 h-40 bg-gradient-to-br from-indigo-500 to-cyan-500 opacity-20 blur-3xl rounded-full"
-                />
 
                 {/* Icon Orb */}
                 <div className="relative flex justify-center mb-8">
@@ -131,24 +99,10 @@ export default function QuickStats({ statistics }: QuickStatsProps) {
                 )}
 
               </div>
-            </motion.div>
+            </div>
           ))}
 
         </div>
-
-        {/* CTA
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 1 }}
-          className="mt-24 text-center"
-        >
-          <button className="inline-flex items-center gap-3 px-10 py-4 bg-gradient-to-r from-indigo-500 to-cyan-500 text-white rounded-full font-semibold shadow-lg hover:shadow-[0_0_30px_rgba(99,102,241,0.6)] hover:scale-105 transition-all duration-300">
-            Jelajahi Lebih Banyak
-            <ArrowUpRight className="h-5 w-5" />
-          </button>
-        </motion.div> */}
 
       </div>
     </section>
