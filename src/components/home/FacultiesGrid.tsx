@@ -6,8 +6,10 @@ import { Building2, ArrowRight, GraduationCap, Users, Calendar, ChevronDown } fr
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { motion } from 'framer-motion'
+import Image from 'next/image'
 
 interface Faculty {
+
   id: number
   name: string
   slug: string
@@ -262,11 +264,15 @@ export default function FacultiesGrid({ faculties: initialFaculties }: Faculties
                   {/* Faculty Image */}
                   {faculty.imageUrl && (
                     <div className="relative aspect-video overflow-hidden">
-                      <img
+                      <Image
                         src={faculty.imageUrl}
                         alt={faculty.name}
+                        fill
+                        sizes="(max-width: 768px) 100vw, 33vw"
                         className="object-cover w-full h-full group-hover:scale-110 transition-transform duration-700"
+                        priority={false}
                       />
+
                       
                       {/* Glass Morphism Overlay with Faculty Color */}
                       <div className={`absolute inset-0 bg-gradient-to-t ${facultyColor} opacity-60 group-hover:opacity-70 transition-opacity duration-500`}></div>

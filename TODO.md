@@ -1,11 +1,19 @@
-# TODO
+# TODO - Performa Homepage (LCP/CLS/TTFB)
 
-- [x] Install `@vercel/analytics`
+## Step 1 (selesai)
+- [x] `src/app/page.tsx`: hapus `dynamic = 'force-dynamic'` dan ganti dengan `revalidate = 3600`.
 
-- [x] Update `src/app/layout.tsx`: tambahkan import `Analytics` dan render `<Analytics />` di dalam `<body>`
+## Step 2 (selesai)
+- [x] `src/components/home/FeaturedNews.tsx`: ganti `<img>` → `next/image` (gunakan `fill` + container `aspect-video`).
 
-- [x] Jalankan `npm run lint` (opsional) untuk memastikan tidak ada error
+## Step 3 (selesai)
+- [x] `src/components/home/FacultiesGrid.tsx`: ganti `<img>` → `next/image` (gunakan `fill` + container `aspect-video`).
 
-- [ ] Commit & push perubahan ke GitHub
-- [ ] Cek Vercel Dashboard: Project UNIPAS → Analytics
+## Step 4 (selesai)
+- [x] Build & lint sukses.
+
+## Step 5 (berikutnya yang disarankan)
+- [ ] Jalankan `next dev` lalu cek Vercel Speed Insights untuk metrik LCP & CLS setelah perubahan.
+- [ ] Jika masih tinggi: kurangi client hydration (pindahkan fetch home dari client ke server) dan tambah skeleton/height untuk section atas.
+
 

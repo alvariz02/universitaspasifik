@@ -8,6 +8,8 @@ import { format } from 'date-fns'
 import { id } from 'date-fns/locale'
 import { motion } from 'framer-motion'
 import ShareButton from '@/components/ShareButton'
+import Image from 'next/image'
+
 
 interface News {
   id: number
@@ -126,11 +128,15 @@ export default function FeaturedNews({ news }: FeaturedNewsProps) {
 
                 {featuredNews.imageUrl && (
                   <div className="relative aspect-video overflow-hidden">
-                    <img
+                    <Image
                       src={featuredNews.imageUrl}
                       alt={featuredNews.title}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 25vw"
                       className="object-cover w-full h-full group-hover:scale-110 transition-transform duration-700"
+                      priority={false}
                     />
+
                     
                     {/* Glass Morphism Overlay */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
@@ -252,11 +258,15 @@ export default function FeaturedNews({ news }: FeaturedNewsProps) {
 
                 {newsItem.imageUrl && (
                   <div className="relative aspect-video overflow-hidden">
-                    <img
+                    <Image
                       src={newsItem.imageUrl}
                       alt={newsItem.title}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 20vw"
                       className="object-cover w-full h-full group-hover:scale-110 transition-transform duration-700"
+                      priority={false}
                     />
+
                     
                     {newsItem.category && (
                       <motion.div

@@ -149,24 +149,26 @@ export default function FileUpload({
   }
 
   return (
-    <div className={`space-y-3 ${className}`}>
-      <Label>Upload Gambar</Label>
+    <div className={`space-y-4 ${className}`}>
+      <Label className="text-base font-semibold">Upload Gambar</Label>
       
       {/* Preview */}
       {preview && (
-        <div className="relative">
-          <img 
-            src={preview} 
-            alt="Preview" 
-            className="w-full h-48 object-cover rounded-lg border"
-          />
-          <div className="absolute top-2 right-2 flex gap-2">
+        <div className="relative group">
+          <div className="relative w-full h-64 bg-gray-100 rounded-lg overflow-hidden border-2 border-gray-200">
+            <img 
+              src={preview} 
+              alt="Preview" 
+              className="w-full h-full object-cover"
+            />
+          </div>
+          <div className="absolute top-3 right-3 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
             <Button
               type="button"
               variant="outline"
               size="sm"
               onClick={() => fileInputRef.current?.click()}
-              className="bg-white/90 hover:bg-white"
+              className="bg-white shadow-md hover:bg-gray-50"
             >
               <Upload className="h-4 w-4 mr-1" />
               Ganti
@@ -176,6 +178,7 @@ export default function FileUpload({
               variant="destructive"
               size="sm"
               onClick={handleRemove}
+              className="shadow-md"
             >
               <X className="h-4 w-4" />
             </Button>
@@ -198,7 +201,7 @@ export default function FileUpload({
           variant="outline"
           onClick={() => fileInputRef.current?.click()}
           disabled={isUploading}
-          className="flex items-center gap-2"
+          className="flex items-center gap-2 h-10 px-4 border-2"
         >
           {isUploading ? (
             <>Mengupload...</>
@@ -216,8 +219,8 @@ export default function FileUpload({
 
       {/* URL Input with Upload Button */}
       {!preview && (
-        <div className="space-y-2">
-          <Label htmlFor="imageUrl" className="text-sm text-muted-foreground">
+        <div className="space-y-3">
+          <Label htmlFor="imageUrl" className="text-sm font-medium text-muted-foreground">
             Atau masukkan URL gambar:
           </Label>
           <div className="flex gap-2">
@@ -227,14 +230,14 @@ export default function FileUpload({
               placeholder="https://example.com/image.jpg"
               value={value || ""}
               onChange={(e) => handleUrlChange(e.target.value)}
-              className="flex-1"
+              className="flex-1 h-10"
             />
             <Button
               type="button"
               variant="outline"
               onClick={() => uploadUrlToCloudinary(value || '')}
               disabled={isUploading || !value}
-              className="whitespace-nowrap"
+              className="whitespace-nowrap h-10 px-4 border-2"
             >
               {isUploading ? 'Mengupload...' : 'Upload URL'}
             </Button>
@@ -247,7 +250,9 @@ export default function FileUpload({
 
       {/* Error Message */}
       {error && (
-        <p className="text-red-500 text-sm">{error}</p>
+        <div className="bg-red-50 border border-red-200 rounded-lg p-3">
+          <p className="text-red-600 text-sm font-medium">{error}</p>
+        </div>
       )}
     </div>
   )
