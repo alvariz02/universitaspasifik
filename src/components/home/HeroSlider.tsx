@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { ArrowRight, Globe } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { motion } from 'framer-motion'
@@ -25,6 +26,7 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
 
   useEffect(() => {
     if (isPaused) return
+    if (!slides.length) return
 
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % slides.length)
@@ -32,10 +34,6 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
 
     return () => clearInterval(interval)
   }, [isPaused, slides.length])
-
-  const goToSlide = (index: number) => {
-    setCurrentIndex(index)
-  }
 
   if (slides.length === 0) {
     return (
@@ -49,6 +47,7 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
   }
 
   const currentSlide = slides[currentIndex]
+  const isFirstSlide = currentIndex === 0
 
   return (
     <section className="relative w-full h-[400px] md:h-[500px] lg:h-[400px] overflow-hidden">
@@ -56,25 +55,25 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-20 -right-20 w-40 h-40 bg-unipas-primary/10 rounded-full"></div>
         <div className="absolute -bottom-20 -left-20 w-32 h-32 bg-unipas-accent/10 rounded-full"></div>
-        
-        {/* Floating Particles */}
-        {[...Array(8)].map((_, i) => (
+
+        {/* Floating Particles (keep lightweight) */}
+        {[...Array(6)].map((_, i) => (
           <motion.div
             key={i}
             animate={{
-              y: [0, -20, 0],
-              opacity: [0.2, 0.5, 0.2],
+              y: [0, -16, 0],
+              opacity: [0.2, 0.45, 0.2],
             }}
             transition={{
-              duration: 4 + i * 0.5,
+              duration: 5 + i * 0.6,
               repeat: Infinity,
-              ease: "easeInOut"
+              ease: 'easeInOut',
             }}
             className="absolute w-2 h-2 bg-unipas-primary/20 rounded-full"
             style={{
-              left: `${5 + i * 12}%`,
-              top: `${10 + (i % 4) * 20}%`,
-              animationDelay: `${i * 0.3}s`
+              left: `${6 + i * 11}%`,
+              top: `${12 + (i % 3) * 22}%`,
+              animationDelay: `${i * 0.25}s`,
             }}
           />
         ))}
@@ -85,72 +84,39 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
       >
-        <motion.div
-          key={currentIndex}
-          initial={{ opacity: 0, scale: 1.1 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1, ease: "easeOut" }}
-          className="absolute inset-0"
-        >
-          <div className="relative w-full h-full">
-            {/* LCP optimization: render the hero image eagerly with explicit sizing */}
-            <img
-              src={currentSlide.imageUrl}
-              alt={currentSlide.title || 'Hero Slide'}
-              className="w-full h-full object-cover"
-              fetchPriority="high"
-              decoding="async"
-              loading="eager"
-              style={{ maxWidth: '100%', height: '100%' }}
-            />
-            
-            {/* Subtle Gradient Overlay for text readability */}
-            <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-black/20 to-transparent"></div>
-            <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent"></div>
-          </div>
-        </motion.div>
+        {/* Background image: use next/image for better optimization + LCP */}
+        <div className="absolute inset-0">
+          <Image
+            src={currentSlide.imageUrl}
+            alt={currentSlide.title || 'Hero Slide'}
+            fill
+            priority={isFirstSlide}
+            sizes="100vw"
+            className="object-cover"
+          />
+
+          {/* Subtle Gradient Overlay for text readability */}
+          <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-black/20 to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent"></div>
+        </div>
+
 
         {/* Content */}
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="w-full max-w-6xl px-4">
             <motion.div
               key={currentIndex}
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.3, duration: 0.8, ease: "easeOut" }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.35, ease: 'easeOut' }}
               className="text-center space-y-8"
             >
-              {/* {currentSlide.title && (
-                <motion.h1
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.4, duration: 0.6 }}
-                  className="text-4xl md:text-5xl lg:text-7xl font-black leading-tight"
-                >
-                  <span className="bg-gradient-to-r from-white via-blue-100 to-cyan-200 bg-clip-text text-transparent drop-shadow-2xl">
-                    {currentSlide.title}
-                  </span>
-                </motion.h1>
-              )}
-              
-              {currentSlide.subtitle && (
-                <motion.p
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.6, duration: 0.6 }}
-                  className="text-lg md:text-xl lg:text-2xl leading-relaxed"
-                >
-                  <span className="bg-gradient-to-r from-white/95 via-blue-50 to-cyan-100/90 bg-clip-text text-transparent drop-shadow-lg">
-                    {currentSlide.subtitle}
-                  </span>
-                </motion.p>
-              )} */}
-              
+
               {currentSlide.linkUrl && currentSlide.linkText && (
                 <motion.div
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0, y: 14 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.8, duration: 0.6 }}
+                  transition={{ delay: 0.2, duration: 0.45, ease: 'easeOut' }}
                 >
                   <Link href={currentSlide.linkUrl}>
                     <Button
@@ -168,11 +134,8 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
             </motion.div>
           </div>
         </div>
-
-        {/* Modern Dots - REMOVED */}
-        {/* Auto-play only - no manual controls */}
-
       </div>
     </section>
   )
 }
+
