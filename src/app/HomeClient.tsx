@@ -1,18 +1,60 @@
 'use client'
 
+import dynamic from 'next/dynamic'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
-import HeroSlider from '@/components/home/HeroSlider'
-import QuickStats from '@/components/home/QuickStats'
-import FeaturedNews from '@/components/home/FeaturedNews'
-import UpcomingEvents from '@/components/home/UpcomingEvents'
-import Announcements from '@/components/home/Announcements'
-import Achievements from '@/components/home/Achievements'
-import FacultiesGrid from '@/components/home/FacultiesGrid'
-import VideoSection from '@/components/home/VideoSection'
-import AdmissionsSection from '@/components/home/AdmissionsSection'
-import CTASection from '@/components/home/CTASection'
 import { useCache } from '@/hooks/useCache'
+
+// Dynamic imports for heavy components with animations
+const HeroSlider = dynamic(() => import('@/components/home/HeroSlider'), {
+  loading: () => <div className="h-96 bg-gray-100 animate-pulse" />,
+  ssr: true
+})
+
+const QuickStats = dynamic(() => import('@/components/home/QuickStats'), {
+  loading: () => <div className="h-32 bg-gray-100 animate-pulse" />,
+  ssr: true
+})
+
+const FeaturedNews = dynamic(() => import('@/components/home/FeaturedNews'), {
+  loading: () => <div className="h-96 bg-gray-100 animate-pulse" />,
+  ssr: false // Disable SSR for component with heavy animations
+})
+
+const UpcomingEvents = dynamic(() => import('@/components/home/UpcomingEvents'), {
+  loading: () => <div className="h-96 bg-gray-100 animate-pulse" />,
+  ssr: false
+})
+
+const Announcements = dynamic(() => import('@/components/home/Announcements'), {
+  loading: () => <div className="h-64 bg-gray-100 animate-pulse" />,
+  ssr: false
+})
+
+const Achievements = dynamic(() => import('@/components/home/Achievements'), {
+  loading: () => <div className="h-96 bg-gray-100 animate-pulse" />,
+  ssr: false
+})
+
+const FacultiesGrid = dynamic(() => import('@/components/home/FacultiesGrid'), {
+  loading: () => <div className="h-64 bg-gray-100 animate-pulse" />,
+  ssr: true
+})
+
+const VideoSection = dynamic(() => import('@/components/home/VideoSection'), {
+  loading: () => <div className="h-64 bg-gray-100 animate-pulse" />,
+  ssr: false
+})
+
+const AdmissionsSection = dynamic(() => import('@/components/home/AdmissionsSection'), {
+  loading: () => <div className="h-96 bg-gray-100 animate-pulse" />,
+  ssr: false
+})
+
+const CTASection = dynamic(() => import('@/components/home/CTASection'), {
+  loading: () => <div className="h-32 bg-gray-100 animate-pulse" />,
+  ssr: true
+})
 
 async function fetchHomeData() {
   try {
