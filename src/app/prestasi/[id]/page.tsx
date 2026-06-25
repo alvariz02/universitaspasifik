@@ -193,9 +193,10 @@ export default async function PrestasiDetailPage({ params }: PageProps) {
 
                 {/* Description */}
                 {achievement.description && (
-                  <div className="prose prose-lg max-w-none text-gray-800 leading-relaxed">
-                    <p className="whitespace-pre-wrap">{achievement.description}</p>
-                  </div>
+                  <div
+                    className="prose prose-lg max-w-none text-gray-800 leading-relaxed"
+                    dangerouslySetInnerHTML={{ __html: achievement.description }}
+                  />
                 )}
               </div>
 

@@ -1,12 +1,14 @@
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
-import AchievementCard from '@/components/cards/AchievementCard'
+import HomeAchievementCard from '@/components/cards/HomeAchievementCard'
 import { Trophy, Medal, Award } from 'lucide-react'
 import { db } from '@/lib/db'
+
 
 export const dynamic = 'force-dynamic'
 
 async function getAchievements() {
+
   try {
     const achievements = await db.achievement.findMany({
       orderBy: {
@@ -25,29 +27,9 @@ async function getAchievements() {
 export default async function PrestasiPage() {
   const achievements = await getAchievements()
 
-  const getLevelColor = (level: string) => {
-    switch (level?.toLowerCase()) {
-      case 'internasional':
-        return 'bg-yellow-100 text-yellow-800 border-yellow-300'
-      case 'nasional':
-        return 'bg-blue-100 text-blue-800 border-blue-300'
-      case 'regional':
-        return 'bg-green-100 text-green-800 border-green-300'
-      default:
-        return 'bg-gray-100 text-gray-800 border-gray-300'
-    }
-  }
 
-  const getCategoryIcon = (category: string) => {
-    switch (category?.toLowerCase()) {
-      case 'akademik':
-        return <Trophy className="h-6 w-6" />
-      case 'olahraga':
-        return <Medal className="h-6 w-6" />
-      default:
-        return <Award className="h-6 w-6" />
-    }
-  }
+
+
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -132,8 +114,10 @@ export default async function PrestasiPage() {
               <div className="max-w-6xl mx-auto">
                 <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                   {achievements.map((achievement: any) => (
-                    <AchievementCard
+                    <HomeAchievementCard
                       key={achievement.id}
+                      id={achievement.id}
+
                       title={achievement.title}
                       description={achievement.description}
                       achieverName={achievement.achieverName}

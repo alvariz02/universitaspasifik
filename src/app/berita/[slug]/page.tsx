@@ -221,7 +221,7 @@ export default async function BeritaDetailPage({
                 )}
 
                 <div
-                  className="text-gray-800 leading-relaxed space-y-4"
+                  className="prose prose-lg max-w-none text-gray-800 leading-relaxed space-y-4"
                   dangerouslySetInnerHTML={{ __html: news.content }}
                 />
               </div>
