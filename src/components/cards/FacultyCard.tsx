@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { Building2, Users, ArrowRight } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -26,10 +27,13 @@ export default function FacultyCard({
     <Link href={`/fakultas/${slug}`}>
       <Card className="group overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer border-2 hover:border-ui-yellow h-full flex flex-col">
         {imageUrl && (
-          <div className="aspect-video overflow-hidden">
-            <img
+          <div className="aspect-video overflow-hidden relative">
+            <Image
               src={imageUrl}
               alt={name}
+              fill
+              sizes="(max-width: 768px) 100vw, 33vw"
+              quality={75}
               className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
             />
           </div>

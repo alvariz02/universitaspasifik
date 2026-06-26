@@ -2,6 +2,7 @@
 
 import { ArrowRight, Calendar, MapPin, Clock, Users } from 'lucide-react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { format } from 'date-fns'
@@ -77,9 +78,12 @@ export default function UpcomingEvents({ events }: UpcomingEventsProps) {
                 {/* Event Image */}
                 {event.imageUrl && (
                   <div className="relative aspect-video overflow-hidden">
-                    <img
+                    <Image
                       src={event.imageUrl}
                       alt={event.title}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                      quality={75}
                       className="object-cover w-full h-full group-hover:scale-110 transition-transform duration-700"
                     />
                     

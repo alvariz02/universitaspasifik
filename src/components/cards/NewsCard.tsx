@@ -1,6 +1,7 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
+import Image from 'next/image'
 import { format } from 'date-fns'
 import { id } from 'date-fns/locale'
 import { Calendar, User, ArrowRight } from 'lucide-react'
@@ -38,9 +39,12 @@ export default function NewsCard({
     >
       {imageUrl && (
         <div className="relative aspect-video overflow-hidden">
-          <img
+          <Image
             src={imageUrl}
             alt={title}
+            fill
+            sizes="(max-width: 768px) 100vw, 33vw"
+            quality={75}
             className="object-cover w-full h-full group-hover:scale-110 transition-transform duration-500"
           />
           {category && (

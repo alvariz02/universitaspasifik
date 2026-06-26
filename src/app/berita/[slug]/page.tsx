@@ -9,6 +9,7 @@ import { id } from 'date-fns/locale'
 import { db } from '@/lib/db'
 import ShareButton from '@/components/ShareButton'
 import { Metadata } from 'next'
+import Image from 'next/image'
 
 async function getNewsBySlug(slug: string) {
   try {
@@ -204,11 +205,17 @@ export default async function BeritaDetailPage({
               {/* Featured Image */}
               {news.imageUrl && (
                 <div className="mb-8 rounded-lg overflow-hidden">
-                  <img
-                    src={news.imageUrl}
-                    alt={news.title}
-                    className="w-full h-auto object-cover"
-                  />
+                  <div className="relative w-full h-[420px] md:h-[520px]">
+                    <Image
+                      src={news.imageUrl}
+                      alt={news.title}
+                      fill
+                      priority
+                      sizes="(max-width: 768px) 100vw, 800px"
+                      quality={75}
+                      className="object-cover"
+                    />
+                  </div>
                 </div>
               )}
 

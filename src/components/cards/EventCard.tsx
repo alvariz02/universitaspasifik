@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { format } from 'date-fns'
 import { id } from 'date-fns/locale'
 import { MapPin, Clock, Calendar as CalendarIcon } from 'lucide-react'
@@ -34,9 +35,12 @@ export default function EventCard({
       <Card className="group overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer border-2 hover:border-ui-yellow h-full flex flex-col">
       {imageUrl && (
         <div className="relative aspect-video overflow-hidden">
-          <img
+          <Image
             src={imageUrl}
             alt={title}
+            fill
+            sizes="(max-width: 768px) 100vw, 33vw"
+            quality={75}
             className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
           />
           <div className="absolute top-4 left-4 bg-ui-navy text-white p-3 rounded-lg text-center min-w-[70px]">

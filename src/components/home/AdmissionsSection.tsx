@@ -108,7 +108,7 @@ export default function AdmissionsSection({ admissions }: AdmissionsSectionProps
 
                 {/* Status Badge */}
                 <div className="absolute top-6 left-6">
-                  <span className="bg-green-500 text-white px-4 py-2 rounded-full text-sm font-semibold shadow-lg">
+<span className="bg-green-800 text-white px-4 py-2 rounded-full text-sm font-semibold shadow-lg">
                     Dibuka
                   </span>
                 </div>

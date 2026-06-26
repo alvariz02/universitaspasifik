@@ -30,7 +30,7 @@ export default function Footer() {
 
           {/* Column 2: Quick Links */}
           <div>
-            <h3 className="text-lg font-bold mb-4 text-unipas-accent">Tautan Cepat</h3>
+            <h3 className="text-lg font-bold mb-4 text-white">Tautan Cepat</h3>
             <ul className="space-y-2 text-sm">
               <li>
                 <Link href="/fakultas" className="text-gray-300 hover:text-unipas-accent transition-colors">
@@ -67,13 +67,13 @@ export default function Footer() {
 
           {/* Column 3: Contact Info */}
           <div>
-            <h3 className="text-lg font-bold mb-4 text-unipas-accent">Kontak Kami</h3>
+            <h3 className="text-lg font-bold mb-4 text-white">Kontak Kami</h3>
             <ul className="space-y-3 text-sm text-gray-300">
               <li className="flex items-start gap-3">
                 <MapPin className="h-5 w-5 text-unipas-accent shrink-0 mt-0.5" />
                 <div>
                   <p className="font-medium">Kampus Morotai</p>
-                  <p className="text-gray-400">Jln. A. Sudirman, Lemonade, Daruba, Morotai Selatan.</p>
+<p className="text-gray-200">Jln. A. Sudirman, Lemonade, Daruba, Morotai Selatan.</p>
                 </div>
               </li>
               <li className="flex items-center gap-3">
@@ -89,7 +89,7 @@ export default function Footer() {
 
           {/* Column 4: Social Media & Newsletter */}
           <div>
-            <h3 className="text-lg font-bold mb-4 text-unipas-accent">Ikuti Kami</h3>
+<h3 className="text-lg font-bold mb-4 text-white">Ikuti Kami</h3>
             <div className="flex gap-3 mb-6">
               <a
                 href="https://facebook.com/unipas"
@@ -158,19 +158,19 @@ export default function Footer() {
       {/* Bottom Bar */}
       <div className="border-t border-white/10">
         <div className="container mx-auto px-4 py-4">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-gray-400">
+<div className="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-gray-200">
             <p>© {new Date().getFullYear()} Universitas Pasifik Morotai. Hak Cipta Dilindungi.</p>
             <div className="flex gap-6 flex-wrap">
-              <Link href="/login" className="hover:text-white transition-colors">
+<Link href="/login" className="text-gray-200 hover:text-white transition-colors">
                 Login Admin
               </Link>
-              <Link href="/privasi" className="hover:text-white transition-colors">
+<Link href="/privasi" className="text-gray-200 hover:text-white transition-colors">
                 Kebijakan Privasi
               </Link>
-              <Link href="/syarat" className="hover:text-white transition-colors">
+<Link href="/syarat" className="text-gray-200 hover:text-white transition-colors">
                 Syarat & Ketentuan
               </Link>
-              <Link href="/sitemaps" className="hover:text-white transition-colors">
+<Link href="/sitemaps" className="text-gray-200 hover:text-white transition-colors">
                 Peta Situs
               </Link>
             </div>

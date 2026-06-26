@@ -1,6 +1,7 @@
 import { Award, Trophy, Medal } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
+import Image from 'next/image'
 import { format } from 'date-fns'
 import { id } from 'date-fns/locale'
 
@@ -55,12 +56,15 @@ export default function AchievementCard({
     <Card className="hover:shadow-xl transition-all duration-300 border-2 hover:border-ui-yellow overflow-hidden">
       {imageUrl && (
         <div className="aspect-video overflow-hidden relative">
-          <img
+          <Image
             src={imageUrl}
             alt={title}
+            fill
+            sizes="(max-width: 768px) 100vw, 33vw"
+            quality={75}
             className="object-cover w-full h-full"
           />
-          <div className="absolute inset-0 bg-linear-to-t from-ui-navy/80 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-ui-navy/80 to-transparent" />
           <div className="absolute bottom-4 left-4 right-4">
             {level && (
               <Badge className={getLevelColor(level)}>

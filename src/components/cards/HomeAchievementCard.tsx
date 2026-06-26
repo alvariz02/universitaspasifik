@@ -3,6 +3,7 @@
 import { Badge } from '@/components/ui/badge'
 import { Trophy, Award, Medal, Star } from 'lucide-react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { format } from 'date-fns'
 import { id as localeId } from 'date-fns/locale'
 
@@ -72,9 +73,12 @@ export default function HomeAchievementCard({
 
         {imageUrl && (
           <div className="relative aspect-video overflow-hidden">
-            <img
+            <Image
               src={imageUrl}
               alt={title}
+              fill
+              sizes="(max-width: 768px) 100vw, 25vw"
+              quality={75}
               className="object-cover w-full h-full group-hover:scale-110 transition-transform duration-700"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />

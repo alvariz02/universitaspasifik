@@ -1,19 +1,9 @@
-# TODO - Performa Homepage (LCP/CLS/TTFB)
+# TODO - Accessibility fixes
 
-## Step 1 (selesai)
-- [x] `src/app/page.tsx`: hapus `dynamic = 'force-dynamic'` dan ganti dengan `revalidate = 3600`.
-
-## Step 2 (selesai)
-- [x] `src/components/home/FeaturedNews.tsx`: ganti `<img>` → `next/image` (gunakan `fill` + container `aspect-video`).
-
-## Step 3 (selesai)
-- [x] `src/components/home/FacultiesGrid.tsx`: ganti `<img>` → `next/image` (gunakan `fill` + container `aspect-video`).
-
-## Step 4 (selesai)
-- [x] Build & lint sukses.
-
-## Step 5 (berikutnya yang disarankan)
-- [ ] Jalankan `next dev` lalu cek Vercel Speed Insights untuk metrik LCP & CLS setelah perubahan.
-- [ ] Jika masih tinggi: kurangi client hydration (pindahkan fetch home dari client ke server) dan tambah skeleton/height untuk section atas.
-
+- [ ] Perbaiki badge "Dibuka" (warna hijau lebih gelap)
+- [ ] Perbaiki teks footer yang terlalu redup (`text-gray-400`)
+- [ ] Perbaiki judul footer yang memakai `text-unipas-accent` agar kontras (gunakan `text-white` / warna lebih terang)
+- [ ] Audit urutan heading (hindari loncat h1 -> h3 langsung)
+- [ ] Jalankan `npm run build` dan pastikan build sukses
+- [ ] Commit: "fix accessibility contrast and heading order"
 
