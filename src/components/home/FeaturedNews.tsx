@@ -81,6 +81,7 @@ export default function FeaturedNews({ news }: FeaturedNewsProps) {
                       alt={featuredNews.title}
                       fill
                       sizes="(max-width: 768px) 100vw, 25vw"
+                      quality={75}
                       className="object-cover w-full h-full group-hover:scale-110 transition-transform duration-700"
                       priority={false}
                     />
@@ -168,6 +169,7 @@ export default function FeaturedNews({ news }: FeaturedNewsProps) {
                       alt={newsItem.title}
                       fill
                       sizes="(max-width: 768px) 100vw, 20vw"
+                      quality={75}
                       className="object-cover w-full h-full group-hover:scale-110 transition-transform duration-700"
                       priority={false}
                     />

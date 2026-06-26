@@ -92,6 +92,7 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
             fill
             priority={isFirstSlide}
             sizes="100vw"
+            quality={75}
             className="object-cover"
           />
 
