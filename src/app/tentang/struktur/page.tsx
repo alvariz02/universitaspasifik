@@ -199,7 +199,7 @@ export default function StrukturPage() {
   ]
 
   // Small reusable card
-  function UnitCard({ unit, colorClass }: { unit: { icon: JSX.Element; title: string; description: string; person: string }; colorClass: string }) {
+  function UnitCard({ unit, colorClass }: { unit: { icon: React.ReactNode; title: string; description: string; person: string }; colorClass: string }) {
     return (
       <motion.div
         initial={{ opacity: 0, x: -30 }}

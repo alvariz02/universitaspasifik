@@ -62,6 +62,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     openGraph: {
       title: achievement.title,
       description: achievement.description || '',
+      images: achievement.imageUrl ? [achievement.imageUrl] : undefined,
+      type: 'article'
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: achievement.title,
+      description: achievement.description || '',
       images: achievement.imageUrl ? [achievement.imageUrl] : undefined
     }
   }
@@ -207,6 +214,7 @@ export default async function PrestasiDetailPage({ params }: PageProps) {
                     title={achievement.title}
                     url={`/prestasi/${achievement.id}`}
                     description={achievement.description || undefined}
+                    imageUrl={achievement.imageUrl || undefined}
                   />
                 </div>
 

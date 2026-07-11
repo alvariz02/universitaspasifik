@@ -14,9 +14,10 @@ interface ShareButtonProps {
   title: string
   url: string
   description?: string
+  imageUrl?: string
 }
 
-export default function ShareButton({ title, url, description }: ShareButtonProps) {
+export default function ShareButton({ title, url, description, imageUrl }: ShareButtonProps) {
   const [copied, setCopied] = useState(false)
 
   const shareUrl = typeof window !== 'undefined' ? window.location.origin + url : url
@@ -37,7 +38,7 @@ export default function ShareButton({ title, url, description }: ShareButtonProp
     {
       name: 'WhatsApp',
       icon: MessageCircle,
-      url: `https://wa.me/?text=${encodeURIComponent(`${title} ${shareUrl}`)}`,
+      url: `https://wa.me/?text=${encodeURIComponent(`${title}\n${description || ''}\n${shareUrl}`)}`,
       color: 'text-green-600'
     },
     {
