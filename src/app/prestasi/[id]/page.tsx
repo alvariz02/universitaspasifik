@@ -46,6 +46,7 @@ async function getRelatedAchievements(excludeId: number, limit = 3) {
   }
 }
 
+// ✅ Metadata dengan fallback logo seperti di berita
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { id } = await params
   const achievement = await getAchievementById(id)
@@ -56,21 +57,44 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     }
   }
 
+  // Default image (logo website) sebagai fallback
+  const defaultImage = {
+    url: 'https://www.univpasifik.ac.id/logounipasreal.jpeg',
+    width: 1200,
+    height: 630,
+    alt: 'Universitas Pasifik - Kampus Unggul',
+  }
+
+  // Gunakan foto prestasi jika tersedia, fallback ke logo
+  const ogImage = achievement.imageUrl
+    ? {
+        url: achievement.imageUrl,
+        width: 1200,
+        height: 630,
+        alt: achievement.title || 'Prestasi Universitas Pasifik',
+      }
+    : defaultImage
+
   return {
     title: `${achievement.title} | Universitas Pasifik`,
     description: achievement.description || `Prestasi ${achievement.achieverName || ''} di Universitas Pasifik`,
     openGraph: {
       title: achievement.title,
       description: achievement.description || '',
-      images: achievement.imageUrl ? [achievement.imageUrl] : undefined,
-      type: 'article'
+      url: `https://www.univpasifik.ac.id/prestasi/${achievement.id}`,
+      siteName: 'Universitas Pasifik',
+      locale: 'id_ID',
+      type: 'article',
+      publishedTime: achievement.achievementDate?.toISOString(),
+      authors: achievement.achieverName ? [achievement.achieverName] : undefined,
+      images: [ogImage], // ✅ pakai foto prestasi atau fallback
     },
     twitter: {
       card: 'summary_large_image',
       title: achievement.title,
       description: achievement.description || '',
-      images: achievement.imageUrl ? [achievement.imageUrl] : undefined
-    }
+      images: [ogImage.url], // ✅ pakai foto prestasi atau fallback
+    },
   }
 }
 
