@@ -377,9 +377,7 @@ export default function StrukturPage() {
                       <h4 className="font-bold text-red-900 mb-2">{unit.title}</h4>
                       <p className="text-gray-600 text-sm mb-3">{unit.description}</p>
                       <p className="font-bold text-red-700">{unit.person}</p>
-                      {unit.sekretaris && (
-                        <p className="text-sm text-gray-500 mt-2">Sekretaris: <span className="font-semibold text-red-700">{unit.sekretaris}</span></p>
-                      )}
+
                     </div>
                   </div>
                 </motion.div>
@@ -410,7 +408,6 @@ export default function StrukturPage() {
                     <div className="w-6 h-6 bg-gray-100 rounded-lg flex items-center justify-center text-gray-500 flex-shrink-0">
                       <BookOpen className="h-3.5 w-3.5" />
                     </div>
-                    <span className="text-xs font-semibold text-gray-500">SEK (Sekretaris Fakultas)</span>
                   </div>
 
                   <div className="border-t border-dashed border-gray-200 pt-3 mt-1 grid grid-cols-1 gap-2">
