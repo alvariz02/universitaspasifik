@@ -16,6 +16,7 @@ import {
 import { useToast } from '@/hooks/use-toast'
 import { useConfirm } from '@/hooks/use-confirm'
 import { ConfirmDialog } from '@/components/ui/confirm-dialog'
+import ContactDetails from '@/components/admin/ContactDetails'
 
 export default function AdminContactPage() {
   const { toast } = useToast()
@@ -23,6 +24,8 @@ export default function AdminContactPage() {
   const [submissions, setSubmissions] = useState<any[]>([])
   const [filter, setFilter] = useState('all')
   const [loading, setLoading] = useState(true)
+  const [detailsOpen, setDetailsOpen] = useState(false)
+  const [viewSubmission, setViewSubmission] = useState<any>(null)
 
   useEffect(() => {
     fetchSubmissions()
@@ -76,6 +79,11 @@ export default function AdminContactPage() {
         variant: "destructive",
       })
     }
+  }
+
+  const handleView = (id: number, submission: any) => {
+    setViewSubmission(submission)
+    setDetailsOpen(true)
   }
 
   const handleDelete = async (id: number) => {
@@ -170,6 +178,7 @@ export default function AdminContactPage() {
             <DataTable 
               columns={columns} 
               data={submissions}
+              onView={handleView}
               onDelete={handleDelete}
               searchable
               searchPlaceholder="Cari pesan..."
@@ -205,6 +214,16 @@ export default function AdminContactPage() {
             </div>
           </>
         )}
+
+        <ContactDetails
+          open={detailsOpen}
+          onClose={() => setDetailsOpen(false)}
+          submission={viewSubmission}
+          onStatusChange={(id, status) => {
+            handleUpdateStatus(id, status)
+            setViewSubmission((current: any) => current ? { ...current, status } : current)
+          }}
+        />
 
         <ConfirmDialog
           open={isOpen}

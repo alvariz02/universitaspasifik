@@ -126,10 +126,21 @@ export default function Header() {
                 <NavigationMenuItem>
                   <NavigationMenuLink asChild>
                     <Link 
-                      href="/" 
+                      href="/"
                       className="font-bold hover:bg-gradient-to-r hover:from-unipas-primary/10 hover:to-unipas-accent/10 text-unipas-primary hover:text-unipas-accent px-6 py-3 rounded-xl transition-all duration-300 hover:scale-105 border border-transparent hover:border-unipas-accent/20"
                     >
                       Beranda
+                    </Link>
+                  </NavigationMenuLink>
+                </NavigationMenuItem>
+
+                <NavigationMenuItem>
+                  <NavigationMenuLink asChild>
+                    <Link 
+                      href="/kontak"
+                      className="font-bold hover:bg-gradient-to-r hover:from-unipas-primary/10 hover:to-unipas-accent/10 text-unipas-primary hover:text-unipas-accent px-6 py-3 rounded-xl transition-all duration-300 hover:scale-105 border border-transparent hover:border-unipas-accent/20"
+                    >
+                      Kontak
                     </Link>
                   </NavigationMenuLink>
                 </NavigationMenuItem>
@@ -265,15 +276,12 @@ export default function Header() {
                             <div className="mb-2 mt-4 text-xl font-black text-unipas-primary">
                               LPPM & LPM
                             </div>
-                            <p className="text-sm leading-tight text-muted-foreground">
-                              Lembaga untuk penelitian, pengabdian, dan pengembangan kampus
-                            </p>
                           </Link>
                         </NavigationMenuLink>
                       </div>
                       {[
                         { href: "https://lppm.univpasifik.ac.id/", label: "LPPM", desc: "Lembaga Penelitian dan Pengabdian kepada Masyarakat" },
-                        { href: "/pengabdian", label: "LPM", desc: "Lembaga Pengabdian dan Pengembangan" }
+                        { href: "/pengabdian", label: "LPM", desc: "Lembaga penjaminan mutu" }
                       ].map((item) => (
                         <NavigationMenuLink key={item.href} asChild>
                           <Link href={item.href} className="block select-none space-y-2 rounded-xl p-4 hover:bg-gradient-to-r hover:from-unipas-primary/10 hover:to-unipas-accent/10 transition-all duration-300 group">
@@ -378,6 +386,9 @@ export default function Header() {
                       { href: "/program-studi", label: "Program Studi", desc: "Jenjang pendidikan" },
                       { href: "/penerimaan", label: "Penerimaan", desc: "Info pendaftaran" }
                     ]},
+                    { title: "Kontak", items: [
+                      { href: "/kontak", label: "Kontak", desc: "Hubungi Unipas" }
+                    ]},
                     { title: "Penelitian & Prestasi", items: [
                       { href: "/penelitian", label: "Penelitian", desc: "Kegiatan riset" },
                       { href: "/prestasi", label: "Prestasi", desc: "Pencapaian" },
@@ -386,7 +397,7 @@ export default function Header() {
                     ]},
                     { title: "Lembaga", items: [
                       { href: "/penelitian", label: "LPPM", desc: "Lembaga Penelitian dan Pengabdian kepada Masyarakat" },
-                      { href: "/pengabdian", label: "LPM", desc: "Lembaga Pengabdian dan Pengembangan" }
+                      { href: "/pengabdian", label: "LPM", desc: "Lembaga Penjamin mutu" }
                     ]}
                   ].map((section) => (
                     <div key={section.title}>

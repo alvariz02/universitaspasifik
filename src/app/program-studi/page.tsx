@@ -94,6 +94,11 @@ export default function ProgramStudiPage() {
     return labels[level || ''] || level || 'Tingkat Lanjut'
   }
 
+  const getAccreditationLabel = (accreditation?: string) => {
+    if (accreditation === 'B') return 'Baik'
+    return accreditation || '-'
+  }
+
   const getAccreditationColor = (accreditation?: string) => {
     switch (accreditation) {
       case 'A': return 'bg-green-100 text-green-800'
@@ -225,7 +230,7 @@ export default function ProgramStudiPage() {
                               {dept.faculty.name}
                             </Badge>
                             <Badge className={`${getAccreditationColor(dept.accreditation)} border-0`}>
-                              Akreditasi {dept.accreditation || '-'}
+                              Akreditasi {getAccreditationLabel(dept.accreditation)}
                             </Badge>
                             {dept.degreeLevel && (
                               <Badge variant="outline" className="border-unipas-primary/20">
@@ -258,7 +263,7 @@ export default function ProgramStudiPage() {
                               <div className="flex items-center gap-2 text-sm">
                                 <Award className="h-4 w-4 text-unipas-accent" />
                                 <span className="text-unipas-text">
-                                  Status: <strong>Akreditasi {dept.accreditation}</strong>
+                                  Status: <strong>Akreditasi {getAccreditationLabel(dept.accreditation)}</strong>
                                 </span>
                               </div>
                             )}
@@ -292,7 +297,7 @@ export default function ProgramStudiPage() {
                       {accreditationStats.B}
                     </div>
                     <div className="text-blue-600 text-sm font-medium">
-                      Akreditasi B
+                      Baik
                     </div>
                   </div>
                   <div className="text-center p-8 bg-linear-to-br from-yellow-50 to-yellow-100/50 rounded-xl border border-yellow-200 hover:shadow-lg transition-shadow">

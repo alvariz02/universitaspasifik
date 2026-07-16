@@ -32,16 +32,25 @@ export default function KontakPage() {
     setIsSubmitting(true)
 
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000))
-      
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      })
+
+      if (!res.ok) {
+        const errorData = await res.json()
+        throw new Error(errorData.error || 'Gagal mengirim pesan')
+      }
+
       toast({
         title: "Pesan Terkirim",
         description: "Terima kasih! Pesan Anda telah kami terima dan akan segera kami proses.",
         variant: "default",
       })
 
-      // Reset form
       setFormData({
         name: '',
         email: '',
@@ -49,6 +58,7 @@ export default function KontakPage() {
         message: ''
       })
     } catch (error) {
+      console.error('Contact form error:', error)
       toast({
         title: "Gagal Mengirim",
         description: "Terjadi kesalahan saat mengirim pesan. Silakan coba lagi.",
@@ -185,7 +195,7 @@ export default function KontakPage() {
                       <div>
                         <h3 className="font-bold text-ui-navy mb-1">Email</h3>
                         <a href="mailto:humas@unipas.ac.id" className="text-muted-foreground hover:text-ui-navy">
-                          humas@unipas.ac.id
+                          unipasmorotai@univpasifik.ac.id
                         </a>
                       </div>
                     </div>
@@ -209,75 +219,11 @@ export default function KontakPage() {
                       <div>
                         <h3 className="font-bold text-ui-navy mb-1">Kampus Depok</h3>
                         <p className="text-muted-foreground">
-                          Jl. Raya Pondok Cina, Depok 16424
+                         Kampus Morotai
+
+Jln. A. Sudirman, Lemonade, Daruba, Morotai Selatan.
                         </p>
                       </div>
-                    </div>
-
-                    <div className="flex items-start gap-4">
-                      <div className="bg-ui-yellow/10 rounded-lg p-3 shrink-0">
-                        <MapPin className="h-6 w-6 text-ui-yellow" />
-                      </div>
-                      <div>
-                        <h3 className="font-bold text-ui-navy mb-1">Kampus Salemba</h3>
-                        <p className="text-muted-foreground">
-                          Jl. Salemba Raya No. 4, Jakarta 10430
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Social Media */}
-                  <div>
-                    <h3 className="font-bold text-ui-navy mb-4">
-                      Ikuti Kami
-                    </h3>
-                    <div className="flex gap-3">
-                      <a
-                        href="https://facebook.com/univindonesia"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="bg-ui-navy hover:bg-ui-navy/80 text-white rounded-lg p-3 transition-colors"
-                        aria-label="Facebook"
-                      >
-                        <Facebook className="h-5 w-5" />
-                      </a>
-                      <a
-                        href="https://twitter.com/univindonesia"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="bg-ui-navy hover:bg-ui-navy/80 text-white rounded-lg p-3 transition-colors"
-                        aria-label="Twitter"
-                      >
-                        <Twitter className="h-5 w-5" />
-                      </a>
-                      <a
-                        href="https://instagram.com/univindonesia"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="bg-ui-navy hover:bg-ui-navy/80 text-white rounded-lg p-3 transition-colors"
-                        aria-label="Instagram"
-                      >
-                        <Instagram className="h-5 w-5" />
-                      </a>
-                      <a
-                        href="https://linkedin.com/school/univindonesia"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="bg-ui-navy hover:bg-ui-navy/80 text-white rounded-lg p-3 transition-colors"
-                        aria-label="LinkedIn"
-                      >
-                        <Linkedin className="h-5 w-5" />
-                      </a>
-                      <a
-                        href="https://youtube.com/univindonesia"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="bg-ui-navy hover:bg-ui-navy/80 text-white rounded-lg p-3 transition-colors"
-                        aria-label="YouTube"
-                      >
-                        <Youtube className="h-5 w-5" />
-                      </a>
                     </div>
                   </div>
                 </div>
@@ -297,10 +243,12 @@ export default function KontakPage() {
                 <div className="text-center">
                   <MapPin className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
                   <p className="text-muted-foreground">
-                    Peta akan ditampilkan di sini
+                    Sedang dalam pengembangan. Peta lokasi kampus akan segera tersedia di sini.
                   </p>
                   <p className="text-sm text-muted-foreground mt-2">
-                    Jl. Raya Pondok Cina, Depok 16424
+                    Kampus Morotai
+
+Jln. A. Sudirman, Lemonade, Daruba, Morotai Selatan.
                   </p>
                 </div>
               </div>

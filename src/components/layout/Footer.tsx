@@ -92,7 +92,7 @@ export default function Footer() {
 <h3 className="text-lg font-bold mb-4 text-white">Ikuti Kami</h3>
             <div className="flex gap-3 mb-6">
               <a
-                href="https://facebook.com/unipas"
+                href="https://www.facebook.com/profile.php?id=100081666237626&locale=id_ID"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="h-10 w-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-unipas-accent hover:text-white transition-colors"
@@ -101,16 +101,7 @@ export default function Footer() {
                 <Facebook className="h-5 w-5" />
               </a>
               <a
-                href="https://twitter.com/unipas"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="h-10 w-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-unipas-accent hover:text-white transition-colors"
-                aria-label="Twitter"
-              >
-                <Twitter className="h-5 w-5" />
-              </a>
-              <a
-                href="https://instagram.com/unipas"
+                href="https://www.instagram.com/universitas_pasifik?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
                 target="_blank"
                 rel="noopener noreferrer"
                 className="h-10 w-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-unipas-accent hover:text-white transition-colors"
@@ -119,16 +110,7 @@ export default function Footer() {
                 <Instagram className="h-5 w-5" />
               </a>
               <a
-                href="https://linkedin.com/school/unipas"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="h-10 w-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-unipas-accent hover:text-white transition-colors"
-                aria-label="LinkedIn"
-              >
-                <Linkedin className="h-5 w-5" />
-              </a>
-              <a
-                href="https://youtube.com/unipas"
+                href="https://www.youtube.com/@universitaspasifikmorotai8924"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="h-10 w-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-unipas-accent hover:text-white transition-colors"
@@ -138,19 +120,6 @@ export default function Footer() {
               </a>
             </div>
 
-            {/* <div className="space-y-3">
-              <h4 className="font-medium text-sm">Berlangganan Newsletter</h4>
-              <div className="flex flex-col sm:flex-row gap-2 w-full">
-                <input
-                  type="email"
-                  placeholder="Email Anda"
-                  className="flex-1 px-3 py-2 rounded-md bg-white/10 border border-white/20 text-sm text-white placeholder:text-gray-400 focus:outline-none focus:border-unipas-accent min-w-0"
-                />
-                <button className="px-4 py-2 bg-unipas-accent text-white font-medium rounded-md hover:bg-unipas-primary transition-colors whitespace-nowrap">
-                  Berlangganan
-                </button>
-              </div>
-            </div> */}
           </div>
         </div>
       </div>

@@ -145,6 +145,11 @@ export default function FacultiesPage() {
     return 'from-unipas-primary to-unipas-accent'
   }
 
+  const getAccreditationLabel = (accreditation?: string) => {
+    if (accreditation === 'B') return 'Baik'
+    return accreditation || '-'
+  }
+
   const filteredFaculties = faculties.filter(faculty => 
     faculty.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     faculty.departments.some(department => 
@@ -374,7 +379,7 @@ export default function FacultiesPage() {
                         <td className="py-4 px-4">
                           {program.accreditation && (
                             <span className="bg-green-100 text-green-800 px-2 py-1 rounded-full text-sm font-medium">
-                              {program.accreditation}
+                              {getAccreditationLabel(program.accreditation)}
                             </span>
                           )}
                         </td>
