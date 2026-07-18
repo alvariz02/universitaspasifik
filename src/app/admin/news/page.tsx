@@ -29,10 +29,31 @@ export default function AdminNewsPage() {
     try {
       setLoading(true)
       const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/news?limit=100`)
-      const data = await res.json()
-      setNews(data.news || data)
+      const text = await res.text()
+      let data: any = {}
+
+      if (text) {
+        try {
+          data = JSON.parse(text)
+        } catch (parseError) {
+          console.error('Failed parsing news response JSON:', parseError, text)
+        }
+      }
+
+      if (res.ok) {
+        setNews(Array.isArray(data.news) ? data.news : Array.isArray(data) ? data : [])
+      } else {
+        console.error('Failed fetching news:', {
+          status: res.status,
+          statusText: res.statusText,
+          body: data,
+          rawBody: text,
+        })
+        setNews([])
+      }
     } catch (error) {
       console.error('Error fetching news:', error)
+      setNews([])
     } finally {
       setLoading(false)
     }

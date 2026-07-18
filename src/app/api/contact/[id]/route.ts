@@ -1,11 +1,14 @@
 import { NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 
-export async function PUT(request: Request, context: { params: any }) {
+export async function PUT(
+  request: Request,
+  { params }: { params: Promise<{ id: string }> },
+) {
   try {
-    const params = await context.params
-    const id = Number(params.id)
-    if (Number.isNaN(id)) {
+    const { id } = await params
+    const contactId = Number(id)
+    if (Number.isNaN(contactId)) {
       return NextResponse.json({ error: 'Invalid contact ID' }, { status: 400 })
     }
 
@@ -17,8 +20,8 @@ export async function PUT(request: Request, context: { params: any }) {
     }
 
     const updatedSubmission = await db.contactSubmission.update({
-      where: { id },
-      data: { status }
+      where: { id: contactId },
+      data: { status },
     })
 
     return NextResponse.json(updatedSubmission)
@@ -28,15 +31,18 @@ export async function PUT(request: Request, context: { params: any }) {
   }
 }
 
-export async function DELETE(request: Request, context: { params: any }) {
+export async function DELETE(
+  request: Request,
+  { params }: { params: Promise<{ id: string }> },
+) {
   try {
-    const params = await context.params
-    const id = Number(params.id)
-    if (Number.isNaN(id)) {
+    const { id } = await params
+    const contactId = Number(id)
+    if (Number.isNaN(contactId)) {
       return NextResponse.json({ error: 'Invalid contact ID' }, { status: 400 })
     }
 
-    await db.contactSubmission.delete({ where: { id } })
+    await db.contactSubmission.delete({ where: { id: contactId } })
 
     return NextResponse.json({ success: true })
   } catch (error) {

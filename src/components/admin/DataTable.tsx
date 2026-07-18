@@ -50,8 +50,9 @@ export default function DataTable({
   addButtonText = 'Tambah Data',
 }: DataTableProps) {
   const [searchTerm, setSearchTerm] = useState('')
+  const tableData = Array.isArray(data) ? data : []
 
-  const filteredData = data.filter((row) =>
+  const filteredData = tableData.filter((row) =>
     Object.values(row).some((value) =>
       String(value).toLowerCase().includes(searchTerm.toLowerCase())
     )
@@ -159,7 +160,7 @@ export default function DataTable({
 
       {/* Pagination info */}
       <div className="text-sm text-unipas-text bg-white rounded-lg px-4 py-2 border border-unipas-primary/20">
-        Menampilkan {filteredData.length} dari {data.length} data
+        Menampilkan {filteredData.length} dari {tableData.length} data
       </div>
     </div>
   )
