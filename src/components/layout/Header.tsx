@@ -122,7 +122,7 @@ export default function Header() {
           {/* Desktop Navigation - dengan positioning yang diperbaiki */}
           <div className="hidden lg:flex items-center">
             <NavigationMenu viewport={false}>
-              <NavigationMenuList className="gap-2">
+              <NavigationMenuList className="gap-2 w-full flex">
                 <NavigationMenuItem>
                   <NavigationMenuLink asChild>
                     <Link 
@@ -130,17 +130,6 @@ export default function Header() {
                       className="font-bold hover:bg-gradient-to-r hover:from-unipas-primary/10 hover:to-unipas-accent/10 text-unipas-primary hover:text-unipas-accent px-6 py-3 rounded-xl transition-all duration-300 hover:scale-105 border border-transparent hover:border-unipas-accent/20"
                     >
                       Beranda
-                    </Link>
-                  </NavigationMenuLink>
-                </NavigationMenuItem>
-
-                <NavigationMenuItem>
-                  <NavigationMenuLink asChild>
-                    <Link 
-                      href="/kontak"
-                      className="font-bold hover:bg-gradient-to-r hover:from-unipas-primary/10 hover:to-unipas-accent/10 text-unipas-primary hover:text-unipas-accent px-6 py-3 rounded-xl transition-all duration-300 hover:scale-105 border border-transparent hover:border-unipas-accent/20"
-                    >
-                      Kontak
                     </Link>
                   </NavigationMenuLink>
                 </NavigationMenuItem>
@@ -164,9 +153,11 @@ export default function Header() {
                         </NavigationMenuLink>
                       </div>
                       {[
+                        { href: "/tentang/profil", label: "Profil UNIPAS", desc: "Profil Universitas Pasifik Morotai" },
                         { href: "/tentang/sejarah", label: "Sejarah", desc: "Perjalanan panjang Unipas" },
                         { href: "/tentang/visi-misi", label: "Visi & Misi", desc: "Tujuan dan arah pengembangan" },
-                        { href: "/tentang/struktur", label: "Struktur Organisasi", desc: "Struktur kepemimpinan Unipas" }
+                        { href: "/tentang/struktur", label: "Struktur Organisasi", desc: "Struktur kepemimpinan Unipas" },
+                        { href: "/video-kegiatan", label: "Video Kegiatan", desc: "Video dokumentasi kegiatan kampus" }
                       ].map((item) => (
                         <NavigationMenuLink key={item.href} asChild>
                           <Link href={item.href} className="block select-none space-y-2 rounded-xl p-4 hover:bg-gradient-to-r hover:from-unipas-primary/10 hover:to-unipas-accent/10 transition-all duration-300 group">
@@ -202,7 +193,9 @@ export default function Header() {
                       {[
                         { href: "/fakultas", label: "Fakultas", desc: "Daftar lengkap fakultas di Unipas" },
                         { href: "/program-studi", label: "Program Studi", desc: "Program sarjana, magister, dan doktoral" },
-                        { href: "/penerimaan", label: "Penerimaan", desc: "Informasi penerimaan mahasiswa baru" }
+                        { href: "/penerimaan", label: "Penerimaan", desc: "Informasi penerimaan mahasiswa baru" },
+                        { href: "/prestasi", label: "Prestasi", desc: "Prestasi mahasiswa dan dosen" },
+                        { href: "/video-kegiatan", label: "Video Kegiatan", desc: "Video dokumentasi kegiatan kampus" }
                       ].map((item) => (
                         <NavigationMenuLink key={item.href} asChild>
                           <Link href={item.href} className="block select-none space-y-2 rounded-xl p-4 hover:bg-gradient-to-r hover:from-unipas-primary/10 hover:to-unipas-accent/10 transition-all duration-300 group">
@@ -211,6 +204,49 @@ export default function Header() {
                               {item.desc}
                             </p>
                           </Link>
+                        </NavigationMenuLink>
+                      ))}
+                    </div>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+
+                <NavigationMenuItem>
+                  <NavigationMenuTrigger className="font-bold text-unipas-primary hover:text-unipas-accent hover:bg-gradient-to-r hover:from-unipas-primary/10 hover:to-unipas-accent/10 px-6 py-3 rounded-xl transition-all duration-300 border border-transparent hover:border-unipas-accent/20">
+                    Alumni
+                  </NavigationMenuTrigger>
+                  <NavigationMenuContent className="absolute left-0 top-full mt-2 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden">
+                    <div className="grid gap-4 p-6 w-[320px]">
+                      <div className="col-span-2">
+                        <NavigationMenuLink asChild>
+                          <Link href="/alumni" className="flex h-full w-full select-none flex-col justify-end rounded-2xl bg-gradient-to-br from-unipas-primary/10 to-unipas-accent/5 p-6 no-underline outline-none hover:from-unipas-primary/20 hover:to-unipas-accent/10 transition-all duration-300 group">
+                            <div className="mb-2 mt-4 text-xl font-black text-unipas-primary">
+                              Alumni
+                            </div>
+                            <p className="text-sm leading-tight text-muted-foreground">
+                              Informasi dan tracer study alumni
+                            </p>
+                          </Link>
+                        </NavigationMenuLink>
+                      </div>
+                      {[
+                        { href: "https://tracerstudyalumniunipas.vercel.app/dashboard", label: "Tracer Study Alumni", desc: "Form tracer study untuk alumni Unipas" }
+                      ].map((item) => (
+                        <NavigationMenuLink key={item.href} asChild>
+                          {item.href.startsWith('http') ? (
+                            <a href={item.href} target="_blank" rel="noopener noreferrer" className="block select-none space-y-2 rounded-xl p-4 hover:bg-gradient-to-r hover:from-unipas-primary/10 hover:to-unipas-accent/10 transition-all duration-300 group">
+                              <div className="font-bold text-sm leading-none text-unipas-primary group-hover:text-unipas-accent">{item.label}</div>
+                              <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                                {item.desc}
+                              </p>
+                            </a>
+                          ) : (
+                            <Link href={item.href} className="block select-none space-y-2 rounded-xl p-4 hover:bg-gradient-to-r hover:from-unipas-primary/10 hover:to-unipas-accent/10 transition-all duration-300 group">
+                              <div className="font-bold text-sm leading-none text-unipas-primary group-hover:text-unipas-accent">{item.label}</div>
+                              <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                                {item.desc}
+                              </p>
+                            </Link>
+                          )}
                         </NavigationMenuLink>
                       ))}
                     </div>
@@ -228,41 +264,7 @@ export default function Header() {
                   </NavigationMenuLink>
                 </NavigationMenuItem> */}
 
-                <NavigationMenuItem>
-                  <NavigationMenuTrigger className="font-bold text-unipas-primary hover:text-unipas-accent hover:bg-gradient-to-r hover:from-unipas-primary/10 hover:to-unipas-accent/10 px-6 py-3 rounded-xl transition-all duration-300 border border-transparent hover:border-unipas-accent/20">
-                    Prestasi
-                  </NavigationMenuTrigger>
-                  <NavigationMenuContent className="absolute left-1/2 -translate-x-full top-full mt-2 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden">
-                    <div className="grid gap-4 p-6 w-[500px]">
-                      <div className="col-span-2">
-                        <NavigationMenuLink asChild>
-                          <Link href="/penelitian" className="flex h-full w-full select-none flex-col justify-end rounded-2xl bg-gradient-to-br from-unipas-primary/10 to-unipas-accent/5 p-6 no-underline outline-none hover:from-unipas-primary/20 hover:to-unipas-accent/10 transition-all duration-300 group">
-                            <div className="mb-2 mt-4 text-xl font-black text-unipas-primary">
-                              Inovasi
-                            </div>
-                            <p className="text-sm leading-tight text-muted-foreground">
-                              Temuan penelitian dan inovasi dari Unipas
-                            </p>
-                          </Link>
-                        </NavigationMenuLink>
-                      </div>
-                      {[
-                        { href: "/prestasi", label: "Prestasi", desc: "Prestasi mahasiswa dan dosen" },
-                        { href: "/video-kegiatan", label: "Video Kegiatan", desc: "Video dokumentasi kegiatan kampus" }
-                  
-                      ].map((item) => (
-                        <NavigationMenuLink key={item.href} asChild>
-                          <Link href={item.href} className="block select-none space-y-2 rounded-xl p-4 hover:bg-gradient-to-r hover:from-unipas-primary/10 hover:to-unipas-accent/10 transition-all duration-300 group">
-                            <div className="font-bold text-sm leading-none text-unipas-primary group-hover:text-unipas-accent">{item.label}</div>
-                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                              {item.desc}
-                            </p>
-                          </Link>
-                        </NavigationMenuLink>
-                      ))}
-                    </div>
-                  </NavigationMenuContent>
-                </NavigationMenuItem>
+
 
                 <NavigationMenuItem>
                   <NavigationMenuTrigger className="font-bold text-unipas-primary hover:text-unipas-accent hover:bg-gradient-to-r hover:from-unipas-primary/10 hover:to-unipas-accent/10 px-6 py-3 rounded-xl transition-all duration-300 border border-transparent hover:border-unipas-accent/20">
@@ -294,6 +296,17 @@ export default function Header() {
                       ))}
                     </div>
                   </NavigationMenuContent>
+                </NavigationMenuItem>
+
+                <NavigationMenuItem className="ml-auto">
+                  <NavigationMenuLink asChild>
+                    <Link 
+                      href="/kontak"
+                      className="font-bold hover:bg-gradient-to-r hover:from-unipas-primary/10 hover:to-unipas-accent/10 text-unipas-primary hover:text-unipas-accent px-6 py-3 rounded-xl transition-all duration-300 hover:scale-105 border border-transparent hover:border-unipas-accent/20"
+                    >
+                      Kontak
+                    </Link>
+                  </NavigationMenuLink>
                 </NavigationMenuItem>
               </NavigationMenuList>
             </NavigationMenu>
@@ -377,27 +390,28 @@ export default function Header() {
                 <div className="space-y-4">
                   {[
                     { title: "Tentang Unipas", items: [
+                      { href: "/tentang/profil", label: "Profil UNIPAS", desc: "Profil universitas" },
                       { href: "/tentang/sejarah", label: "Sejarah", desc: "Perjalanan Unipas" },
                       { href: "/tentang/visi-misi", label: "Visi & Misi", desc: "Tujuan pengembangan" },
-                      { href: "/tentang/struktur", label: "Struktur Organisasi", desc: "Kepemimpinan Unipas" }
+                      { href: "/tentang/struktur", label: "Struktur Organisasi", desc: "Kepemimpinan Unipas" },
+                      { href: "/video-kegiatan", label: "Video Kegiatan", desc: "Dokumentasi kegiatan" }
                     ]},
                     { title: "Akademik", items: [
                       { href: "/fakultas", label: "Fakultas", desc: "Daftar fakultas" },
                       { href: "/program-studi", label: "Program Studi", desc: "Jenjang pendidikan" },
-                      { href: "/penerimaan", label: "Penerimaan", desc: "Info pendaftaran" }
+                      { href: "/penerimaan", label: "Penerimaan", desc: "Info pendaftaran" },
+                      { href: "/prestasi", label: "Prestasi", desc: "Prestasi mahasiswa dan dosen" },
+                      { href: "/video-kegiatan", label: "Video Kegiatan", desc: "Dokumentasi kegiatan" }
                     ]},
                     { title: "Kontak", items: [
                       { href: "/kontak", label: "Kontak", desc: "Hubungi Unipas" }
                     ]},
-                    { title: "Penelitian & Prestasi", items: [
-                      { href: "/penelitian", label: "Penelitian", desc: "Kegiatan riset" },
-                      { href: "/prestasi", label: "Prestasi", desc: "Pencapaian" },
-                      { href: "/video-kegiatan", label: "Video Kegiatan", desc: "Dokumentasi" },
-                      { href: "/jurnal", label: "Jurnal Penelitian", desc: "Publikasi ilmiah" }
-                    ]},
                     { title: "Lembaga", items: [
-                      { href: "/penelitian", label: "LPPM", desc: "Lembaga Penelitian dan Pengabdian kepada Masyarakat" },
+                      { href: "https://lppm.univpasifik.ac.id/", label: "LPPM", desc: "Lembaga Penelitian dan Pengabdian kepada Masyarakat" },
                       { href: "/pengabdian", label: "LPM", desc: "Lembaga Penjamin mutu" }
+                    ]}
+                    ,{ title: "Alumni", items: [
+                      { href: "/alumni/tracer-study", label: "Tracer Study Alumni", desc: "Formulir tracer study untuk alumni" }
                     ]}
                   ].map((section) => (
                     <div key={section.title}>
@@ -406,17 +420,32 @@ export default function Header() {
                         <div className="font-black text-sm text-unipas-primary uppercase tracking-wider">{section.title}</div>
                       </div>
                       <div className="space-y-2 pl-6">
-                        {section.items.map((item) => (
-                          <Link
-                            key={item.href}
-                            href={item.href}
-                            className="block px-4 py-3 hover:bg-gradient-to-r hover:from-unipas-primary/10 hover:to-unipas-accent/10 text-unipas-primary hover:text-unipas-accent rounded-xl transition-all group"
-                            onClick={() => setMobileMenuOpen(false)}
-                          >
-                            <div className="font-bold text-sm">{item.label}</div>
-                            <div className="text-xs text-muted-foreground">{item.desc}</div>
-                          </Link>
-                        ))}
+                        {section.items.map((item) => {
+                          const isExternal = item.href && item.href.startsWith && item.href.startsWith('http')
+                          return isExternal ? (
+                            <a
+                              key={item.href}
+                              href={item.href}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="block px-4 py-3 hover:bg-gradient-to-r hover:from-unipas-primary/10 hover:to-unipas-accent/10 text-unipas-primary hover:text-unipas-accent rounded-xl transition-all group"
+                              onClick={() => setMobileMenuOpen(false)}
+                            >
+                              <div className="font-bold text-sm">{item.label}</div>
+                              <div className="text-xs text-muted-foreground">{item.desc}</div>
+                            </a>
+                          ) : (
+                            <Link
+                              key={item.href}
+                              href={item.href}
+                              className="block px-4 py-3 hover:bg-gradient-to-r hover:from-unipas-primary/10 hover:to-unipas-accent/10 text-unipas-primary hover:text-unipas-accent rounded-xl transition-all group"
+                              onClick={() => setMobileMenuOpen(false)}
+                            >
+                              <div className="font-bold text-sm">{item.label}</div>
+                              <div className="text-xs text-muted-foreground">{item.desc}</div>
+                            </Link>
+                          )
+                        })}
                       </div>
                     </div>
                   ))}
