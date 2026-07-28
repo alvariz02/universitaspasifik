@@ -157,7 +157,7 @@ export default function Header() {
                         { href: "/tentang/sejarah", label: "Sejarah", desc: "Perjalanan panjang Unipas" },
                         { href: "/tentang/visi-misi", label: "Visi & Misi", desc: "Tujuan dan arah pengembangan" },
                         { href: "/tentang/struktur", label: "Struktur Organisasi", desc: "Struktur kepemimpinan Unipas" },
-                        { href: "/video-kegiatan", label: "Video Kegiatan", desc: "Video dokumentasi kegiatan kampus" }
+                        { href: "/tentang/galeri", label: "Galeri", desc: "Kumpulan foto Berita, Event, dan Prestasi" },
                       ].map((item) => (
                         <NavigationMenuLink key={item.href} asChild>
                           <Link href={item.href} className="block select-none space-y-2 rounded-xl p-4 hover:bg-gradient-to-r hover:from-unipas-primary/10 hover:to-unipas-accent/10 transition-all duration-300 group">
@@ -394,6 +394,7 @@ export default function Header() {
                       { href: "/tentang/sejarah", label: "Sejarah", desc: "Perjalanan Unipas" },
                       { href: "/tentang/visi-misi", label: "Visi & Misi", desc: "Tujuan pengembangan" },
                       { href: "/tentang/struktur", label: "Struktur Organisasi", desc: "Kepemimpinan Unipas" },
+                      { href: "/tentang/galeri", label: "Galeri", desc: "Foto Berita, Event, dan Prestasi" },
                       { href: "/video-kegiatan", label: "Video Kegiatan", desc: "Dokumentasi kegiatan" }
                     ]},
                     { title: "Akademik", items: [
@@ -401,7 +402,6 @@ export default function Header() {
                       { href: "/program-studi", label: "Program Studi", desc: "Jenjang pendidikan" },
                       { href: "/penerimaan", label: "Penerimaan", desc: "Info pendaftaran" },
                       { href: "/prestasi", label: "Prestasi", desc: "Prestasi mahasiswa dan dosen" },
-                      { href: "/video-kegiatan", label: "Video Kegiatan", desc: "Dokumentasi kegiatan" }
                     ]},
                     { title: "Kontak", items: [
                       { href: "/kontak", label: "Kontak", desc: "Hubungi Unipas" }

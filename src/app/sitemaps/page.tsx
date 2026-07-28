@@ -1,6 +1,6 @@
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
-import { FileText, Home, Building2, BookOpen, Calendar, Bell, Trophy, Info, Phone, User } from 'lucide-react'
+import { FileText, Home, Building2, BookOpen, Calendar, Bell, Trophy, Info, Phone, User, Image as ImageIcon } from 'lucide-react'
 import Link from 'next/link'
 
 const sitemap = {
@@ -11,7 +11,8 @@ const sitemap = {
   'Tentang UI': [
     { name: 'Sejarah', href: '/tentang/sejarah', icon: <BookOpen className="h-4 w-4" /> },
     { name: 'Visi & Misi', href: '/tentang/visi-misi', icon: <Info className="h-4 w-4" /> },
-    { name: 'Struktur Organisasi', href: '/tentang/struktur', icon: <User className="h-4 w-4" /> }
+    { name: 'Struktur Organisasi', href: '/tentang/struktur', icon: <User className="h-4 w-4" /> },
+    { name: 'Galeri', href: '/tentang/galeri', icon: <ImageIcon className="h-4 w-4" /> }
   ],
   'Akademik': [
     { name: 'Fakultas', href: '/fakultas', icon: <Building2 className="h-4 w-4" /> },
