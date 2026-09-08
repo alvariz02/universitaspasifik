@@ -17,6 +17,7 @@ const sitemap = {
   'Akademik': [
     { name: 'Fakultas', href: '/fakultas', icon: <Building2 className="h-4 w-4" /> },
     { name: 'Program Studi', href: '/program-studi', icon: <BookOpen className="h-4 w-4" /> },
+    { name: 'Kalender Akademik', href: '/kalender-akademik', icon: <Calendar className="h-4 w-4" /> },
     { name: 'Penerimaan', href: '/penerimaan', icon: <User className="h-4 w-4" /> }
   ],
   'Informasi': [

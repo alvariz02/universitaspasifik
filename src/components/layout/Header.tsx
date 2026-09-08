@@ -193,6 +193,7 @@ export default function Header() {
                       {[
                         { href: "/fakultas", label: "Fakultas", desc: "Daftar lengkap fakultas di Unipas" },
                         { href: "/program-studi", label: "Program Studi", desc: "Program sarjana, magister, dan doktoral" },
+                        { href: "/kalender-akademik", label: "Kalender Akademik", desc: "Kalender akademik tahun 2026/2027" },
                         { href: "/penerimaan", label: "Penerimaan", desc: "Informasi penerimaan mahasiswa baru" },
                         { href: "/prestasi", label: "Prestasi", desc: "Prestasi mahasiswa dan dosen" },
                         { href: "/video-kegiatan", label: "Video Kegiatan", desc: "Video dokumentasi kegiatan kampus" }
@@ -400,6 +401,7 @@ export default function Header() {
                     { title: "Akademik", items: [
                       { href: "/fakultas", label: "Fakultas", desc: "Daftar fakultas" },
                       { href: "/program-studi", label: "Program Studi", desc: "Jenjang pendidikan" },
+                      { href: "/kalender-akademik", label: "Kalender Akademik", desc: "Kalender akademik 2026/2027" },
                       { href: "/penerimaan", label: "Penerimaan", desc: "Info pendaftaran" },
                       { href: "/prestasi", label: "Prestasi", desc: "Prestasi mahasiswa dan dosen" },
                     ]},
