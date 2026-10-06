@@ -8,6 +8,8 @@
     "start": "node .next/standalone/server.js",
     "build:standalone": "npm run build && node -e \"const fs = require('node:fs'); fs.cpSync('.next/static', '.next/standalone/.next/static', { recursive: true }); fs.cpSync('public', '.next/standalone/public', { recursive: true });\"",
     "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test:cache": "node .zscripts/test-cache.mjs",
     "db:push": "prisma db push",
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate dev",

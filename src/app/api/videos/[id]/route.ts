@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { PrismaClient } from '@prisma/client'
+import { db as prisma } from '@/lib/db'
 
-const prisma = new PrismaClient()
 
 // GET /api/videos/[id] - Ambil video by ID
 export async function GET(

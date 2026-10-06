@@ -36,37 +36,11 @@ const CTASection = dynamic(() => import('@/components/home/CTASection'), {
 })
 
 async function fetchHomeData() {
-  async function getData(path: string) {
-    const response = await fetch(path)
-    if (!response.ok) {
-      throw new Error('Data kampus belum dapat dimuat. Silakan coba lagi dalam beberapa saat.')
-    }
-    return response.json()
+  const response = await fetch('/api/home')
+  if (!response.ok) {
+    throw new Error('Data kampus belum dapat dimuat. Silakan coba lagi dalam beberapa saat.')
   }
-
-  const [sliders, statistics, news, events, announcements, achievements, faculties, videos, admissions] = await Promise.all([
-    getData('/api/hero-sliders?limit=10&offset=0'),
-    getData('/api/statistics'),
-    getData('/api/news?limit=16&offset=0'),
-    getData('/api/events?upcoming=true&limit=6'),
-    getData('/api/announcements?limit=5&offset=0'),
-    getData('/api/achievements?limit=6&offset=0'),
-    getData('/api/faculties'),
-    getData('/api/videos?limit=6&offset=0'),
-    getData('/api/admissions?active=true&limit=3'),
-  ])
-
-  return {
-    sliders: sliders.sliders || [],
-    statistics,
-    news: news.news || [],
-    events,
-    announcements,
-    achievements,
-    faculties,
-    videos,
-    admissions,
-  }
+  return response.json()
 }
 export default function HomeClient() {
   const { data, loading, error, refetch } = useCache(
