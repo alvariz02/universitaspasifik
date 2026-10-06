@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
 import { useRouter } from 'next/navigation'
 import { useToast } from '@/hooks/use-toast'
+import { newsCategories } from '@/lib/news-categories'
 
 export default function NewsForm() {
   const router = useRouter()
@@ -114,8 +115,13 @@ export default function NewsForm() {
                 <Input value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} className="mt-2 border-unipas-primary/20" />
               </div>
               <div>
-                <Label className="text-unipas-primary">Kategori</Label>
-                <Input value={category} onChange={(e) => setCategory(e.target.value)} className="mt-2 border-unipas-primary/20" />
+                <Label htmlFor="category" className="text-unipas-primary">Kategori</Label>
+                <Input id="category" list="news-categories" value={category} onChange={(e) => setCategory(e.target.value)} className="mt-2 border-unipas-primary/20" />
+                <datalist id="news-categories">
+                  {newsCategories.map((item) => (
+                    <option key={item.value} value={item.value}>{item.label}</option>
+                  ))}
+                </datalist>
               </div>
             </div>
 

@@ -13,36 +13,29 @@ export interface AuthState {
 const AUTH_KEY = 'up_admin_auth'
 
 export const authService = {
-  // Login user
-  login: (email: string, password: string): boolean => {
-    // Demo credentials - dalam production, gunakan API call ke backend
-    if (email === 'admin@unipas.ac.id' && password === 'unipasjayalahselalu5') {
-      const user: User = {
-        id: '1',
-        email: email,
-        name: 'Administrator',
-        role: 'admin'
-      }
-      
-      const authData = { user, isAuthenticated: true }
-      
-      // Save to localStorage
-      localStorage.setItem(AUTH_KEY, JSON.stringify(authData))
-      
-      // Save to cookies untuk middleware
-      document.cookie = `up_admin_auth=${JSON.stringify(authData)}; path=/; max-age=86400`
-      
+  login: async (email: string, password: string): Promise<boolean> => {
+    try {
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      })
+      if (!response.ok) return false
+
+      const { user } = await response.json() as { user: User }
+      localStorage.setItem(AUTH_KEY, JSON.stringify({ user, isAuthenticated: true }))
       return true
+    } catch {
+      return false
     }
-    
-    return false
   },
 
-  // Logout user
-  logout: (): void => {
-    localStorage.removeItem(AUTH_KEY)
-    // Clear cookies
-    document.cookie = 'up_admin_auth=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT'
+  logout: async (): Promise<void> => {
+    try {
+      await fetch('/api/auth/logout', { method: 'POST' })
+    } finally {
+      localStorage.removeItem(AUTH_KEY)
+    }
   },
 
   // Get current auth state

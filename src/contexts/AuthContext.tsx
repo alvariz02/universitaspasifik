@@ -4,8 +4,8 @@ import { createContext, useContext, useState, useEffect, ReactNode } from 'react
 import { authService, User, AuthState } from '@/lib/auth'
 
 interface AuthContextType extends AuthState {
-  login: (email: string, password: string) => boolean
-  logout: () => void
+  login: (email: string, password: string) => Promise<boolean>
+  logout: () => Promise<void>
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -25,8 +25,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }, 0)
   }, [])
 
-  const login = (email: string, password: string) => {
-    const success = authService.login(email, password)
+  const login = async (email: string, password: string) => {
+    const success = await authService.login(email, password)
     if (success) {
       const newState = authService.getAuthState()
       setAuthState(newState)
@@ -34,9 +34,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return success
   }
 
-  const logout = () => {
-    authService.logout()
-    setAuthState({ user: null, isAuthenticated: false })
+  const logout = async () => {
+    try {
+      await authService.logout()
+    } finally {
+      setAuthState({ user: null, isAuthenticated: false })
+    }
   }
 
   return (

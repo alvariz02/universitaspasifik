@@ -25,7 +25,7 @@ export default function LoginPage() {
     setError('')
     setIsLoading(true)
 
-    const success = login(email, password)
+    const success = await login(email, password)
 
     if (success) {
       toast({
@@ -112,18 +112,6 @@ export default function LoginPage() {
                 </div>
               </div>
 
-              <div className="flex items-center justify-between">
-                <label className="flex items-center gap-2 cursor-pointer">
-                  <input type="checkbox" className="rounded border-gray-300" />
-                  <span className="text-sm text-muted-foreground">
-                    Ingat saya
-                  </span>
-                </label>
-                <a href="#" className="text-sm text-unipas-accent hover:text-unipas-primary">
-                  Lupa password?
-                </a>
-              </div>
-
               <Button
                 type="submit"
                 size="lg"
@@ -149,24 +137,6 @@ export default function LoginPage() {
                 Kembali ke Beranda
               </Button>
             </form>
-
-            {/* Demo Credentials Notice */}
-            <div className="mt-6 bg-unipas-primary/5 rounded-lg p-4 border border-unipas-primary/10">
-              <div className="flex items-start gap-3">
-                <AlertCircle className="h-5 w-5 text-unipas-primary shrink-0 mt-0.5" />
-                <div className="text-sm">
-                  <p className="font-medium text-unipas-primary mb-1">
-                    Demo Credentials:
-                  </p>
-                  <p className="text-muted-foreground">
-                    Email: <code className="bg-white px-2 py-1 rounded border text-xs">admin@unipas.ac.id</code>
-                  </p>
-                  <p className="text-muted-foreground">
-                    Password: <code className="bg-white px-2 py-1 rounded border text-xs">admin123</code>
-                  </p>
-                </div>
-              </div>
-            </div>
 
             {/* Help Info */}
             <div className="mt-8 pt-6 border-t text-center text-sm text-muted-foreground">

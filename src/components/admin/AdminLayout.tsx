@@ -66,8 +66,8 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
     }
   }, [isAuthenticated, router])
 
-  const handleLogout = () => {
-    logout()
+  const handleLogout = async () => {
+    await logout()
     toast({
       title: "Logout Berhasil",
       description: "Anda telah keluar dari panel admin",

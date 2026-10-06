@@ -19,6 +19,7 @@ import {
 import RichTextEditor from './RichTextEditor'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
+import { newsCategories } from '@/lib/news-categories'
 
 const newsSchema = z.object({
   title: z.string().min(1, 'Judul wajib diisi'),
@@ -203,16 +204,11 @@ export default function NewsFormPage({ initialData, onSubmit, title, subtitle, s
                   <SelectValue placeholder="Pilih kategori" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="akademik">Akademik</SelectItem>
-                  <SelectItem value="penelitian">Penelitian</SelectItem>
-                  <SelectItem value="alumni">Alumni</SelectItem>
-                  <SelectItem value="kerjasama">Kerja Sama</SelectItem>
-                  <SelectItem value="pengabdian">Pengabdian</SelectItem>
-                  <SelectItem value="kkn">KKN (Kuliah Kerja Nyata)</SelectItem>
-                  <SelectItem value="umkm">UMKM (Pengembangan Usaha Kecil Menengah)</SelectItem>
-                  <SelectItem value="kemahasiswaan">Kemahasiswaan</SelectItem>
-                  <SelectItem value="prestasi">Prestasi</SelectItem>
-                  <SelectItem value="umum">Umum</SelectItem>
+                  {newsCategories.map((category) => (
+                    <SelectItem key={category.value} value={category.value}>
+                      {category.label}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>

@@ -5,8 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "prisma generate && next build",
-    "start": "next start",
-    "build:standalone": "next build && npx copyfiles -u 1 .next/static/**/* .next/standalone/.next/static && npx copyfiles -u 1 public/**/* .next/standalone/public",
+    "start": "node .next/standalone/server.js",
+    "build:standalone": "npm run build && node -e \"const fs = require('node:fs'); fs.cpSync('.next/static', '.next/standalone/.next/static', { recursive: true }); fs.cpSync('public', '.next/standalone/public', { recursive: true });\"",
     "lint": "eslint .",
     "db:push": "prisma db push",
     "db:generate": "prisma generate",
@@ -99,13 +99,13 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
+    "@tailwindcss/typography": "^0.5.15",
+    "@types/react": "^18.3.31",
+    "@types/react-dom": "^18.3.7",
     "bun-types": "^1.3.4",
     "eslint": "^9",
-    "eslint-config-next": "^16.1.1",
+    "eslint-config-next": "^15.5.27",
     "tailwindcss": "^4",
-    "@tailwindcss/typography": "^0.5.15",
     "tw-animate-css": "^1.3.5",
     "typescript": "^5"
   },

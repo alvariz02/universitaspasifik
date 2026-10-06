@@ -1,0 +1,15 @@
+export const newsCategories = [
+  { value: 'akademik', label: 'Akademik' },
+  { value: 'penelitian', label: 'Penelitian' },
+  { value: 'alumni', label: 'Alumni' },
+  { value: 'kerjasama', label: 'Kerja Sama' },
+  { value: 'pengabdian', label: 'Pengabdian' },
+  { value: 'kkn', label: 'KKN (Kuliah Kerja Nyata)' },
+  { value: 'umkm', label: 'UMKM (Pengembangan Usaha Kecil Menengah)' },
+  { value: 'kemahasiswaan', label: 'Kemahasiswaan' },
+  { value: 'prestasi', label: 'Prestasi' },
+  { value: 'umum', label: 'Umum' },
+  { value: 'kabar-fakultas', label: 'Kabar Fakultas' },
+  { value: 'promosi-doktor', label: 'Promosi Doktor' },
+  { value: 'seminar-workshop', label: 'Seminar/Workshop' },
+] as const
