@@ -12,8 +12,9 @@ export async function GET(request: Request) {
     const offset = Math.max(0, Number(query.get('offset')) || 0)
     let where: any = publishedNews()
     if (query.get('admin') === 'true') { await requireStaff('news'); where = { deletedAt: null } }
+    if (query.get('category')) where.category = query.get('category')
     if (query.get('featured') === 'true') where.isFeatured = true
-    const [news, total] = await Promise.all([db.news.findMany({ where, orderBy: { publishedDate: 'desc' }, take: limit, skip: offset }), db.news.count({ where })])
+    const [news, total] = await db.$transaction([db.news.findMany({ where, orderBy: [{ publishedDate: 'desc' }, { id: 'desc' }], take: limit, skip: offset }), db.news.count({ where })])
     return NextResponse.json({ news, total, limit, offset }, { headers: { 'Cache-Control': 'no-store' } })
   } catch (error) { return apiError(error) }
 }

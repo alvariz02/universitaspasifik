@@ -1,6 +1,6 @@
 ﻿'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { ArrowRight, CalendarDays, MapPin, Play, Building2, Newspaper, Trophy } from 'lucide-react'
@@ -16,7 +16,7 @@ interface Announcement { id: number; title: string; category?: string; priority?
 interface Achievement { id: number; title: string; imageUrl?: string; achieverName?: string; level?: string; category?: string }
 interface Faculty { id: number; name: string; slug: string; imageUrl?: string; departments?: { id: number }[] }
 interface Video { id: number; title: string; description?: string; youtubeId: string; thumbnail?: string; category?: string; viewCount?: number; isFeatured?: boolean }
-interface Props { news: News[]; events: Event[]; announcements: Announcement[]; achievements: Achievement[]; faculties: Faculty[]; videos: Video[] }
+interface Props { categoryCounts: { category: string; total: number }[]; news: News[]; events: Event[]; announcements: Announcement[]; achievements: Achievement[]; faculties: Faculty[]; videos: Video[] }
 
 function categoryLabel(value?: string) { return newsCategories.find(item => item.value === value)?.label || value || 'Kabar Kampus' }
 function dateLabel(value?: DateValue) {
@@ -33,17 +33,41 @@ function NewsMeta({ item }: { item: News }) {
   return <div className={styles.meta}>{item.authorName && <span>{item.authorName}</span>}{dateLabel(item.publishedDate) && <span><CalendarDays size={13} />{dateLabel(item.publishedDate)}</span>}</div>
 }
 
-export default function CampusMagazine({ news, events, announcements, achievements, faculties, videos }: Props) {
+export default function CampusMagazine({ news, categoryCounts, events, announcements, achievements, faculties, videos }: Props) {
   const [category, setCategory] = useState('all')
   const [visible, setVisible] = useState(4)
   const [selectedVideo, setSelectedVideo] = useState<Video | null>(null)
   const spotlight = [...news.filter(item => item.isFeatured), ...news.filter(item => !item.isFeatured)].slice(0, 4)
-  const filteredNews = category === 'all' ? news : news.filter(item => item.category === category)
-  const categoryValues = [...new Set([...newsCategories.slice(-3).map(item => item.value), ...news.map(item => item.category).filter((value): value is string => !!value)])]
+  const [feed, setFeed] = useState(news)
+  const [offset, setOffset] = useState(0)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
+  const [retry, setRetry] = useState(0)
+  const total = category === 'all' ? categoryCounts.reduce((sum, item) => sum + item.total, 0) : categoryCounts.find(item => item.category === category)?.total || 0
+  const categoryValues = [...new Set([...newsCategories.map(item => item.value), ...categoryCounts.map(item => item.category).filter(Boolean)])]
+  const filteredNews = feed
+  const archiveHref = category === 'all' ? '/berita' : `/berita?category=${encodeURIComponent(category)}`
+  useEffect(() => {
+    if (category === 'all' && offset === 0) { setFeed(news); setLoading(false); setError(''); return }
+    const controller = new AbortController()
+    setLoading(true)
+    setError('')
+    const query = new URLSearchParams({ limit: '16', offset: String(offset) })
+    if (category !== 'all') query.set('category', category)
+    fetch(`/api/news?${query}`, { signal: controller.signal }).then(async response => {
+      if (!response.ok) throw new Error('Berita belum dapat dimuat. Silakan coba lagi.')
+      return response.json()
+    }).then(data => {
+      if (!controller.signal.aborted) setFeed(items => offset === 0 ? data.news : [...items, ...data.news])
+    }).catch(reason => { if (!controller.signal.aborted) setError(reason.message) })
+      .finally(() => { if (!controller.signal.aborted) setLoading(false) })
+    return () => controller.abort()
+  }, [category, offset, retry, news])
   const agenda = events.filter(item => new Date(item.eventDate).getTime() >= Date.now()).sort((a, b) => new Date(a.eventDate).getTime() - new Date(b.eventDate).getTime()).slice(0, 3)
   const notices = announcements.filter(item => item.isActive !== false).slice(0, 4)
   const videoItems = [...videos.filter(item => item.isFeatured), ...videos.filter(item => !item.isFeatured)].slice(0, 4)
-  const selectCategory = (value: string) => { setCategory(value); setVisible(4) }
+  const selectCategory = (value: string) => { if (value === category) return; setCategory(value); setVisible(4); setOffset(0); setFeed(value === 'all' ? news : []); setError(''); setLoading(value !== 'all') }
+  const loadMore = () => { setVisible(count => count + 4); if (visible >= feed.length) { setLoading(true); setOffset(feed.length) } }
 
   return <div className={styles.magazine}>
     <section className={styles.section} aria-label="Berita kampus">
@@ -59,16 +83,18 @@ export default function CampusMagazine({ news, events, announcements, achievemen
         <div className={styles.feed}>
           <SectionHeading number="02" title="Berita Terbaru" href="/berita" />
           <div className={styles.filters} aria-label="Filter kategori berita"><button onClick={() => selectCategory('all')} aria-pressed={category === 'all'}>Semua berita</button>{categoryValues.map(value => <button key={value} onClick={() => selectCategory(value)} aria-pressed={category === value}>{categoryLabel(value)}</button>)}</div>
-          <div aria-live="polite">{filteredNews.slice(0, visible).map(item => <article key={item.id} className={styles.article}>
+          <div aria-live="polite" aria-busy={loading}>{filteredNews.slice(0, visible).map(item => <article key={item.id} className={styles.article}>
             <Link href={`/berita/${item.slug}`} className={styles.articlePhoto}><Photo src={item.imageUrl} title={item.title} sizes="(max-width: 640px) 100vw, 28vw" /></Link>
             <div className={styles.articleContent}><span className={styles.category}>{categoryLabel(item.category)}</span><h3><Link href={`/berita/${item.slug}`}>{item.title}</Link></h3><NewsMeta item={item} />{item.excerpt && <p>{item.excerpt}</p>}<div className={styles.articleActions}><Link href={`/berita/${item.slug}`} className={styles.readLink}>Baca cerita <ArrowRight size={16} /></Link><ShareButton title={item.title} url={`/berita/${item.slug}`} description={item.excerpt} /></div></div>
-          </article>)}{!filteredNews.length && <p className={styles.empty}>Belum ada berita dalam kategori ini.</p>}</div>
-          {filteredNews.length > visible ? <button className={styles.more} onClick={() => setVisible(count => count + 4)}>Muat berita lainnya <ArrowRight size={16} /></button> : <Link className={styles.more} href="/berita">Jelajahi semua berita <ArrowRight size={16} /></Link>}
+          </article>)}{!loading && !error && !filteredNews.length && <p className={styles.empty}>Belum ada berita dalam kategori ini.</p>}</div>
+          {loading && <p role="status" className={styles.empty}>Memuat berita {category === 'all' ? '' : categoryLabel(category)}?</p>}
+          {error && <div role="alert" className={styles.empty}>{error} <button className={styles.more} onClick={() => setRetry(value => value + 1)}>Coba lagi</button></div>}
+          {!error && (visible < total ? <button className={styles.more} disabled={loading} onClick={loadMore}>{loading ? 'Memuat berita?' : 'Muat berita lainnya'} <ArrowRight size={16} /></button> : <Link className={styles.more} href={archiveHref}>Jelajahi semua berita {category === 'all' ? '' : categoryLabel(category)} <ArrowRight size={16} /></Link>)}
         </div>
         <aside className={styles.sidebar}>
           <div className={styles.sidePanel}><div className={styles.sideTitle}><span className={styles.dot} /><h2>Pengumuman</h2><Link href="/pengumuman" aria-label="Semua pengumuman"><ArrowRight size={18} /></Link></div>{notices.length ? notices.map((item, index) => <Link href={`/pengumuman/${item.id}`} key={item.id} className={styles.notice}><span className={styles.noticeNumber}>0{index + 1}</span><div><span className={styles.smallLabel}>{item.priority === 'high' ? 'PENTING' : item.category || 'INFORMASI'}</span><h3>{item.title}</h3></div><ArrowRight size={15} /></Link>) : <p className={styles.sideEmpty}>Belum ada pengumuman terbaru.</p>}</div>
           <div className={`${styles.sidePanel} ${styles.agenda}`}><div className={styles.sideTitle}><h2>Agenda Kampus</h2><CalendarDays size={19} /></div>{agenda.length ? agenda.map(item => <Link key={item.id} href={`/event/${item.slug}`} className={styles.event}><div className={styles.dateBlock}><strong>{new Date(item.eventDate).getDate()}</strong><span>{new Date(item.eventDate).toLocaleDateString('id-ID', { month: 'short' })}</span></div><div><h3>{item.title}</h3>{item.location && <p><MapPin size={12} />{item.location}</p>}</div></Link>) : <p className={styles.sideEmpty}>Nantikan agenda kampus berikutnya.</p>}<Link href="/event" className={styles.readLink}>Semua agenda <ArrowRight size={15} /></Link></div>
-          <div className={styles.sidePanel}><div className={styles.sideTitle}><h2>Jelajahi Kategori</h2><Newspaper size={18} /></div>{categoryValues.map(value => <button key={value} className={styles.categoryRow} aria-pressed={category === value} onClick={() => selectCategory(value)}><span>{categoryLabel(value)}</span><span>{news.filter(item => item.category === value).length}</span></button>)}</div>
+          <div className={styles.sidePanel}><div className={styles.sideTitle}><h2>Jelajahi Kategori</h2><Newspaper size={18} /></div>{categoryValues.map(value => <button key={value} className={styles.categoryRow} aria-pressed={category === value} onClick={() => selectCategory(value)}><span>{categoryLabel(value)}</span><span>{categoryCounts.find(item => item.category === value)?.total || 0}</span></button>)}</div>
         </aside>
       </div>
     </section>

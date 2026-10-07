@@ -1,3 +1,4 @@
+import { newsCategories } from '@/lib/news-categories'
 import PageHero from '@/components/layout/PageHero'
 import { publishedNews } from '@/lib/content'
 import Header from '@/components/layout/Header'
@@ -10,21 +11,20 @@ import { db } from '@/lib/db'
 
 export const dynamic = 'force-dynamic'
 
-async function getNews(page: number = 1) {
+async function getNews(page: number = 1, category?: string) {
   try {
     const limit = 12
+    const where = { ...publishedNews(), ...(category ? { category } : {}) }
     const offset = (page - 1) * limit
     
-    const [news, total] = await Promise.all([
+    const [news, total] = await db.$transaction([
       db.news.findMany({
-        where: publishedNews(),
-        orderBy: {
-          createdAt: 'desc'
-        },
+        where,
+        orderBy: [{ publishedDate: 'desc' }, { id: 'desc' }],
         skip: offset,
         take: limit
       }),
-      db.news.count({ where: publishedNews() })
+      db.news.count({ where })
     ])
 
     return {
@@ -45,11 +45,14 @@ async function getNews(page: number = 1) {
 export default async function BeritaPage({
   searchParams
 }: {
-  searchParams: Promise<{ page?: string }>
+  searchParams: Promise<{ page?: string; category?: string }>
 }) {
   const params = await searchParams
   const page = Math.max(1, parseInt(params.page || '1') || 1)
-  const { news, total, totalPages } = await getNews(page)
+  const { news, total, totalPages } = await getNews(page, params.category)
+
+  const categoryName = newsCategories.find(item => item.value === params.category)?.label || params.category
+  const pageHref = (value: number) => `/berita?${new URLSearchParams({ page: String(value), ...(params.category ? { category: params.category } : {}) })}`
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -61,6 +64,7 @@ export default async function BeritaPage({
         {/* News Grid */}
         <section className="site-section">
           <div className="site-container">
+            {categoryName && <div className="mb-6 flex items-center justify-between gap-4"><h2 className="section-title">{categoryName} <span className="text-muted-foreground text-base">({total} berita)</span></h2><Link href="/berita" className="text-unipas-primary">Semua berita</Link></div>}
             {news.length === 0 ? (
               <div className="text-center py-12 bg-gray-50 rounded-lg">
                 <p className="text-muted-foreground text-lg">Belum ada berita tersedia</p>
@@ -86,7 +90,7 @@ export default async function BeritaPage({
                 {/* Pagination */}
                 {totalPages > 1 && (
                   <div className="flex items-center justify-center gap-2 flex-wrap">
-                    <Link href={`/berita?page=${page - 1}`}>
+                    <Link href={pageHref(Math.max(1, page - 1))}>
                       <Button
                         variant="outline"
                         disabled={page === 1}
@@ -99,7 +103,7 @@ export default async function BeritaPage({
 
                     <div className="flex items-center gap-2">
                       {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
-                        <Link key={pageNum} href={`/berita?page=${pageNum}`}>
+                        <Link key={pageNum} href={pageHref(pageNum)}>
                           <Button
                             variant={page === pageNum ? "default" : "outline"}
                             className={
@@ -114,7 +118,7 @@ export default async function BeritaPage({
                       ))}
                     </div>
 
-                    <Link href={`/berita?page=${page + 1}`}>
+                    <Link href={pageHref(Math.min(totalPages, page + 1))}>
                       <Button
                         variant="outline"
                         disabled={page === totalPages}

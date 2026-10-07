@@ -44,7 +44,7 @@ async function fetchHomeData() {
 }
 export default function HomeClient() {
   const { data, loading, error, refetch } = useCache(
-    'home-page-data',
+    'home-page-data-v2',
     fetchHomeData,
     [] // No dependencies, only load once
   )
@@ -93,6 +93,7 @@ export default function HomeClient() {
         <AdmissionsSection admissions={data?.admissions || []} />
         <CampusMagazine
           news={data?.news || []}
+          categoryCounts={data?.categoryCounts || []}
           events={data?.events || []}
           announcements={data?.announcements || []}
           achievements={data?.achievements || []}

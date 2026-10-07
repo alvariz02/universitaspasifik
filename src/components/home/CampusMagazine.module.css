@@ -334,7 +334,14 @@
   font-size:12px;
   border-bottom:1px solid #edf0f4;
   text-align:left}
+.categoryRow:hover,.categoryRow:focus-visible {
+  background:#f0f6fc;
+  color:#1760ac}
+.categoryRow span:first-child {
+  min-width:0;
+  padding-right:12px}
 .categoryRow span:last-child {
+  flex-shrink:0;
   background:#f0f4f8;
   color:#6b8099;
   border-radius:4px;
