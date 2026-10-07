@@ -56,6 +56,8 @@ model Department {
 
 // Tabel: news (Berita)
 model News {
+  status        String    @default("published")
+  deletedAt     DateTime?
   id            Int       @id @default(autoincrement())
   title         String
   slug          String    @unique
@@ -105,6 +107,7 @@ model Announcement {
 
 // Tabel: research (Penelitian)
 model Research {
+  deletedAt       DateTime?
   id              Int       @id @default(autoincrement())
   title           String
   slug            String    @unique
@@ -234,6 +237,8 @@ model HeroSlider {
 
 // Tabel: pages (Halaman Statis)
 model Page {
+  isPublished    Boolean   @default(true)
+  deletedAt      DateTime?
   id             Int       @id @default(autoincrement())
   title          String
   slug           String    @unique
@@ -306,4 +311,71 @@ model Journal {
   updatedAt       DateTime  @updatedAt
 
   faculty         Faculty?  @relation("JournalFaculty", fields: [facultyId], references: [id], onDelete: SetNull)
+}
+
+// Individual staff accounts; environment admin remains the initial administrator.
+model AdminUser {
+  id           Int      @id @default(autoincrement())
+  email        String   @unique
+  name         String
+  passwordHash String
+  role         String   @default("editor")
+  isActive     Boolean  @default(true)
+  sessionVersion Int    @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Applicant {
+  id            Int      @id @default(autoincrement())
+  fullName      String
+  email         String
+  phone         String
+  admissionPath String
+  highSchool    String
+  major         String
+  gpa           Float
+  address       String
+  motivation    String
+  status        String   @default("new")
+  notes         String   @default("")
+  deletedAt     DateTime?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  @@index([status, createdAt])
+}
+
+model MediaAsset {
+  id        Int      @id @default(autoincrement())
+  name      String
+  url       String   @unique
+  publicId  String?
+  mimeType  String?
+  size      Int?
+  altText   String   @default("")
+  deletedAt DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ContentRevision {
+  id         Int      @id @default(autoincrement())
+  resource   String
+  recordId   Int
+  action     String
+  actorEmail String
+  snapshot   Json
+  createdAt  DateTime @default(now())
+  @@index([resource, recordId, createdAt])
+}
+
+model ActivityLog {
+  id         Int      @id @default(autoincrement())
+  actorEmail String
+  action     String
+  resource   String
+  recordId   Int?
+  summary    String
+  createdAt  DateTime @default(now())
+  @@index([createdAt])
 }

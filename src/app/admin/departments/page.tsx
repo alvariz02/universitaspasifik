@@ -27,8 +27,8 @@ export default function AdminDepartmentsPage() {
     try {
       setLoading(true)
       const [departmentsRes, facultiesRes] = await Promise.all([
-        fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/departments?limit=100`),
-        fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/faculties?limit=100`),
+        fetch(`/api/departments?limit=100`),
+        fetch(`/api/faculties?limit=100`),
       ])
       
       const departmentsData = await departmentsRes.json()
@@ -68,7 +68,7 @@ export default function AdminDepartmentsPage() {
 
     if (confirmed) {
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/departments/${id}`, {
+        const res = await fetch(`/api/departments/${id}`, {
           method: 'DELETE'
         })
 
@@ -94,8 +94,8 @@ export default function AdminDepartmentsPage() {
   const handleSubmit = async (data: any) => {
     try {
       const url = selectedDepartment 
-        ? `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/departments/${selectedDepartment.id}`
-        : `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/departments`
+        ? `/api/departments/${selectedDepartment.id}`
+        : `/api/departments`
       
       const method = selectedDepartment ? 'PUT' : 'POST'
       
@@ -160,10 +160,10 @@ export default function AdminDepartmentsPage() {
 
   return (
     <AdminLayout>
-      <div className="space-y-6">
-        <div className="flex justify-between items-center">
+      <div className="p-4 sm:p-8 max-w-7xl mx-auto space-y-6">
+        <div className="admin-page-header flex justify-between sm:items-center flex-col sm:flex-row gap-4">
           <div>
-            <h1 className="text-2xl font-bold text-unipas-primary">Departemen</h1>
+            <h1 className="admin-title text-unipas-primary">Departemen</h1>
             <p className="text-gray-600">Kelola departemen dan program studi</p>
           </div>
           <Button onClick={handleAdd} className="bg-unipas-primary hover:bg-unipas-primary/90">

@@ -133,9 +133,12 @@ export default function JournalGallery({
       filtered = filtered.filter(journal =>
         journal.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
         journal.abstract?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        journal.authors.toLowerCase().includes(searchTerm.toLowerCase())
+        journal.authors.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        journal.keywords?.toLowerCase().includes(searchTerm.toLowerCase())
       )
     }
+
+    if (selectedCategory !== 'all') filtered = filtered.filter(journal => journal.category === selectedCategory)
 
     if (selectedFaculty !== 'all') {
       filtered = filtered.filter(journal =>
@@ -151,7 +154,6 @@ export default function JournalGallery({
 
     if (showFeaturedOnly) {
       filtered = filtered.filter(journal => journal.isFeatured)
-      filtered = filtered.filter(j => j.isFeatured)
     }
 
     return filtered
@@ -181,7 +183,7 @@ export default function JournalGallery({
   const handleJournalClick = (journal: Journal) => {
     setSelectedJournal(journal)
 
-    fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/journals/${journal.id}`)
+    fetch(`/api/journals/${journal.id}`)
       .then(res => {
         if (res.ok) {
           setJournals(prev =>
@@ -224,7 +226,7 @@ export default function JournalGallery({
   return (
     <div className="space-y-8">
       {/* FILTER */}
-      <div className="bg-white rounded-xl p-6 shadow-lg space-y-4">
+      <div className="site-card bg-white p-6 space-y-4">
         <div className="relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
           <Input

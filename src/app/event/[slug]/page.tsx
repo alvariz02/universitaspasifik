@@ -67,11 +67,11 @@ export default async function EventDetailPage({
     return (
       <div className="min-h-screen flex flex-col">
         <Header />
-        <main className="flex-1 flex items-center justify-center">
+        <main className="public-page flex-1 flex items-center justify-center">
           <div className="text-center">
-            <h1 className="text-2xl font-bold mb-4">Event tidak ditemukan</h1>
+            <h1 className="page-title mb-4">Event tidak ditemukan</h1>
             <Link href="/event">
-              <Button className="bg-ui-yellow text-ui-navy hover:bg-yellow-400">
+              <Button className="bg-ui-yellow text-unipas-primary hover:bg-yellow-400">
                 Kembali ke Event
               </Button>
             </Link>
@@ -92,12 +92,12 @@ export default async function EventDetailPage({
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
-      <main className="flex-1">
+      <main className="public-page flex-1">
         {/* Back Button */}
         <div className="bg-gray-50 border-b">
-          <div className="container mx-auto px-4 py-4">
+          <div className="site-container py-4">
             <Link href="/event">
-              <Button variant="ghost" className="gap-2 text-ui-navy hover:text-ui-navy/80">
+              <Button variant="ghost" className="gap-2 text-unipas-primary hover:text-unipas-primary/80">
                 <ArrowLeft className="h-4 w-4" />
                 Kembali ke Event
               </Button>
@@ -114,13 +114,13 @@ export default async function EventDetailPage({
               className="w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-linear-to-t from-black/70 to-transparent" />
-            <div className="absolute bottom-0 left-0 right-0 container mx-auto px-4 py-8">
+            <div className="absolute bottom-0 left-0 right-0 site-container py-8">
               {isFeatured && (
-                <Badge className="bg-ui-yellow text-ui-navy mb-4 text-sm font-medium">
+                <Badge className="bg-ui-yellow text-unipas-primary mb-4 text-sm font-medium">
                   Event Unggulan
                 </Badge>
               )}
-              <h1 className="text-3xl md:text-5xl font-bold text-white mb-4">
+              <h1 className="page-title text-white mb-4">
                 {event.title}
               </h1>
               <div className="flex items-center gap-2">
@@ -137,19 +137,19 @@ export default async function EventDetailPage({
             </div>
           </div>
         ) : (
-          <section className="bg-ui-navy py-16">
-            <div className="container mx-auto px-4">
+          <section className="site-section bg-unipas-primary">
+            <div className="site-container">
               {isFeatured && (
-                <Badge className="bg-ui-yellow text-ui-navy mb-4 text-sm font-medium">
+                <Badge className="bg-ui-yellow text-unipas-primary mb-4 text-sm font-medium">
                   Event Unggulan
                 </Badge>
               )}
-              <h1 className="text-3xl md:text-5xl font-bold text-white mb-4">
+              <h1 className="page-title text-white mb-4">
                 {event.title}
               </h1>
               <div className="flex items-center gap-2">
                 {isPast ? (
-                  <Badge variant="outline" className="border-white text-white bg-ui-navy/30">
+                  <Badge variant="outline" className="border-white text-white bg-unipas-primary/30">
                     Selesai
                   </Badge>
                 ) : (
@@ -163,8 +163,8 @@ export default async function EventDetailPage({
         )}
 
         {/* Event Content */}
-        <section className="py-16">
-          <div className="container mx-auto px-4">
+        <section className="site-section">
+          <div className="site-container">
             <div className="max-w-4xl mx-auto">
               {/* Event Details */}
               <div className="grid md:grid-cols-3 gap-8 mb-12">
@@ -186,7 +186,7 @@ export default async function EventDetailPage({
                 <div className="space-y-6">
                   {/* Date & Time */}
                   <div className="bg-gray-50 rounded-lg p-6 border-2">
-                    <h3 className="font-bold text-ui-navy mb-4 flex items-center gap-2">
+                    <h3 className="font-bold text-unipas-primary mb-4 flex items-center gap-2">
                       <Calendar className="h-5 w-5 text-ui-yellow" />
                       Tanggal & Waktu
                     </h3>
@@ -216,7 +216,7 @@ export default async function EventDetailPage({
                   {/* Location */}
                   {event.location && (
                     <div className="bg-gray-50 rounded-lg p-6 border-2">
-                      <h3 className="font-bold text-ui-navy mb-4 flex items-center gap-2">
+                      <h3 className="font-bold text-unipas-primary mb-4 flex items-center gap-2">
                         <MapPin className="h-5 w-5 text-ui-yellow" />
                         Lokasi
                       </h3>
@@ -227,7 +227,7 @@ export default async function EventDetailPage({
                   {/* Organizer */}
                   {event.organizer && (
                     <div className="bg-gray-50 rounded-lg p-6 border-2">
-                      <h3 className="font-bold text-ui-navy mb-4 flex items-center gap-2">
+                      <h3 className="font-bold text-unipas-primary mb-4 flex items-center gap-2">
                         <Users className="h-5 w-5 text-ui-yellow" />
                         Penyelenggara
                       </h3>
@@ -238,7 +238,7 @@ export default async function EventDetailPage({
                   {/* Contact */}
                   {event.contactEmail && (
                     <div className="bg-gray-50 rounded-lg p-6 border-2">
-                      <h3 className="font-bold text-ui-navy mb-4">
+                      <h3 className="font-bold text-unipas-primary mb-4">
                         Kontak
                       </h3>
                       <p className="text-muted-foreground text-sm break-all">
@@ -249,7 +249,7 @@ export default async function EventDetailPage({
 
                   {/* Share Button */}
                   <div className="bg-gray-50 rounded-lg p-6 border-2">
-                    <h3 className="font-bold text-ui-navy mb-4">
+                    <h3 className="font-bold text-unipas-primary mb-4">
                       Bagikan Event
                     </h3>
                     <ShareButton 
@@ -266,7 +266,7 @@ export default async function EventDetailPage({
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      <Button className="w-full bg-ui-yellow text-ui-navy hover:bg-yellow-400 gap-2">
+                      <Button className="w-full bg-ui-yellow text-unipas-primary hover:bg-yellow-400 gap-2">
                         <ExternalLink className="h-4 w-4" />
                         Daftar Sekarang
                       </Button>
@@ -274,7 +274,7 @@ export default async function EventDetailPage({
                   )}
 
                   <Link href="/event">
-                    <Button variant="outline" className="w-full border-ui-navy text-ui-navy gap-2">
+                    <Button variant="outline" className="w-full border-ui-navy text-unipas-primary gap-2">
                       <ArrowLeft className="h-4 w-4" />
                       Event Lainnya
                     </Button>
@@ -283,15 +283,15 @@ export default async function EventDetailPage({
               </div>
 
               {/* Features/Highlights */}
-              <div className="bg-ui-navy/5 rounded-lg p-8 border-2 border-ui-navy/10">
-                <h3 className="font-bold text-ui-navy mb-6 text-xl">
+              <div className="bg-unipas-primary/5 rounded-lg p-8 border-2 border-ui-navy/10">
+                <h3 className="font-bold text-unipas-primary mb-6 text-xl">
                   Informasi Penting
                 </h3>
                 <div className="grid md:grid-cols-2 gap-4">
                   <div className="flex items-start gap-3">
                     <Check className="h-5 w-5 text-ui-yellow shrink-0 mt-0.5" />
                     <div>
-                      <div className="font-medium text-ui-navy">Gratis</div>
+                      <div className="font-medium text-unipas-primary">Gratis</div>
                       <div className="text-sm text-muted-foreground">
                         Tidak ada biaya pendaftaran
                       </div>
@@ -300,7 +300,7 @@ export default async function EventDetailPage({
                   <div className="flex items-start gap-3">
                     <Check className="h-5 w-5 text-ui-yellow shrink-0 mt-0.5" />
                     <div>
-                      <div className="font-medium text-ui-navy">Terbuka untuk Umum</div>
+                      <div className="font-medium text-unipas-primary">Terbuka untuk Umum</div>
                       <div className="text-sm text-muted-foreground">
                         Semua mahasiswa dan umum dapat mengikuti
                       </div>
@@ -309,7 +309,7 @@ export default async function EventDetailPage({
                   <div className="flex items-start gap-3">
                     <Check className="h-5 w-5 text-ui-yellow shrink-0 mt-0.5" />
                     <div>
-                      <div className="font-medium text-ui-navy">Sertifikat</div>
+                      <div className="font-medium text-unipas-primary">Sertifikat</div>
                       <div className="text-sm text-muted-foreground">
                         Sertifikat kehadiran tersedia
                       </div>
@@ -318,7 +318,7 @@ export default async function EventDetailPage({
                   <div className="flex items-start gap-3">
                     <Check className="h-5 w-5 text-ui-yellow shrink-0 mt-0.5" />
                     <div>
-                      <div className="font-medium text-ui-navy">Snack & Makan</div>
+                      <div className="font-medium text-unipas-primary">Snack & Makan</div>
                       <div className="text-sm text-muted-foreground">
                         Disediakan untuk peserta
                       </div>
@@ -332,9 +332,9 @@ export default async function EventDetailPage({
 
         {/* Related Events */}
         {relatedEvents.length > 0 && (
-          <section className="py-16 bg-gray-50">
-            <div className="container mx-auto px-4">
-              <h2 className="text-2xl md:text-3xl font-bold text-ui-navy mb-8">
+          <section className="site-section bg-gray-50">
+            <div className="site-container">
+              <h2 className="section-title font-bold text-unipas-primary mb-8">
                 Event Terkait
               </h2>
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -342,7 +342,7 @@ export default async function EventDetailPage({
                   <Link
                     key={item.id}
                     href={`/event/${item.slug}`}
-                    className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-shadow border-2 hover:border-ui-yellow"
+                    className="site-card bg-white overflow-hidden hover:shadow-lg transition-shadow hover:border-ui-yellow"
                   >
                     {item.imageUrl && (
                       <div className="aspect-video overflow-hidden">
@@ -354,7 +354,7 @@ export default async function EventDetailPage({
                       </div>
                     )}
                     <div className="p-4">
-                      <h3 className="font-bold text-ui-navy mb-2 line-clamp-2 hover:text-ui-navy/80">
+                      <h3 className="font-bold text-unipas-primary mb-2 line-clamp-2 hover:text-unipas-primary/80">
                         {item.title}
                       </h3>
                       <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">

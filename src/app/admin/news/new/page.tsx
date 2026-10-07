@@ -1,7 +1,2 @@
-import NewsForm from './NewsForm'
-
-export const dynamic = 'force-dynamic'
-
-export default function AdminCreateNewsPage() {
-  return <NewsForm />
-}
+import { redirect } from 'next/navigation'
+export default function Page() { redirect('/admin/news/create') }

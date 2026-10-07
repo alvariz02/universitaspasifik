@@ -1,42 +1,78 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-@theme {
-  --color-unipas-primary: hsl(217 91% 26%);
-  --color-unipas-secondary: hsl(0 0% 97%);
-  --color-unipas-accent: hsl(217 95% 45%);
-  --color-unipas-muted: hsl(210 40% 98%);
-  --color-unipas-text: hsl(222 84% 5%);
+/* Tailwind v4 utilities must map to the complete CSS color values below. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-unipas-primary: var(--unipas-primary);
+  --color-unipas-secondary: var(--unipas-secondary);
+  --color-unipas-accent: var(--unipas-accent);
+  --color-unipas-muted: var(--unipas-muted);
+  --color-unipas-text: var(--unipas-text);
+  --color-ui-navy: var(--ui-navy);
+  --color-ui-yellow: var(--ui-yellow);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
 }
 
 /* Keep your custom theme variables */
 :root {
-  --radius: 0.5rem;
-  --background: hsl(0 0% 95%);
-  --foreground: hsl(0 0% 15%);
+  --radius: 0.75rem;
+  --background: hsl(210 40% 98%);
+  --foreground: hsl(222 47% 15%);
   --card: hsl(0 0% 100%);
   --card-foreground: hsl(0 0% 15%);
   --popover: hsl(0 0% 100%);
   --popover-foreground: hsl(0 0% 15%);
-  --primary: hsl(220 90% 25%);
+  --primary: hsl(217 91% 26%);
   --primary-foreground: hsl(0 0% 100%);
-  --secondary: hsl(0 0% 85%);
-  --secondary-foreground: hsl(0 0% 15%);
-  --muted: hsl(0 0% 85%);
-  --muted-foreground: hsl(0 0% 45%);
-  --accent: hsl(0 0% 85%);
-  --accent-foreground: hsl(0 0% 15%);
+  --secondary: hsl(214 32% 94%);
+  --secondary-foreground: hsl(217 91% 26%);
+  --muted: hsl(214 32% 94%);
+  --muted-foreground: hsl(215 20% 40%);
+  --accent: hsl(214 90% 96%);
+  --accent-foreground: hsl(217 91% 26%);
   --destructive: hsl(0 84.2% 60.2%);
   --destructive-foreground: hsl(0 0% 100%);
-  --border: hsl(0 0% 85%);
-  --input: hsl(0 0% 85%);
-  --ring: hsl(220 90% 25%);
+  --border: hsl(214 28% 88%);
+  --input: hsl(214 28% 82%);
+  --ring: hsl(217 95% 45%);
   --chart-1: hsl(12 76% 61%);
   --chart-2: hsl(173 58% 39%);
   --chart-3: hsl(197 37% 24%);
   --chart-4: hsl(43 74% 66%);
   --chart-5: hsl(27 87% 67%);
   --sidebar-ring: oklch(0.708 0 0);
+
+  --ui-navy: var(--unipas-primary);
+  --ui-yellow: #FFC107;
 
   /* Custom UI Colors - Unipas Theme */
   --unipas-primary: hsl(217 91% 26%);
@@ -85,17 +121,43 @@
 
 @layer base {
   * {
-    /* border-border and outline-ring/50 were failing to compile; use CSS vars directly */
-    border-color: hsl(var(--border));
-    outline-color: hsl(var(--ring) / 0.5);
+    border-color: var(--border);
+    outline-color: color-mix(in srgb, var(--ring) 50%, transparent);
   }
 
   body {
-    background-color: hsl(var(--background));
-    color: hsl(var(--foreground));
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-geist-sans), Arial, sans-serif;
   }
 
+  :where(a, button, input, select, textarea):focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 3px;
+  }
+  :where(h1, h2, h3) { text-wrap: balance; }
+  :where(img, video) { max-width: 100%; }
+  :where(section[id], article[id]) { scroll-margin-top: 7rem; }
+
 }
+
+@layer components {
+  .site-container { width: 100%; max-width: 80rem; margin-inline: auto; padding-inline: 1rem; }
+  .public-page { min-width: 0; overflow-x: clip; background: var(--background); }
+  .page-hero { background: linear-gradient(120deg, var(--unipas-primary), #123f7a); color: white; padding-block: 3rem; text-align: center; }
+  .page-title { font-size: clamp(1.875rem, 4vw, 3rem); font-weight: 700; line-height: 1.2; letter-spacing: -.025em; overflow-wrap: anywhere; }
+  .section-title { font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 700; line-height: 1.3; letter-spacing: -.02em; }
+  .site-section { padding-block: 3rem; }
+  .site-card { border: 1px solid var(--border); border-radius: 1rem; background: var(--card); box-shadow: 0 2px 8px rgb(15 23 42 / .04); }
+  .admin-page { background: var(--background); }
+  .admin-title { font-size: clamp(1.5rem, 2.5vw, 1.875rem); line-height: 1.3; font-weight: 700; letter-spacing: -.02em; color: var(--unipas-primary); }
+  .admin-page-header { border: 1px solid var(--border); border-radius: 1rem; background: var(--card); padding: 1.5rem; color: var(--foreground); box-shadow: 0 2px 8px rgb(15 23 42 / .04); }
+  @media (min-width: 640px) { .site-container { padding-inline: 1.5rem; } }
+  @media (min-width: 1024px) { .site-container { padding-inline: 2rem; } .page-hero { padding-block: 4rem; } .site-section { padding-block: 4rem; } }
+}
+
+/* Header descriptions remain readable in the shared light admin header. */
+.admin-page-header p { color: var(--muted-foreground); }
 
 
 /* Utility classes for text truncation */
@@ -145,3 +207,19 @@
   contain: layout style paint;
 }
 
+
+/* Rich content uses the same readable layout in previews and public pages. */
+.content-prose { line-height: 1.8; }
+.content-prose :where(h1, h2, h3, h4) { font-weight: 700; line-height: 1.3; margin: 1.5em 0 .75em; }
+.content-prose h1 { font-size: 2em; }
+.content-prose h2 { font-size: 1.5em; }
+.content-prose h3 { font-size: 1.25em; }
+.content-prose p { margin: .75em 0; }
+.content-prose ul { list-style: disc; padding-left: 1.5em; }
+.content-prose ol { list-style: decimal; padding-left: 1.5em; }
+.content-prose a { color: var(--unipas-accent); text-decoration: underline; }
+.content-prose img { max-width: 100%; height: auto; border-radius: .5rem; }
+.content-prose blockquote { border-left: 3px solid var(--border); padding-left: 1em; }
+.content-prose pre { overflow-x: auto; padding: 1em; background: var(--muted); border-radius: .5rem; }
+.content-prose table { display: block; overflow-x: auto; border-collapse: collapse; max-width: 100%; }
+.content-prose :where(th, td) { padding: .5em; border: 1px solid var(--border); }

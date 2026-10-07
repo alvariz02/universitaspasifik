@@ -1,3 +1,4 @@
+import PageHero from '@/components/layout/PageHero'
 import { Metadata } from 'next'
 import JournalGallery from '@/components/JournalGallery'
 import { db } from '@/lib/db'
@@ -14,6 +15,7 @@ export const metadata: Metadata = {
 async function getJournals() {
   try {
     const journals = await db.journal.findMany({
+      where: { isActive: true },
       orderBy: {
         createdAt: 'desc'
       },
@@ -54,20 +56,9 @@ export default async function JurnalPage() {
   return (
     <div className="min-h-screen flex flex-col bg-unipas-muted">
       <Header />
-      <main className="flex-1">
+      <main className="public-page flex-1">
       {/* Hero Section */}
-      <div className="bg-gradient-to-r from-unipas-primary to-unipas-accent text-white py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <h1 className="text-4xl md:text-5xl font-bold text-blue-100 mb-4">
-              Jurnal Penelitian
-            </h1>
-            <p className="text-xl text-white/90 max-w-3xl mx-auto">
-              Kumpulan jurnal penelitian dan publikasi ilmiah dari civitas akademika Universitas Pasifik Morotai
-            </p>
-          </div>
-        </div>
-      </div>
+      <PageHero title={<>Jurnal Penelitian</>} description={<>Kumpulan jurnal penelitian dan publikasi ilmiah dari civitas akademika Universitas Pasifik Morotai</>} />
 
       {/* Journal Gallery */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">

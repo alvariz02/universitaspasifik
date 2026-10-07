@@ -77,10 +77,10 @@ export default async function FacultyDetailPage({
     return (
       <div className="min-h-screen flex flex-col">
         <Header />
-        <main className="flex-1 flex items-center justify-center bg-unipas-muted">
+        <main className="public-page flex-1 flex items-center justify-center bg-unipas-muted">
           <div className="text-center p-8">
             <Building2 className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-            <h1 className="text-2xl font-bold text-unipas-primary mb-4">Fakultas tidak ditemukan</h1>
+            <h1 className="page-title text-unipas-primary mb-4">Fakultas tidak ditemukan</h1>
             <Link href="/fakultas">
               <Button className="bg-gradient-to-r from-unipas-primary to-unipas-accent text-white">
                 <ArrowLeft className="h-4 w-4 mr-2" />
@@ -100,7 +100,7 @@ export default async function FacultyDetailPage({
   return (
     <div className="min-h-screen flex flex-col bg-unipas-muted">
       <Header />
-      <main className="flex-1">
+      <main className="public-page flex-1">
         {/* Hero Section with Faculty Color */}
         <div className={`relative bg-gradient-to-br ${facultyColor} text-white overflow-hidden`}>
           {/* Background Pattern */}
@@ -109,7 +109,7 @@ export default async function FacultyDetailPage({
             <div className="absolute bottom-0 right-0 w-96 h-96 bg-white rounded-full translate-x-1/3 translate-y-1/3"></div>
           </div>
 
-          <div className="container mx-auto px-4 py-16 relative z-10">
+          <div className="site-container py-16 relative z-10">
             {/* Back Button */}
             <Link href="/fakultas" className="inline-flex items-center gap-2 text-white/90 hover:text-white mb-8 transition-colors">
               <ArrowLeft className="h-4 w-4" />
@@ -122,7 +122,7 @@ export default async function FacultyDetailPage({
                   <Building2 className="h-10 w-10 text-white" />
                 </div>
                 <div>
-                  <h1 className="text-4xl md:text-5xl font-black mb-2">
+                  <h1 className="page-title mb-2">
                     {faculty.name}
                   </h1>
                   {faculty.establishedYear && (
@@ -144,19 +144,19 @@ export default async function FacultyDetailPage({
         </div>
 
         {/* Main Content */}
-        <div className="container mx-auto px-4 py-12">
+        <div className="site-container py-12">
           <div className="max-w-7xl mx-auto">
             <div className="grid lg:grid-cols-3 gap-8">
               {/* Left Column - Main Info */}
               <div className="lg:col-span-2 space-y-8">
                 {/* Program Studi Section */}
-                <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-8">
+                <div className="site-card bg-white border border-gray-200 p-8">
                   <div className="flex items-center gap-3 mb-6">
                     <div className={`w-12 h-12 bg-gradient-to-br ${facultyColor} rounded-xl flex items-center justify-center`}>
                       <GraduationCap className="h-6 w-6 text-white" />
                     </div>
                     <div>
-                      <h2 className="text-2xl font-bold text-unipas-primary">Program Studi</h2>
+                      <h2 className="section-title font-bold text-unipas-primary">Program Studi</h2>
                       <p className="text-sm text-gray-600">{departments.length} program studi tersedia</p>
                     </div>
                   </div>
@@ -246,7 +246,7 @@ export default async function FacultyDetailPage({
 
                 {/* Visi Misi Section */}
                 <div className="grid md:grid-cols-2 gap-6">
-                  <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-6">
+                  <div className="site-card bg-white border border-gray-200 p-6">
                     <div className="flex items-center gap-3 mb-4">
                       <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
                         <Eye className="h-5 w-5 text-blue-600" />
@@ -258,7 +258,7 @@ export default async function FacultyDetailPage({
                     </p>
                   </div>
 
-                  <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-6">
+                  <div className="site-card bg-white border border-gray-200 p-6">
                     <div className="flex items-center gap-3 mb-4">
                       <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
                         <Target className="h-5 w-5 text-green-600" />
@@ -286,7 +286,7 @@ export default async function FacultyDetailPage({
               {/* Right Column - Sidebar */}
               <div className="space-y-6">
                 {/* Contact Card */}
-                <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-6">
+                <div className="site-card bg-white border border-gray-200 p-6">
                   <h3 className="text-xl font-bold text-unipas-primary mb-6">Informasi Kontak</h3>
                   
                   <div className="space-y-4">
@@ -370,17 +370,17 @@ export default async function FacultyDetailPage({
                   <h3 className="text-lg font-bold mb-4">Statistik</h3>
                   <div className="space-y-4">
                     <div>
-                      <div className="text-3xl font-black">{departments.length}</div>
+                      <div className="text-3xl font-bold">{departments.length}</div>
                       <div className="text-white/80 text-sm">Program Studi</div>
                     </div>
                     <div>
-                      <div className="text-3xl font-black">
+                      <div className="text-3xl font-bold">
                         {departments.filter((d: any) => d.accreditation === 'A').length}
                       </div>
                       <div className="text-white/80 text-sm">Akreditasi A</div>
                     </div>
                     <div>
-                      <div className="text-3xl font-black">
+                      <div className="text-3xl font-bold">
                         {departments.filter((d: any) => d.head).length}
                       </div>
                       <div className="text-white/80 text-sm">Ketua Prodi Aktif</div>

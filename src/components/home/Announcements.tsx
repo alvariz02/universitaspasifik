@@ -154,7 +154,7 @@ export default function Announcements({ announcements }: AnnouncementsProps) {
   }
 
   return (
-    <section className="relative py-20 overflow-hidden bg-gradient-to-br from-unipas-primary via-unipas-accent to-unipas-primary">
+    <section className="site-section relative overflow-hidden bg-gradient-to-br from-unipas-primary via-unipas-accent to-unipas-primary">
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-white/5 rounded-full blur-3xl"></div>
@@ -184,7 +184,7 @@ export default function Announcements({ announcements }: AnnouncementsProps) {
         ))}
       </div>
 
-      <div className="container mx-auto px-4 relative z-10">
+      <div className="site-container relative z-10">
         {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: -40 }}
@@ -201,7 +201,7 @@ export default function Announcements({ announcements }: AnnouncementsProps) {
             <Bell className="h-10 w-10 text-white" />
           </motion.div>
           <div className="text-left">
-            <h2 className="text-5xl md:text-6xl font-black text-white leading-tight">
+            <h2 className="section-title text-white">
               Pengumuman Penting
             </h2>
             <p className="text-xl text-white/80 max-w-2xl mt-2">
@@ -218,7 +218,7 @@ export default function Announcements({ announcements }: AnnouncementsProps) {
             viewport={{ once: true }}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            <ScrollArea className="h-[500px] rounded-3xl border border-white/20 bg-white/10 backdrop-blur-md p-6">
+            <ScrollArea className="site-card h-[500px] border border-white/20 bg-white/10 backdrop-blur-md p-6">
               <div className="space-y-6">
                 {activeAnnouncements.map((announcement, index) => (
                   <motion.div
@@ -231,7 +231,7 @@ export default function Announcements({ announcements }: AnnouncementsProps) {
                       scale: 1.02,
                       transition: { duration: 0.3 }
                     }}
-                    className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 hover:bg-white/15 transition-all duration-300 border border-white/20 hover:border-white/30 cursor-pointer group"
+                    className="site-card bg-white/10 backdrop-blur-sm p-6 hover:bg-white/15 transition-all duration-300 border border-white/20 hover:border-white/30 cursor-pointer group"
                   >
                     <div className="flex items-start gap-4">
                       <motion.div
@@ -347,7 +347,7 @@ export default function Announcements({ announcements }: AnnouncementsProps) {
                           scale: 1.05,
                           transition: { duration: 0.3 }
                         }}
-                        className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 hover:bg-white/20 transition-all duration-300 cursor-pointer border border-white/20 hover:border-white/40 group"
+                        className="site-card bg-white/10 backdrop-blur-sm p-6 hover:bg-white/20 transition-all duration-300 cursor-pointer border border-white/20 hover:border-white/40 group"
                       >
                         <div className="flex items-center justify-between">
                           <div>

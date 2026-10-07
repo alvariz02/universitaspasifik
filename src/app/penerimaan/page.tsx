@@ -1,3 +1,4 @@
+import PageHero from '@/components/layout/PageHero'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import { GraduationCap, Calendar, Users, CheckCircle, ArrowRight } from 'lucide-react'
@@ -54,40 +55,22 @@ export default async function PenerimaanPage() {
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
-      <main className="flex-1">
+      <main className="public-page flex-1">
         {/* Hero Section */}
-        <section className="bg-gradient-to-br from-unipas-primary via-unipas-accent to-unipas-primary text-white">
-          <div className="container mx-auto px-4">
-            <div className="py-16">
-              <div className="max-w-4xl mx-auto text-center">
-                <div className="flex justify-center mb-6">
-                  <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center">
-                    <GraduationCap className="h-10 w-10 text-white" />
-                  </div>
-                </div>
-                <h1 className="text-4xl md:text-5xl font-bold text-blue-100 mb-4">
-                  Penerimaan Mahasiswa Baru
-                </h1>
-                <p className="text-xl text-white/90 max-w-2xl mx-auto">
-                  Bergabunglah bersama ribuan mahasiswa berprestasi dan jadilah bagian dari keluarga besar Universitas Pasifik
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
+        <PageHero title={<>Penerimaan Mahasiswa Baru</>} description={<>Bergabunglah bersama ribuan mahasiswa berprestasi dan jadilah bagian dari keluarga besar Universitas Pasifik</>} />
 
         {/* Admission Paths */}
-        <section className="py-16">
-          <div className="container mx-auto px-4">
+        <section className="site-section">
+          <div className="site-container">
             <div className="max-w-5xl mx-auto">
-              <h2 className="text-3xl font-bold text-ui-navy text-center mb-12">
+              <h2 className="section-title font-bold text-unipas-primary text-center mb-12">
                 Jalur Penerimaan
               </h2>
               <div className="grid md:grid-cols-3 gap-8">
                 {admissionPaths.map((path) => (
                   <div
                     key={path.name}
-                    className="bg-white rounded-lg shadow-lg border-2 hover:border-ui-yellow transition-all overflow-hidden"
+                    className="site-card bg-white hover:border-ui-yellow transition-all overflow-hidden"
                   >
                     <div className={`${path.color} p-6`}>
                       <div className="flex items-center justify-center mb-2">
@@ -95,17 +78,17 @@ export default async function PenerimaanPage() {
                       </div>
                     </div>
                     <div className="p-6">
-                      <h3 className="text-2xl font-bold text-ui-navy mb-2">
+                      <h3 className="text-2xl font-bold text-unipas-primary mb-2">
                         {path.name}
                       </h3>
-                      <h4 className="text-lg font-medium text-ui-navy mb-4">
+                      <h4 className="text-lg font-medium text-unipas-primary mb-4">
                         {path.title}
                       </h4>
                       <p className="text-muted-foreground mb-6">
                         {path.description}
                       </p>
                       <Link href="/penerimaan">
-                        <Button className="w-full bg-ui-navy text-white hover:bg-ui-navy/80">
+                        <Button className="w-full bg-unipas-primary text-white hover:bg-unipas-primary/80">
                           Pelajari Lebih Lanjut
                           <ArrowRight className="ml-2 h-4 w-4" />
                         </Button>
@@ -119,10 +102,10 @@ export default async function PenerimaanPage() {
         </section>
 
         {/* Requirements */}
-        <section className="py-16 bg-gray-50">
-          <div className="container mx-auto px-4">
+        <section className="site-section bg-gray-50">
+          <div className="site-container">
             <div className="max-w-4xl mx-auto">
-              <h2 className="text-3xl font-bold text-ui-navy text-center mb-12">
+              <h2 className="section-title font-bold text-unipas-primary text-center mb-12">
                 Persyaratan Umum
               </h2>
               <div className="grid md:grid-cols-2 gap-6">
@@ -136,7 +119,7 @@ export default async function PenerimaanPage() {
                 ].map((req, idx) => (
                   <div
                     key={idx}
-                    className="flex items-start gap-3 bg-white rounded-lg p-4 border-2"
+                    className="site-card flex items-start gap-3 bg-white p-4"
                   >
                     <CheckCircle className="h-6 w-6 text-green-500 shrink-0 mt-0.5" />
                     <span className="text-gray-700">{req}</span>
@@ -148,10 +131,10 @@ export default async function PenerimaanPage() {
         </section>
 
         {/* Timeline */}
-        <section className="py-16">
-          <div className="container mx-auto px-4">
+        <section className="site-section">
+          <div className="site-container">
             <div className="max-w-4xl mx-auto">
-              <h2 className="text-3xl font-bold text-ui-navy text-center mb-12">
+              <h2 className="section-title font-bold text-unipas-primary text-center mb-12">
                 Jadwal Penerimaan
               </h2>
               <div className="space-y-6">
@@ -159,14 +142,14 @@ export default async function PenerimaanPage() {
                   admissions.map((admission: any) => (
                     <div
                       key={admission.id}
-                      className="bg-white rounded-lg shadow-sm border-2 p-6 hover:border-ui-yellow transition-all"
+                      className="site-card bg-white p-6 hover:border-ui-yellow transition-all"
                     >
                       <div className="flex items-start gap-4">
                         <div className="bg-ui-yellow/10 rounded-lg p-3 shrink-0">
                           <Calendar className="h-6 w-6 text-ui-yellow" />
                         </div>
                         <div className="flex-1">
-                          <h3 className="text-xl font-bold text-ui-navy mb-2">
+                          <h3 className="text-xl font-bold text-unipas-primary mb-2">
                             {admission.programName}
                           </h3>
                           <div className="space-y-2 text-sm text-muted-foreground">
@@ -207,11 +190,11 @@ export default async function PenerimaanPage() {
         </section>
 
         {/* Admission Form */}
-        <section className="py-16 bg-gray-50">
-          <div className="container mx-auto px-4">
+        <section className="site-section bg-gray-50">
+          <div className="site-container">
             <div className="max-w-4xl mx-auto">
               <div className="text-center mb-12">
-                <h2 className="text-3xl font-bold text-ui-navy mb-4">
+                <h2 className="section-title font-bold text-unipas-primary mb-4">
                   Formulir Pendaftaran Online
                 </h2>
                 <p className="text-lg text-muted-foreground">
@@ -225,10 +208,10 @@ export default async function PenerimaanPage() {
         </section>
 
         {/* CTA */}
-        <section className="py-16 bg-ui-navy">
-          <div className="container mx-auto px-4">
+        <section className="site-section bg-unipas-primary">
+          <div className="site-container">
             <div className="max-w-4xl mx-auto text-center">
-              <h2 className="text-3xl font-bold text-white mb-4">
+              <h2 className="section-title font-bold text-white mb-4">
                 Siap Menjadi Mahasiswa UP?
               </h2>
               <p className="text-xl text-gray-300 mb-8">
@@ -237,7 +220,7 @@ export default async function PenerimaanPage() {
               <Link href="/kontak">
                 <Button
                   size="lg"
-                  className="bg-ui-yellow text-ui-navy hover:bg-yellow-400 px-8 py-6 text-lg font-bold"
+                  className="bg-ui-yellow text-unipas-primary hover:bg-yellow-400 px-8 py-6 text-lg font-bold"
                 >
                   Hubungi Kami untuk Informasi
                   <ArrowRight className="ml-2 h-5 w-5" />

@@ -31,9 +31,9 @@ export default function AdminStaffPage() {
     try {
       setLoading(true)
       const [staffRes, facultiesRes, departmentsRes] = await Promise.all([
-        fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/staff?limit=100`),
-        fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/faculties?limit=100`),
-        fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/departments?limit=100`),
+        fetch(`/api/staff?limit=100`),
+        fetch(`/api/faculties?limit=100`),
+        fetch(`/api/departments?limit=100`),
       ])
       
       const staffData = await staffRes.json()
@@ -79,7 +79,7 @@ export default function AdminStaffPage() {
     if (!confirmed) return
     
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/staff/${id}`, { method: 'DELETE' })
+      const res = await fetch(`/api/staff/${id}`, { method: 'DELETE' })
       if (res.ok) {
         setStaff(staff.filter((item) => item.id !== id))
         toast({
@@ -107,11 +107,11 @@ export default function AdminStaffPage() {
 
   const handleSubmit = async (data: any) => {
     try {
-      let url = `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/staff`
+      let url = `/api/staff`
       let method = 'POST'
 
       if (selectedStaff) {
-        url = `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/staff/${selectedStaff.id}`
+        url = `/api/staff/${selectedStaff.id}`
         method = 'PUT'
       }
 
@@ -183,11 +183,11 @@ export default function AdminStaffPage() {
 
   return (
     <AdminLayout>
-      <div className="min-h-screen bg-unipas-muted">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-8">
-          <div className="flex justify-between items-center mb-6">
+      <div className="p-4 sm:p-8 max-w-7xl mx-auto bg-unipas-muted">
+        <div className="w-full">
+          <div className="admin-page-header flex justify-between sm:items-center mb-6 flex-col sm:flex-row gap-4">
             <div>
-              <h1 className="text-3xl font-bold text-ui-navy mb-2">Kelola Staff</h1>
+              <h1 className="admin-title text-unipas-primary mb-2">Kelola Staff</h1>
               <p className="text-muted-foreground">Daftar seluruh dosen dan karyawan</p>
             </div>
             <Button 

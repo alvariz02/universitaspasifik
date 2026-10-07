@@ -1,3 +1,4 @@
+import PageHero from '@/components/layout/PageHero'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import EventCard from '@/components/cards/EventCard'
@@ -57,24 +58,15 @@ export default async function EventPage({
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
-      <main className="flex-1">
+      <main className="public-page flex-1">
         {/* Page Header */}
-        <section className="bg-ui-navy py-16">
-          <div className="container mx-auto px-4">
-            <h1 className="text-4xl md:text-5xl font-bold text-blue-200 drop-shadow-sm mb-4">
-              Event & Kegiatan Universitas Pasifik
-            </h1>
-            <p className="text-xl text-gray-300">
-              Jangan lewatkan berbagai acara dan kegiatan menarik di Universitas Pasifik
-            </p>
-          </div>
-        </section>
+        <PageHero title={<>Event & Kegiatan Universitas Pasifik</>} description={<>Jangan lewatkan berbagai acara dan kegiatan menarik di Universitas Pasifik</>} />
 
         {/* Upcoming Events */}
-        <section className="py-16">
-          <div className="container mx-auto px-4">
+        <section className="site-section">
+          <div className="site-container">
             <div className="mb-8">
-              <h2 className="text-2xl font-bold text-ui-navy mb-2">
+              <h2 className="section-title font-bold text-unipas-primary mb-2">
                 Event Mendatang
               </h2>
               <div className="h-1 w-20 bg-ui-yellow"></div>
@@ -106,7 +98,7 @@ export default async function EventPage({
             {pastEvents.length > 0 && (
               <>
                 <div className="mb-8">
-                  <h2 className="text-2xl font-bold text-ui-navy mb-2">
+                  <h2 className="section-title font-bold text-unipas-primary mb-2">
                     Event Selesai
                   </h2>
                   <div className="h-1 w-20 bg-ui-yellow"></div>

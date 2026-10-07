@@ -5,7 +5,7 @@ import { Facebook, Twitter, Instagram, Linkedin, Youtube, Mail, Phone, MapPin, C
 export default function Footer() {
   return (
     <footer className="bg-unipas-primary text-white min-h-[400px]">
-      <div className="container mx-auto px-4 py-12">
+      <div className="site-container py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Column 1: About Unipas */}
           <div className="space-y-4">
@@ -33,32 +33,32 @@ export default function Footer() {
             <h3 className="text-lg font-bold mb-4 text-white">Tautan Cepat</h3>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link href="/fakultas" className="text-gray-300 hover:text-unipas-accent transition-colors">
+                <Link href="/fakultas" className="text-gray-300 hover:text-white transition-colors">
                   Fakultas
                 </Link>
               </li>
               <li>
-                <Link href="/program-studi" className="text-gray-300 hover:text-unipas-accent transition-colors">
+                <Link href="/program-studi" className="text-gray-300 hover:text-white transition-colors">
                   Program Studi
                 </Link>
               </li>
               <li>
-                <Link href="/penerimaan" className="text-gray-300 hover:text-unipas-accent transition-colors">
+                <Link href="/penerimaan" className="text-gray-300 hover:text-white transition-colors">
                   Penerimaan Mahasiswa Baru
                 </Link>
               </li>
               <li>
-                <Link href="/berita" className="text-gray-300 hover:text-unipas-accent transition-colors">
+                <Link href="/berita" className="text-gray-300 hover:text-white transition-colors">
                   Berita & Informasi
                 </Link>
               </li>
               <li>
-                <Link href="/penelitian" className="text-gray-300 hover:text-unipas-accent transition-colors">
+                <Link href="/penelitian" className="text-gray-300 hover:text-white transition-colors">
                   Penelitian
                 </Link>
               </li>
               <li>
-                <Link href="/fasilitas" className="text-gray-300 hover:text-unipas-accent transition-colors">
+                <Link href="/fasilitas" className="text-gray-300 hover:text-white transition-colors">
                   Fasilitas
                 </Link>
               </li>
@@ -126,7 +126,7 @@ export default function Footer() {
 
       {/* Bottom Bar */}
       <div className="border-t border-white/10">
-        <div className="container mx-auto px-4 py-4">
+        <div className="site-container py-4">
 <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-gray-200">
             <p>© {new Date().getFullYear()} Universitas Pasifik Morotai. Hak Cipta Dilindungi.</p>
             <div className="flex gap-6 flex-wrap">

@@ -1,7 +1,17 @@
+import { withStaffAccess } from '@/lib/api-access'
 import { NextResponse } from 'next/server'
 import { db } from '@/lib/db'
+import { z } from 'zod'
 
-export async function GET(request: Request) {
+const submissionSchema = z.object({
+  name: z.string().trim().min(1).max(200),
+  email: z.string().trim().email().max(254),
+  phone: z.string().trim().max(50).optional(),
+  subject: z.string().trim().min(1).max(300),
+  message: z.string().trim().min(1).max(10000),
+})
+
+async function handleGET(request: Request) {
   try {
     const { searchParams } = new URL(request.url)
     const limit = parseInt(searchParams.get('limit') || '50')
@@ -33,8 +43,11 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
-    const body = await request.json()
-    const { name, email, phone, subject, message } = body
+    const parsed = submissionSchema.safeParse(await request.json().catch(() => null))
+    if (!parsed.success) {
+      return NextResponse.json({ error: 'Data formulir tidak valid. Periksa nama, email, subjek, dan pesan.' }, { status: 400 })
+    }
+    const { name, email, phone, subject, message } = parsed.data
 
     const submission = await db.contactSubmission.create({
       data: {
@@ -56,3 +69,5 @@ export async function POST(request: Request) {
     )
   }
 }
+
+export const GET = withStaffAccess('contact', handleGET)

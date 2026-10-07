@@ -1,90 +1,20 @@
 import { NextResponse } from 'next/server'
 import { db } from '@/lib/db'
+import { publishedNews } from '@/lib/content'
+import { requireStaff } from '@/lib/staff-auth'
+import { apiError } from '@/lib/api-access'
+import { POST as adminCreate } from '@/app/api/admin/[resource]/route'
 
 export async function GET(request: Request) {
   try {
-    console.log('📰 News API called')
-    const { searchParams } = new URL(request.url)
-    const featured = searchParams.get('featured')
-    const limit = parseInt(searchParams.get('limit') || '10')
-    const offset = parseInt(searchParams.get('offset') || '0')
-
-    console.log('📊 Query params:', { featured, limit, offset })
-
-    let news
-    let total
-
-    if (featured === 'true') {
-      console.log('⭐ Fetching featured news')
-      news = await db.news.findMany({
-        where: {
-          isFeatured: true
-        },
-        orderBy: {
-          publishedDate: 'desc'
-        },
-        take: limit,
-        skip: offset
-      })
-      total = await db.news.count({
-        where: {
-          isFeatured: true
-        }
-      })
-    } else {
-      console.log('📰 Fetching all news')
-      news = await db.news.findMany({
-        orderBy: {
-          publishedDate: 'desc'
-        },
-        take: limit,
-        skip: offset
-      })
-      total = await db.news.count()
-    }
-
-    console.log('📊 News found:', news.length, 'Total:', total)
-
-    return NextResponse.json({
-      news,
-      total,
-      limit,
-      offset
-    })
-  } catch (error) {
-    console.error('🚨 Error fetching news:', error)
-    return NextResponse.json(
-      { error: 'Failed to fetch news' },
-      { status: 500 }
-    )
-  }
+    const query = new URL(request.url).searchParams
+    const limit = Math.min(100, Math.max(1, Number(query.get('limit')) || 10))
+    const offset = Math.max(0, Number(query.get('offset')) || 0)
+    let where: any = publishedNews()
+    if (query.get('admin') === 'true') { await requireStaff('news'); where = { deletedAt: null } }
+    if (query.get('featured') === 'true') where.isFeatured = true
+    const [news, total] = await Promise.all([db.news.findMany({ where, orderBy: { publishedDate: 'desc' }, take: limit, skip: offset }), db.news.count({ where })])
+    return NextResponse.json({ news, total, limit, offset }, { headers: { 'Cache-Control': 'no-store' } })
+  } catch (error) { return apiError(error) }
 }
-
-export async function POST(request: Request) {
-  try {
-    const body = await request.json()
-
-    const news = await db.news.create({
-      data: {
-        title: body.title,
-        slug: body.slug,
-        excerpt: body.excerpt,
-        content: body.content,
-        imageUrl: body.imageUrl,
-        category: body.category,
-        authorName: body.authorName,
-        publishedDate: body.publishedDate ? new Date(body.publishedDate) : new Date(),
-        isFeatured: body.isFeatured || false,
-        viewCount: 0,
-      }
-    })
-
-    return NextResponse.json(news, { status: 201 })
-  } catch (error) {
-    console.error('Error creating news:', error)
-    return NextResponse.json(
-      { error: 'Failed to create news' },
-      { status: 500 }
-    )
-  }
-}
+export async function POST(request: Request) { return adminCreate(request, { params: Promise.resolve({ resource: 'news' }) }) }

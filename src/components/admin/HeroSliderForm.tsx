@@ -170,7 +170,7 @@ export default function HeroSliderForm({ open, onClose, onSubmit, initialData }:
           </Button>
           <Button
             type="submit"
-            className="bg-ui-navy text-white hover:bg-ui-navy/80"
+            className="bg-unipas-primary text-white hover:bg-unipas-primary/80"
             disabled={isSubmitting}
             onClick={handleSubmit(onFormSubmit)}
           >

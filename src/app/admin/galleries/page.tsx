@@ -23,7 +23,7 @@ export default function AdminGalleriesPage() {
   const fetchGalleries = async () => {
     try {
       setLoading(true)
-      const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/galleries?limit=100`)
+      const res = await fetch(`/api/galleries?limit=100`)
       const data = await res.json()
       setGalleries(data)
     } catch (error) {
@@ -45,7 +45,7 @@ export default function AdminGalleriesPage() {
     if (!confirmed) return
     
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/galleries/${id}`, { method: 'DELETE' })
+      const res = await fetch(`/api/galleries/${id}`, { method: 'DELETE' })
       if (res.ok) {
         setGalleries(galleries.filter((item) => item.id !== id))
         toast({
@@ -84,9 +84,9 @@ export default function AdminGalleriesPage() {
 
   return (
     <AdminLayout>
-      <div className="p-6">
-        <h1 className="text-3xl font-bold text-ui-navy mb-2">Kelola Galeri</h1>
-        <p className="text-muted-foreground">Kelola galeri foto universitas</p>
+      <div className="p-4 sm:p-8 max-w-7xl mx-auto">
+        <div className="admin-page-header mb-6"><h1 className="admin-title text-unipas-primary mb-2">Kelola Galeri</h1>
+        <p className="text-muted-foreground">Kelola galeri foto universitas</p></div>
 
         {loading ? (
           <div className="text-center py-8 text-muted-foreground">Memuat...</div>

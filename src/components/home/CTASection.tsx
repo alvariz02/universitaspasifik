@@ -30,7 +30,7 @@ export default function CTASection() {
   ]
 
   return (
-    <section className="relative py-20 overflow-hidden bg-gradient-to-br from-unipas-primary via-unipas-accent to-unipas-primary">
+    <section className="site-section relative overflow-hidden bg-gradient-to-br from-unipas-primary via-unipas-accent to-unipas-primary">
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-white/5 rounded-full blur-3xl"></div>
@@ -81,7 +81,7 @@ export default function CTASection() {
         ))}
       </div>
 
-      <div className="container mx-auto px-4 relative z-10">
+      <div className="site-container relative z-10">
         {/* Main CTA */}
         <motion.div
           initial={{ opacity: 0, y: -40 }}
@@ -100,12 +100,12 @@ export default function CTASection() {
             <motion.div
               animate={{ rotate: 360 }}
               transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-              className="w-20 h-20 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center shadow-2xl border border-white/30"
+              className="site-card w-20 h-20 bg-white/20 backdrop-blur-md flex items-center justify-center border border-white/30"
             >
               <Target className="h-10 w-10 text-white" />
             </motion.div>
             <div className="text-left">
-              <h2 className="text-5xl md:text-7xl font-black text-white leading-tight">
+              <h2 className="section-title text-white">
                 Siap Bergabung dengan Keluarga Unipas?
               </h2>
             </div>
@@ -169,7 +169,7 @@ export default function CTASection() {
               }}
               className="group relative"
             >
-              <div className="bg-white/10 backdrop-blur-md rounded-3xl p-8 shadow-2xl hover:shadow-3xl transition-all duration-500 border border-white/20 hover:border-white/40">
+              <div className="site-card bg-white/10 backdrop-blur-md p-8 hover:shadow-3xl transition-all duration-500 border border-white/20 hover:border-white/40">
                 {/* Animated Background */}
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                   <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-white/10"></div>
@@ -243,7 +243,7 @@ export default function CTASection() {
                 }}
               >
                 <Link href="/penerimaan">
-                  <Button variant="outline" className="w-full h-20 bg-white/10 backdrop-blur-md border-white/30 text-white hover:bg-white/20 hover:border-white/50 hover:scale-105 transition-all duration-300 rounded-2xl group">
+                  <Button variant="outline" className="site-card w-full h-20 bg-white/10 backdrop-blur-md border-white/30 text-white hover:bg-white/20 hover:border-white/50 hover:scale-105 transition-all duration-300 group">
                     <div className="flex flex-col items-center gap-2">
                       <span className="font-bold text-lg group-hover:text-yellow-300 transition-colors duration-300">
                         {path.name}

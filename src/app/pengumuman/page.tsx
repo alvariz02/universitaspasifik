@@ -1,3 +1,4 @@
+import PageHero from '@/components/layout/PageHero'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import { Badge } from '@/components/ui/badge'
@@ -81,29 +82,13 @@ export default async function PengumumanPage() {
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
-      <main className="flex-1">
+      <main className="public-page flex-1">
         {/* Page Header */}
-        <section className="bg-ui-navy py-16">
-          <div className="container mx-auto px-4">
-            <div className="flex items-center gap-3">
-              <div className="bg-ui-yellow rounded-lg p-3">
-                <Bell className="h-8 w-8 text-ui-navy" />
-              </div>
-              <div>
-                <h1 className="text-4xl md:text-5xl font-bold text-white mb-2">
-                  Pengumuman UI
-                </h1>
-                <p className="text-xl text-gray-300">
-                  Informasi penting yang perlu Anda ketahui
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
+        <PageHero title={<>Pengumuman UNIPAS</>} description={<>Informasi penting yang perlu Anda ketahui</>} />
 
         {/* Announcements List */}
-        <section className="py-16">
-          <div className="container mx-auto px-4">
+        <section className="site-section">
+          <div className="site-container">
             {announcements.length === 0 ? (
               <div className="text-center py-12 bg-gray-50 rounded-lg">
                 <Bell className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
@@ -111,11 +96,11 @@ export default async function PengumumanPage() {
               </div>
             ) : (
               <div className="max-w-4xl mx-auto">
-                <div className="bg-white rounded-lg shadow-lg border-2">
+                <div className="site-card bg-white">
                   <div className="p-6 border-b bg-gray-50">
                     <div className="flex items-center gap-3">
                       <Bell className="h-5 w-5 text-ui-yellow" />
-                      <h2 className="text-xl font-bold text-ui-navy">
+                      <h2 className="section-title text-xl font-bold text-unipas-primary">
                         Semua Pengumuman
                       </h2>
                     </div>
@@ -162,7 +147,7 @@ export default async function PengumumanPage() {
                               </div>
 
                               {/* Title */}
-                              <h3 className="text-xl font-bold text-ui-navy mb-3 hover:text-ui-navy/80 transition-colors">
+                              <h3 className="text-xl font-bold text-unipas-primary mb-3 hover:text-unipas-primary/80 transition-colors">
                                 {announcement.title}
                               </h3>
 
@@ -193,8 +178,8 @@ export default async function PengumumanPage() {
                 </div>
 
                 {/* Info Box */}
-                <div className="mt-8 bg-ui-navy/5 rounded-lg p-6 border-2 border-ui-navy/10">
-                  <h3 className="font-bold text-ui-navy mb-4 flex items-center gap-2">
+                <div className="mt-8 bg-unipas-primary/5 rounded-lg p-6 border-2 border-ui-navy/10">
+                  <h3 className="font-bold text-unipas-primary mb-4 flex items-center gap-2">
                     <Info className="h-5 w-5 text-ui-yellow" />
                     Tentang Pengumuman
                   </h3>

@@ -6,7 +6,8 @@ interface AdminSession {
     id: string
     email: string
     name: string
-    role: 'admin'
+    role: 'admin' | 'humas' | 'editor'
+    sessionVersion?: number
   }
   exp: number
 }
@@ -64,7 +65,7 @@ export async function verifySession(token: string): Promise<AdminSession | null>
     if (!valid) return null
 
     const session = JSON.parse(new TextDecoder().decode(decodeBase64Url(payload))) as AdminSession
-    if (session.user?.role !== 'admin' || session.exp <= Math.floor(Date.now() / 1000)) return null
+    if (!['admin', 'humas', 'editor'].includes(session.user?.role) || session.exp <= Math.floor(Date.now() / 1000)) return null
     return session
   } catch {
     return null

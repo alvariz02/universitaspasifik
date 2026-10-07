@@ -2,7 +2,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { Building2, Users, ArrowRight } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
+import { buttonVariants } from '@/components/ui/button'
 
 interface FacultyCardProps {
   slug: string
@@ -25,7 +25,7 @@ export default function FacultyCard({
 }: FacultyCardProps) {
   return (
     <Link href={`/fakultas/${slug}`}>
-      <Card className="group overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer border-2 hover:border-ui-yellow h-full flex flex-col">
+      <Card className="group overflow-hidden gap-0 py-0 hover:shadow-md transition-all duration-300 cursor-pointer hover:border-unipas-accent/40 h-full flex flex-col">
         {imageUrl && (
           <div className="aspect-video overflow-hidden relative">
             <Image
@@ -44,7 +44,7 @@ export default function FacultyCard({
               <Building2 className="h-6 w-6 text-ui-yellow" />
             </div>
             <div>
-              <h3 className="text-lg font-bold text-ui-navy line-clamp-2">{name}</h3>
+              <h3 className="text-lg font-bold text-unipas-primary line-clamp-2">{name}</h3>
               {location && (
                 <p className="text-sm text-muted-foreground">{location}</p>
               )}
@@ -74,10 +74,10 @@ export default function FacultyCard({
             </div>
           )}
 
-          <Button className="w-full bg-ui-yellow hover:bg-yellow-400 text-ui-navy group-hover:gap-3 transition-all">
+          <span className={buttonVariants({ className: 'w-full group-hover:gap-3 transition-all' })}>
             <span>Lihat Detail</span>
             <ArrowRight className="h-4 w-4" />
-          </Button>
+          </span>
         </CardContent>
       </Card>
     </Link>

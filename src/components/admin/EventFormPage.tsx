@@ -105,14 +105,14 @@ export default function EventFormPage({ initialData, onSubmit, title, subtitle, 
           Kembali ke Daftar Event
         </Link>
         <div className="bg-linear-to-r from-unipas-primary to-unipas-accent rounded-xl p-6 text-white shadow-lg">
-          <h1 className="text-3xl font-bold mb-2">{title}</h1>
+          <h1 className="admin-title mb-2">{title}</h1>
           <p className="text-white/90">{subtitle}</p>
         </div>
       </div>
 
       <form onSubmit={handleSubmit(onFormSubmit)} className="space-y-6">
         {/* Basic Information */}
-        <div className="bg-white rounded-xl p-6 border border-unipas-primary/20 shadow-lg">
+        <div className="site-card bg-white p-6 border border-unipas-primary/20">
           <h3 className="text-lg font-semibold text-unipas-primary mb-4 flex items-center gap-2">
             <span className="w-2 h-2 bg-unipas-accent rounded-full"></span>
             Informasi Dasar
@@ -197,7 +197,7 @@ export default function EventFormPage({ initialData, onSubmit, title, subtitle, 
         </div>
 
         {/* Description */}
-        <div className="bg-white rounded-xl p-6 border border-unipas-primary/20 shadow-lg">
+        <div className="site-card bg-white p-6 border border-unipas-primary/20">
           <h3 className="text-lg font-semibold text-unipas-primary mb-4 flex items-center gap-2">
             <span className="w-2 h-2 bg-unipas-accent rounded-full"></span>
             Deskripsi Event

@@ -38,7 +38,7 @@ export default function VideoSection({ videos }: VideoSectionProps) {
   }
 
   return (
-    <section className="relative py-20 overflow-hidden bg-gradient-to-br from-slate-900 via-gray-900 to-black">
+    <section className="site-section relative overflow-hidden bg-gradient-to-br from-slate-900 via-gray-900 to-black">
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-red-600/10 rounded-full blur-3xl"></div>
@@ -89,7 +89,7 @@ export default function VideoSection({ videos }: VideoSectionProps) {
         ))}
       </div>
 
-      <div className="container mx-auto px-4 relative z-10">
+      <div className="site-container relative z-10">
         {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: -40 }}
@@ -107,7 +107,7 @@ export default function VideoSection({ videos }: VideoSectionProps) {
               <Video className="h-8 w-8 text-white" />
             </motion.div>
             <div className="text-left">
-              <h2 className="text-5xl md:text-6xl font-black bg-gradient-to-r from-red-500 to-red-600 bg-clip-text text-transparent leading-tight">
+              <h2 className="section-title text-unipas-primary">
                 Video Kegiatan Kampus
               </h2>
               <p className="text-xl text-white/80 max-w-2xl mt-2">
@@ -138,7 +138,7 @@ export default function VideoSection({ videos }: VideoSectionProps) {
               className="group relative cursor-pointer"
               onClick={() => handleVideoClick(video)}
             >
-              <div className="h-full bg-white/10 backdrop-blur-md rounded-3xl overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-500 border border-white/20 hover:border-red-500/30 card-item">
+              <div className="site-card h-full bg-white/10 backdrop-blur-md overflow-hidden hover:shadow-3xl transition-all duration-500 border border-white/20 hover:border-red-500/30 card-item">
                 {/* Cinematic Thumbnail */}
                 <div className="relative aspect-video bg-gray-900">
                   {video.thumbnail ? (
@@ -254,7 +254,7 @@ export default function VideoSection({ videos }: VideoSectionProps) {
           transition={{ delay: 1.5, duration: 0.8 }}
           className="text-center"
         >
-          <Button asChild className="bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-600 text-white px-10 py-4 text-lg font-bold rounded-full shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-105 border border-white/20 backdrop-blur-sm">
+          <Button size="lg" asChild className="text-white transition-all duration-300 border border-white/20 backdrop-blur-sm">
             <Link href="/video-kegiatan">
               <span className="flex items-center gap-3">
                 Lihat Semua Video

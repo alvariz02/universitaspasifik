@@ -1,3 +1,4 @@
+import PageHero from '@/components/layout/PageHero'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import { FlaskConical, BookOpen, TrendingUp, Award, ArrowRight } from 'lucide-react'
@@ -10,6 +11,7 @@ export const dynamic = 'force-dynamic'
 async function getResearch() {
   try {
     const research = await db.research.findMany({
+      where: { deletedAt: null },
       orderBy: {
         createdAt: 'desc'
       },
@@ -52,47 +54,29 @@ export default async function PenelitianPage() {
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
-      <main className="flex-1">
+      <main className="public-page flex-1">
         {/* Hero Section */}
-        <section className="bg-gradient-to-br from-unipas-primary via-unipas-accent to-unipas-primary text-white">
-          <div className="container mx-auto px-4">
-            <div className="py-16">
-              <div className="max-w-4xl mx-auto text-center">
-                <div className="flex justify-center mb-6">
-                  <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center">
-                    <FlaskConical className="h-10 w-10 text-white" />
-                  </div>
-                </div>
-                <h1 className="text-4xl md:text-5xl font-bold text-blue-100 mb-4">
-                  Penelitian & Inovasi UP
-                </h1>
-                <p className="text-xl text-white/90 max-w-2xl mx-auto">
-                  Universitas Pasifik berkomitmen menghasilkan penelitian berkualitas yang bermanfaat bagi masyarakat
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
+        <PageHero title={<>Penelitian & Inovasi UNIPAS</>} description={<>Universitas Pasifik berkomitmen menghasilkan penelitian berkualitas yang bermanfaat bagi masyarakat</>} />
 
         {/* Research Areas */}
-        <section className="py-16">
-          <div className="container mx-auto px-4">
+        <section className="site-section">
+          <div className="site-container">
             <div className="max-w-6xl mx-auto">
-              <h2 className="text-3xl font-bold text-ui-navy text-center mb-12">
+              <h2 className="section-title font-bold text-unipas-primary text-center mb-12">
                 Bidang Penelitian
               </h2>
               <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
                 {researchAreas.map((area, idx) => (
                   <div
                     key={idx}
-                    className="bg-white rounded-lg shadow-lg border-2 hover:border-ui-yellow transition-all p-6 text-center"
+                    className="site-card bg-white hover:border-ui-yellow transition-all p-6 text-center"
                   >
                     <div className="bg-ui-yellow/10 rounded-lg w-16 h-16 flex items-center justify-center mx-auto mb-4">
                       <div className="text-ui-yellow">
                         {area.icon}
                       </div>
                     </div>
-                    <h3 className="text-lg font-bold text-ui-navy mb-2">
+                    <h3 className="text-lg font-bold text-unipas-primary mb-2">
                       {area.title}
                     </h3>
                     <p className="text-sm text-muted-foreground">
@@ -106,10 +90,10 @@ export default async function PenelitianPage() {
         </section>
 
         {/* Latest Research */}
-        <section className="py-16 bg-gray-50">
-          <div className="container mx-auto px-4">
+        <section className="site-section bg-gray-50">
+          <div className="site-container">
             <div className="max-w-6xl mx-auto">
-              <h2 className="text-3xl font-bold text-ui-navy text-center mb-12">
+              <h2 className="section-title font-bold text-unipas-primary text-center mb-12">
                 Penelitian Terbaru
               </h2>
               {research.length === 0 ? (
@@ -122,7 +106,7 @@ export default async function PenelitianPage() {
                   {research.map((item: any) => (
                     <div
                       key={item.id}
-                      className="bg-white rounded-lg shadow-sm border-2 hover:border-ui-yellow transition-all overflow-hidden"
+                      className="site-card bg-white hover:border-ui-yellow transition-all overflow-hidden"
                     >
                       {item.imageUrl && (
                         <div className="aspect-video overflow-hidden">
@@ -134,12 +118,12 @@ export default async function PenelitianPage() {
                         </div>
                       )}
                       <div className="p-6">
-                        <h3 className="text-lg font-bold text-ui-navy mb-2 line-clamp-2">
-                          {item.title}
+                        <h3 className="text-lg font-bold text-unipas-primary mb-2 line-clamp-2">
+                          <Link href={`/penelitian/${item.slug}`} className="hover:underline">{item.title}</Link>
                         </h3>
-                        {item.researcher && (
+                        {item.researchers && (
                           <p className="text-sm text-muted-foreground mb-3">
-                            {item.researcher}
+                            {item.researchers}
                           </p>
                         )}
                         {item.publicationDate && (
@@ -161,15 +145,15 @@ export default async function PenelitianPage() {
         </section>
 
         {/* Statistics */}
-        <section className="py-16">
-          <div className="container mx-auto px-4">
+        <section className="site-section">
+          <div className="site-container">
             <div className="max-w-4xl mx-auto">
-              <h2 className="text-3xl font-bold text-ui-navy text-center mb-12">
+              <h2 className="section-title font-bold text-unipas-primary text-center mb-12">
                 Statistik Penelitian
               </h2>
               <div className="grid md:grid-cols-4 gap-6">
                 <div className="text-center p-6 bg-ui-yellow/5 rounded-lg border-2 border-ui-yellow/10">
-                  <div className="text-4xl font-bold text-ui-navy mb-2">
+                  <div className="text-4xl font-bold text-unipas-primary mb-2">
                     500+
                   </div>
                   <div className="text-muted-foreground text-sm">
@@ -177,7 +161,7 @@ export default async function PenelitianPage() {
                   </div>
                 </div>
                 <div className="text-center p-6 bg-ui-yellow/5 rounded-lg border-2 border-ui-yellow/10">
-                  <div className="text-4xl font-bold text-ui-navy mb-2">
+                  <div className="text-4xl font-bold text-unipas-primary mb-2">
                     100+
                   </div>
                   <div className="text-muted-foreground text-sm">
@@ -185,7 +169,7 @@ export default async function PenelitianPage() {
                   </div>
                 </div>
                 <div className="text-center p-6 bg-ui-yellow/5 rounded-lg border-2 border-ui-yellow/10">
-                  <div className="text-4xl font-bold text-ui-navy mb-2">
+                  <div className="text-4xl font-bold text-unipas-primary mb-2">
                     2000+
                   </div>
                   <div className="text-muted-foreground text-sm">
@@ -193,7 +177,7 @@ export default async function PenelitianPage() {
                   </div>
                 </div>
                 <div className="text-center p-6 bg-ui-yellow/5 rounded-lg border-2 border-ui-yellow/10">
-                  <div className="text-4xl font-bold text-ui-navy mb-2">
+                  <div className="text-4xl font-bold text-unipas-primary mb-2">
                     50+
                   </div>
                   <div className="text-muted-foreground text-sm">
@@ -206,19 +190,19 @@ export default async function PenelitianPage() {
         </section>
 
         {/* CTA */}
-        <section className="py-16 bg-ui-navy">
-          <div className="container mx-auto px-4">
+        <section className="site-section bg-unipas-primary">
+          <div className="site-container">
             <div className="max-w-4xl mx-auto text-center">
-              <h2 className="text-3xl font-bold text-white mb-4">
+              <h2 className="section-title font-bold text-white mb-4">
                 Ingin Berkolaborasi?
               </h2>
               <p className="text-xl text-gray-300 mb-8">
-                UI terbuka untuk kolaborasi penelitian dengan berbagai institusi dan industri
+                Universitas Pasifik terbuka untuk kolaborasi penelitian dengan berbagai institusi dan industri
               </p>
               <Link href="/kontak">
                 <Button
                   size="lg"
-                  className="bg-ui-yellow text-ui-navy hover:bg-yellow-400 px-8 py-6 text-lg font-bold"
+                  className="bg-ui-yellow text-unipas-primary hover:bg-yellow-400 px-8 py-6 text-lg font-bold"
                 >
                   Hubungi Kami
                   <ArrowRight className="ml-2 h-5 w-5" />

@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
 import { Checkbox } from '@/components/ui/checkbox'
-import { useRouter } from 'next/navigation'
+import { useRouter } from '@/hooks/useNavigationRouter'
 import { useToast } from '@/hooks/use-toast'
 
 export default function NewAnnouncementPage() {
@@ -35,7 +35,7 @@ export default function NewAnnouncementPage() {
 
     setSubmitting(true)
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/announcements`, {
+      const res = await fetch(`/api/announcements`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -78,11 +78,11 @@ export default function NewAnnouncementPage() {
 
   return (
     <AdminLayout>
-      <div className="min-h-screen bg-unipas-muted py-8">
+      <div className="p-4 sm:p-8 max-w-7xl mx-auto bg-unipas-muted py-8">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-2xl font-bold text-ui-navy mb-4">Tambah Pengumuman Baru</h1>
+          <h1 className="admin-title text-unipas-primary mb-4">Tambah Pengumuman Baru</h1>
 
-          <form onSubmit={handleSubmit} className="space-y-6 bg-white rounded-xl p-6 border border-unipas-primary/20">
+          <form onSubmit={handleSubmit} className="site-card space-y-6 bg-white p-6 border border-unipas-primary/20">
             <div>
               <Label className="text-unipas-primary">Judul Pengumuman *</Label>
               <Input 

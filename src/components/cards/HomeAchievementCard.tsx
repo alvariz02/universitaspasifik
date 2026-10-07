@@ -67,7 +67,7 @@ export default function HomeAchievementCard({
       style={{ perspective: 1000 }}
     >
       <div
-        className="h-full bg-white/90 backdrop-blur-md rounded-3xl overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-500 border border-white/50 hover:border-yellow-400/30"
+        className="site-card h-full bg-white/90 backdrop-blur-md overflow-hidden hover:shadow-3xl transition-all duration-500 border border-white/50 hover:border-yellow-400/30"
       >
         <div className="absolute inset-0 bg-gradient-to-br from-yellow-400/5 to-orange-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 

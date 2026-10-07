@@ -36,7 +36,7 @@ export default function GalleryPhotoGrid({ items }: GalleryPhotoGridProps) {
         style={{ y: ySmall }}
         className="pointer-events-none absolute -left-24 top-24 h-60 w-60 rounded-full bg-unipas-accent/20 blur-3xl"
       />
-      <div className="relative container mx-auto px-4">
+      <div className="relative site-container">
         <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
           {galleryItems.map((item) => (
             <motion.a

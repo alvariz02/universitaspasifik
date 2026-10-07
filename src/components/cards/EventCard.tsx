@@ -4,7 +4,7 @@ import { format } from 'date-fns'
 import { id } from 'date-fns/locale'
 import { MapPin, Clock, Calendar as CalendarIcon } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
+import { buttonVariants } from '@/components/ui/button'
 
 interface EventCardProps {
   slug: string
@@ -32,7 +32,7 @@ export default function EventCard({
 
   return (
     <Link href={`/event/${slug}`}>
-      <Card className="group overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer border-2 hover:border-ui-yellow h-full flex flex-col">
+      <Card className="group overflow-hidden gap-0 py-0 hover:shadow-md transition-all duration-300 cursor-pointer hover:border-unipas-accent/40 h-full flex flex-col">
       {imageUrl && (
         <div className="relative aspect-video overflow-hidden">
           <Image
@@ -43,19 +43,19 @@ export default function EventCard({
             quality={75}
             className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
           />
-          <div className="absolute top-4 left-4 bg-ui-navy text-white p-3 rounded-lg text-center min-w-[70px]">
+          <div className="absolute top-4 left-4 bg-unipas-primary text-white p-3 rounded-lg text-center min-w-[70px]">
             <div className="text-2xl font-bold">{format(eventDate, 'dd')}</div>
             <div className="text-xs uppercase">{format(eventDate, 'MMM', { locale: id })}</div>
           </div>
           {isFeatured && (
-            <div className="absolute top-4 right-4 bg-ui-yellow text-ui-navy px-3 py-1 rounded-full text-sm font-medium">
+            <div className="absolute top-4 right-4 bg-ui-yellow text-unipas-primary px-3 py-1 rounded-full text-sm font-medium">
               Featured
             </div>
           )}
         </div>
       )}
       <CardContent className="p-6 flex flex-col flex-1">
-        <h3 className="text-xl font-bold text-ui-navy mb-2 line-clamp-2 group-hover:text-ui-navy/80 transition-colors">
+        <h3 className="text-xl font-bold text-unipas-primary mb-2 line-clamp-2 group-hover:text-unipas-primary/80 transition-colors">
           {title}
         </h3>
         {description && (
@@ -83,9 +83,9 @@ export default function EventCard({
             </div>
           )}
         </div>
-        <Button className="w-full bg-ui-navy hover:bg-ui-navy/80 text-white">
+        <span className={buttonVariants({ className: 'w-full' })}>
           Info Event
-        </Button>
+        </span>
       </CardContent>
     </Card>
     </Link>

@@ -1,5 +1,8 @@
 'use client'
 
+import PageHero from '@/components/layout/PageHero'
+
+
 import { useState, useMemo, useEffect } from 'react'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
@@ -42,8 +45,8 @@ export default function ProgramStudiPage() {
       try {
         setLoading(true)
         const [deptsRes, facsRes] = await Promise.all([
-          fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/departments`),
-          fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/faculties`)
+          fetch(`/api/departments`),
+          fetch(`/api/faculties`)
         ])
 
         if (deptsRes.ok) {
@@ -111,27 +114,13 @@ export default function ProgramStudiPage() {
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
-      <main className="flex-1">
+      <main className="public-page flex-1">
         {/* Page Header */}
-        <section className="bg-linear-to-br from-unipas-primary via-unipas-accent to-unipas-primary text-white py-16">
-          <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto text-center">
-              <div className="bg-white/20 rounded-lg w-20 h-20 flex items-center justify-center mx-auto mb-6">
-                <BookOpen className="h-10 w-10 text-white" />
-              </div>
-              <h1 className="text-4xl md:text-5xl font-bold text-blue-100 mb-4">
-                Program Studi UNIPAS Morotai
-              </h1>
-              <p className="text-xl text-white/90 max-w-2xl mx-auto">
-                Jelajahi berbagai program studi unggulan berbasis potensi lokal di kawasan Pasifik
-              </p>
-            </div>
-          </div>
-        </section>
+        <PageHero title={<>Program Studi UNIPAS Morotai</>} description={<>Jelajahi berbagai program studi unggulan berbasis potensi lokal di kawasan Pasifik</>} />
 
         {/* Search & Filter */}
         <section className="py-8 bg-unipas-muted border-b border-unipas-primary/10">
-          <div className="container mx-auto px-4">
+          <div className="site-container">
             <div className="max-w-5xl mx-auto space-y-4">
               <div className="flex flex-col sm:flex-row gap-4">
                 <div className="flex-1 relative">
@@ -196,8 +185,8 @@ export default function ProgramStudiPage() {
         </section>
 
         {/* Programs List */}
-        <section className="py-16">
-          <div className="container mx-auto px-4">
+        <section className="site-section">
+          <div className="site-container">
             {loading ? (
               <div className="text-center py-16 max-w-2xl mx-auto">
                 <Loader2 className="h-16 w-16 text-unipas-primary/30 mx-auto mb-4 animate-spin" />
@@ -214,8 +203,9 @@ export default function ProgramStudiPage() {
                 <div className="grid gap-6">
                   {filteredDepartments.map((dept) => (
                     <div
+                      id={`prodi-${dept.id}`}
                       key={dept.id}
-                      className="bg-white rounded-xl shadow-sm border border-unipas-primary/10 hover:shadow-md hover:border-unipas-primary/30 transition-all p-6 group"
+                      className="site-card bg-white border border-unipas-primary/10 hover:shadow-md hover:border-unipas-primary/30 transition-all p-6 group scroll-mt-44"
                     >
                       <div className="flex items-start gap-6">
                         {/* Icon */}

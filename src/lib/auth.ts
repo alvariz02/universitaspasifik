@@ -20,13 +20,16 @@ export const authService = {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
       })
-      if (!response.ok) return false
+      if (!response.ok) {
+        const data = await response.json().catch(() => null)
+        throw new Error(data?.error || 'Login gagal. Silakan coba lagi.')
+      }
 
       const { user } = await response.json() as { user: User }
       localStorage.setItem(AUTH_KEY, JSON.stringify({ user, isAuthenticated: true }))
       return true
-    } catch {
-      return false
+    } catch (error) {
+      throw error instanceof Error ? error : new Error('Tidak dapat menghubungi server. Silakan coba lagi.')
     }
   },
 

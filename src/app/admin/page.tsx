@@ -13,33 +13,27 @@ import { db } from '@/lib/db'
 export const dynamic = 'force-dynamic'
 
 export default async function AdminDashboard() {
-  const [
-    newsCount,
-    eventsCount,
-    announcementsCount,
-    facultiesCount,
-    achievementsCount,
-    galleriesCount,
-    recentNews,
-    recentEvents,
-  ] = await Promise.all([
-    db.news.count(),
-    db.event.count(),
-    db.announcement.count(),
-    db.faculty.count(),
-    db.achievement.count(),
-    db.gallery.count(),
-    db.news.findMany({
-      orderBy: { createdAt: 'desc' },
-      take: 3,
-      select: { id: true, title: true, createdAt: true }
-    }),
-    db.event.findMany({
-      orderBy: { createdAt: 'desc' },
-      take: 3,
-      select: { id: true, title: true, createdAt: true }
-    })
-  ])
+  const [summary] = await db.$queryRaw<Array<{
+    newsCount: number; eventsCount: number; announcementsCount: number; facultiesCount: number;
+    achievementsCount: number; galleriesCount: number;
+    recentNews: Array<{ id: number; title: string; createdAt: string }>;
+    recentEvents: Array<{ id: number; title: string; createdAt: string }>;
+  }>>`
+    SELECT
+      (SELECT count(*)::int FROM "News" WHERE "deletedAt" IS NULL) AS "newsCount",
+      (SELECT count(*)::int FROM "Event") AS "eventsCount",
+      (SELECT count(*)::int FROM "Announcement") AS "announcementsCount",
+      (SELECT count(*)::int FROM "Faculty") AS "facultiesCount",
+      (SELECT count(*)::int FROM "Achievement") AS "achievementsCount",
+      (SELECT count(*)::int FROM "Gallery") AS "galleriesCount",
+      (SELECT COALESCE(json_agg(row_to_json(item)), '[]'::json) FROM
+        (SELECT "id", "title", to_char("createdAt", 'YYYY-MM-DD"T"HH24:MI:SS.MS"Z"') AS "createdAt"
+         FROM "News" WHERE "deletedAt" IS NULL ORDER BY "createdAt" DESC LIMIT 3) item) AS "recentNews",
+      (SELECT COALESCE(json_agg(row_to_json(item)), '[]'::json) FROM
+        (SELECT "id", "title", to_char("createdAt", 'YYYY-MM-DD"T"HH24:MI:SS.MS"Z"') AS "createdAt"
+         FROM "Event" ORDER BY "createdAt" DESC LIMIT 3) item) AS "recentEvents"
+  `
+  const { newsCount, eventsCount, announcementsCount, facultiesCount, achievementsCount, galleriesCount, recentNews, recentEvents } = summary
 
   const stats = {
     newsCount,
@@ -55,14 +49,14 @@ export default async function AdminDashboard() {
       id: `news-${item.id}`,
       type: 'Berita',
       title: item.title,
-      createdAt: item.createdAt,
+      createdAt: new Date(item.createdAt),
       href: '/admin/news',
     })),
     ...recentEvents.map((item) => ({
       id: `event-${item.id}`,
       type: 'Event',
       title: item.title,
-      createdAt: item.createdAt,
+      createdAt: new Date(item.createdAt),
       href: '/admin/events',
     })),
   ]
@@ -116,11 +110,11 @@ export default async function AdminDashboard() {
 
   return (
     <AdminLayout>
-      <div className="space-y-6">
+      <div className="p-4 sm:p-8 max-w-7xl mx-auto space-y-6">
         {/* Header */}
-        <div className="flex items-center justify-between">
+        <div className="admin-page-header mb-6 flex sm:items-center justify-between flex-col sm:flex-row gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-unipas-primary">
+            <h1 className="admin-title text-unipas-primary">
               Dashboard Admin
             </h1>
             <p className="text-muted-foreground">

@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { useState } from 'react'
-import { Menu, X, ChevronDown, MapPin, Phone, Mail, Globe, Zap } from 'lucide-react'
+import { Search, Menu, X, ChevronDown, MapPin, Phone, Mail, Globe, Zap } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { motion } from 'framer-motion'
 import {
@@ -26,10 +26,10 @@ export default function Header() {
         <div className="absolute -bottom-20 -left-20 w-32 h-32 bg-unipas-accent/5 rounded-full blur-xl"></div>
       </div>
 
-      <div className="container mx-auto px-4 relative z-10">
+      <div className="relative z-10">
         {/* Modern Top Bar */}
         <div className="bg-gradient-to-r from-unipas-primary via-unipas-accent to-unipas-primary text-white">
-          <div className="container mx-auto px-4">
+          <div className="site-container">
             {/* Desktop Top Bar */}
             <div className="hidden md:flex justify-between items-center py-3 text-sm">
               <motion.div 
@@ -78,7 +78,7 @@ export default function Header() {
         </div>
 
         {/* Main Navigation */}
-        <div className="flex h-20 items-center justify-between">
+        <div className="site-container flex h-20 items-center justify-between">
           <div className="flex items-center group">
             <Link href="/" className="flex items-center">
               <motion.div 
@@ -101,13 +101,11 @@ export default function Header() {
             </Link>
             
             <Link href="/" className="flex flex-col justify-center">
-              <motion.h1 
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                className="text-lg md:text-xl lg:text-2xl font-black bg-gradient-to-r from-unipas-primary to-unipas-accent bg-clip-text text-transparent leading-none"
+              <span
+                className="text-lg md:text-xl lg:text-2xl font-bold text-unipas-primary leading-tight"
               >
                 Universitas Pasifik
-              </motion.h1>
+              </span>
               <motion.p 
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -120,7 +118,7 @@ export default function Header() {
           </div>
 
           {/* Desktop Navigation - dengan positioning yang diperbaiki */}
-          <div className="hidden lg:flex items-center">
+          <div className="hidden xl:flex items-center">
             <NavigationMenu viewport={false}>
               <NavigationMenuList className="gap-2 w-full flex">
                 <NavigationMenuItem>
@@ -313,11 +311,15 @@ export default function Header() {
             </NavigationMenu>
           </div>
 
+          <Link href="/cari" aria-label="Cari di website" className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-unipas-primary hover:bg-unipas-primary/10 focus-visible:ring-2 focus-visible:ring-unipas-accent">
+            <Search className="h-5 w-5" />
+          </Link>
+
           {/* Mobile Menu Button */}
           <motion.div
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
-            className="lg:hidden"
+            className="xl:hidden"
           >
             <Button
               variant="ghost"
@@ -337,9 +339,9 @@ export default function Header() {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="lg:hidden border-t bg-white/95 backdrop-blur-md shadow-xl"
+            className="xl:hidden border-t bg-white/95 backdrop-blur-md shadow-xl"
           >
-            <nav className="container mx-auto px-4 py-6">
+            <nav className="site-container py-6">
               {/* Mobile Menu Header */}
               <div className="flex items-center justify-between pb-4 mb-4 border-b border-unipas-primary/20">
                 <motion.div 

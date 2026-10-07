@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter } from '@/hooks/useNavigationRouter'
 import AdminLayout from '@/components/admin/AdminLayout'
 import DataTable from '@/components/admin/DataTable'
 import { Button } from '@/components/ui/button'
@@ -37,7 +37,7 @@ export default function AdminHeroSlidersPage() {
   const fetchData = async () => {
     try {
       setLoading(true)
-      const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/hero-sliders?limit=100`)
+      const res = await fetch(`/api/hero-sliders?limit=100`)
       const data = await res.json()
       setSliders(Array.isArray(data) ? data : data.sliders || [])
     } catch (error) {
@@ -69,7 +69,7 @@ export default function AdminHeroSlidersPage() {
     if (!confirmed) return
     
     try {
-      const url = `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/hero-sliders/${id}`
+      const url = `/api/hero-sliders/${id}`
       const res = await fetch(url, { method: 'DELETE' })
       if (res.ok) {
         setSliders(sliders.filter((item) => item.id !== id))
@@ -134,10 +134,10 @@ export default function AdminHeroSlidersPage() {
 
   return (
     <AdminLayout>
-      <div className="p-6 md:p-8">
-        <div className="flex items-center justify-between mb-8">
+      <div className="p-4 sm:p-8 max-w-7xl mx-auto md:p-8">
+        <div className="admin-page-header mb-6 flex sm:items-center justify-between mb-8 flex-col sm:flex-row gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-unipas-primary">Hero Sliders</h1>
+            <h1 className="admin-title text-unipas-primary">Hero Sliders</h1>
             <p className="text-unipas-text mt-2">Kelola banner dan slider halaman utama</p>
           </div>
           <Button
@@ -154,7 +154,7 @@ export default function AdminHeroSlidersPage() {
             <p className="text-unipas-text">Memuat data...</p>
           </div>
         ) : sliders.length === 0 ? (
-          <div className="text-center py-12 bg-white rounded-lg border border-unipas-primary/20">
+          <div className="site-card text-center py-12 bg-white border border-unipas-primary/20">
             <p className="text-unipas-text mb-4">Belum ada hero slider</p>
             <Button
               onClick={handleAdd}

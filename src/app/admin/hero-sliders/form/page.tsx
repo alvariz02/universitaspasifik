@@ -1,7 +1,8 @@
 'use client'
 
 import { useState, useEffect, Suspense } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useRouter } from '@/hooks/useNavigationRouter'
+import { useSearchParams } from 'next/navigation'
 import AdminLayout from '@/components/admin/AdminLayout'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -49,7 +50,7 @@ function HeroSliderForm() {
 
   const fetchSlider = async () => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/hero-sliders/${id}`)
+      const res = await fetch(`/api/hero-sliders/${id}`)
       if (res.ok) {
         const data = await res.json()
         setFormData({
@@ -69,7 +70,7 @@ function HeroSliderForm() {
 
   const fetchMaxOrder = async () => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/hero-sliders?limit=100`)
+      const res = await fetch(`/api/hero-sliders?limit=100`)
       if (res.ok) {
         const data = await res.json()
         const sliders = Array.isArray(data) ? data : data.sliders || []
@@ -107,7 +108,7 @@ function HeroSliderForm() {
     setIsSubmitting(true)
 
     try {
-      const url = id ? `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/hero-sliders/${id}` : `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/hero-sliders`
+      const url = id ? `/api/hero-sliders/${id}` : `/api/hero-sliders`
       const method = id ? 'PUT' : 'POST'
 
       const res = await fetch(url, {
@@ -146,7 +147,7 @@ function HeroSliderForm() {
   if (isLoading) {
     return (
       <AdminLayout>
-        <div className="p-6 md:p-8">
+        <div className="p-4 sm:p-8 max-w-7xl mx-auto md:p-8">
           <p className="text-center text-unipas-text">Memuat data...</p>
         </div>
       </AdminLayout>
@@ -155,8 +156,8 @@ function HeroSliderForm() {
 
   return (
     <AdminLayout>
-      <div className="p-6 md:p-8 max-w-2xl">
-        <div className="flex items-center gap-4 mb-8">
+      <div className="p-4 sm:p-8 max-w-7xl mx-auto md:p-8 max-w-2xl">
+        <div className="admin-page-header mb-6 flex sm:items-center gap-4 mb-8 flex-col sm:flex-row gap-4">
           <button
             onClick={() => router.back()}
             className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
@@ -164,7 +165,7 @@ function HeroSliderForm() {
             <ArrowLeft className="h-5 w-5 text-unipas-text" />
           </button>
           <div>
-            <h1 className="text-3xl font-bold text-unipas-primary">
+            <h1 className="admin-title text-unipas-primary">
               {id ? 'Edit Hero Slider' : 'Tambah Hero Slider Baru'}
             </h1>
             <p className="text-unipas-text mt-1">
@@ -173,7 +174,7 @@ function HeroSliderForm() {
           </div>
         </div>
 
-        <form onSubmit={handleSubmit} className="bg-white rounded-lg border border-gray-200 p-6 md:p-8 space-y-6">
+        <form onSubmit={handleSubmit} className="site-card bg-white border border-gray-200 p-6 md:p-8 space-y-6">
           <div>
             <Label htmlFor="title" className="text-base font-semibold mb-2 block">
               Judul <span className="text-red-500">*</span>
@@ -270,7 +271,7 @@ export default function HeroSliderFormPage() {
   return (
     <Suspense fallback={
       <AdminLayout>
-        <div className="p-6 md:p-8">
+        <div className="p-4 sm:p-8 max-w-7xl mx-auto md:p-8">
           <p className="text-center text-unipas-text">Memuat...</p>
         </div>
       </AdminLayout>

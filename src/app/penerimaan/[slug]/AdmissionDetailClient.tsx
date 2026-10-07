@@ -51,7 +51,7 @@ export default function AdmissionDetailClient({ admission }: AdmissionDetailClie
   }
 
   return (
-    <main className="flex-1">
+    <main className="public-page flex-1">
       {/* Back Button */}
       <div className="bg-unipas-muted">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
@@ -139,7 +139,7 @@ export default function AdmissionDetailClient({ admission }: AdmissionDetailClie
 
           {/* Title Section */}
           <div className="text-center mb-8">
-            <h1 className="text-3xl md:text-5xl font-bold text-unipas-primary mb-4">
+            <h1 className="page-title text-unipas-primary mb-4">
               {admission.title}
             </h1>
           </div>
@@ -243,7 +243,7 @@ export default function AdmissionDetailClient({ admission }: AdmissionDetailClie
       {images.length > 1 && (
         <section className="bg-unipas-muted py-12">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-2xl font-bold text-unipas-primary mb-6 text-center">
+            <h2 className="section-title font-bold text-unipas-primary mb-6 text-center">
               Dokumentasi Penerimaan
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -271,7 +271,7 @@ export default function AdmissionDetailClient({ admission }: AdmissionDetailClie
       {/* Info Section */}
       <section className="bg-white py-12">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-2xl font-bold text-unipas-primary mb-4">
+          <h2 className="section-title font-bold text-unipas-primary mb-4">
             Informasi Penerimaan
           </h2>
           <p className="text-unipas-text leading-relaxed">

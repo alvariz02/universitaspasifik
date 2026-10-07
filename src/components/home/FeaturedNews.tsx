@@ -31,14 +31,14 @@ export default function FeaturedNews({ news }: FeaturedNewsProps) {
   const otherNews = news.filter((n) => !n.isFeatured).slice(0, 3)
 
   return (
-    <section className="relative py-20 overflow-hidden bg-gradient-to-br from-slate-50 via-white to-unipas-secondary/10">
+    <section className="site-section relative overflow-hidden bg-gradient-to-br from-slate-50 via-white to-unipas-secondary/10">
       {/* Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-unipas-primary/5 rounded-full blur-3xl"></div>
         <div className="absolute -bottom-40 -left-40 w-60 h-60 bg-unipas-accent/5 rounded-full blur-2xl"></div>
       </div>
 
-      <div className="container mx-auto px-4 relative z-10">
+      <div className="site-container relative z-10">
         {/* Section Header */}
         <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between mb-20">
           <div className="mb-6 lg:mb-0">
@@ -47,7 +47,7 @@ export default function FeaturedNews({ news }: FeaturedNewsProps) {
                 <Globe className="h-8 w-8 text-white" />
               </div>
               <div className="text-left">
-                <h2 className="text-5xl md:text-6xl font-black bg-gradient-to-r from-unipas-primary to-unipas-accent bg-clip-text text-transparent leading-tight">
+                <h2 className="section-title text-unipas-primary">
                   Berita Terbaru
                 </h2>
                 <p className="text-xl text-muted-foreground max-w-2xl mt-2">
@@ -57,7 +57,7 @@ export default function FeaturedNews({ news }: FeaturedNewsProps) {
             </div>
           </div>
           
-          <Link href="/berita" className="hidden lg:flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-unipas-primary to-unipas-accent text-white rounded-full shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-105 font-bold">
+          <Link href="/berita" className="hidden lg:flex items-center gap-3 text-white transition-all duration-300 min-h-12 rounded-lg bg-primary px-6 py-3 text-sm font-medium hover:bg-primary/90">
             Lihat Semua
             <ArrowRight className="h-5 w-5" />
           </Link>
@@ -68,7 +68,7 @@ export default function FeaturedNews({ news }: FeaturedNewsProps) {
           {/* Featured News - Span 2 columns and 2 rows on large screens */}
           {featuredNews && (
             <div className="lg:col-span-2 lg:row-span-2 group relative">
-              <div className="h-full bg-white/90 backdrop-blur-md rounded-3xl overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-500 border border-white/50 hover:border-unipas-primary/30 cursor-pointer card-item">
+              <div className="site-card h-full bg-white/90 backdrop-blur-md overflow-hidden hover:shadow-3xl transition-all duration-500 border border-white/50 hover:border-unipas-primary/30 cursor-pointer card-item">
                 {/* Animated Background */}
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                   <div className="absolute inset-0 bg-gradient-to-br from-unipas-primary/5 to-unipas-accent/5"></div>
@@ -156,7 +156,7 @@ export default function FeaturedNews({ news }: FeaturedNewsProps) {
               className="group relative cursor-pointer"
               onClick={() => window.location.href = `/berita/${newsItem.slug}`}
             >
-              <div className="h-full bg-white/90 backdrop-blur-md rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 border border-white/50 hover:border-unipas-primary/30 card-item">
+              <div className="site-card h-full bg-white/90 backdrop-blur-md overflow-hidden hover:shadow-2xl transition-all duration-500 border border-white/50 hover:border-unipas-primary/30 card-item">
                 {/* Animated Background */}
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                   <div className="absolute inset-0 bg-gradient-to-br from-unipas-primary/5 to-unipas-accent/5"></div>
@@ -232,7 +232,7 @@ export default function FeaturedNews({ news }: FeaturedNewsProps) {
         {/* Mobile View Link */}
         <div className="text-center lg:hidden">
           <Link href="/berita">
-            <Button className="bg-gradient-to-r from-unipas-primary to-unipas-accent text-white hover:from-unipas-accent hover:to-unipas-primary font-bold px-8 py-4 rounded-full shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-105">
+            <Button size="lg" className="text-white transition-all duration-300">
               Lihat Semua Berita
             </Button>
           </Link>

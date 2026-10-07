@@ -56,8 +56,15 @@ export default function AdmissionForm() {
     setIsSubmitting(true)
 
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 2000))
+      const response = await fetch('/api/applicants', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      })
+      if (!response.ok) {
+        const data = await response.json().catch(() => null)
+        throw new Error(data?.error || 'Pengiriman gagal')
+      }
       
       toast({
         title: "Pendaftaran Berhasil",
@@ -80,7 +87,7 @@ export default function AdmissionForm() {
     } catch (error) {
       toast({
         title: "Pendaftaran Gagal",
-        description: "Terjadi kesalahan saat mengirim formulir. Silakan coba lagi.",
+        description: error instanceof Error ? error.message : 'Terjadi kesalahan saat mengirim formulir. Silakan coba lagi.',
         variant: "destructive",
       })
     } finally {
@@ -147,6 +154,7 @@ export default function AdmissionForm() {
                   <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                   <Input
                     id="phone"
+                    type="tel"
                     name="phone"
                     value={formData.phone}
                     onChange={handleInputChange}
@@ -159,8 +167,8 @@ export default function AdmissionForm() {
 
               <div className="space-y-2">
                 <Label htmlFor="admissionPath">Jalur Pendaftaran</Label>
-                <Select value={formData.admissionPath} onValueChange={(value) => handleSelectChange('admissionPath', value)}>
-                  <SelectTrigger>
+                <Select required name="admissionPath" value={formData.admissionPath} onValueChange={(value) => handleSelectChange('admissionPath', value)}>
+                  <SelectTrigger id="admissionPath">
                     <SelectValue placeholder="Pilih jalur pendaftaran" />
                   </SelectTrigger>
                   <SelectContent>
@@ -207,6 +215,10 @@ export default function AdmissionForm() {
               <Label htmlFor="gpa">Nilai Rata-rata</Label>
               <Input
                 id="gpa"
+                type="number"
+                min="0"
+                max="100"
+                step="0.01"
                 name="gpa"
                 value={formData.gpa}
                 onChange={handleInputChange}

@@ -9,7 +9,7 @@ import { id } from 'date-fns/locale'
 import { useToast } from '@/hooks/use-toast'
 import { useConfirm } from '@/hooks/use-confirm'
 import { ConfirmDialog } from '@/components/ui/confirm-dialog'
-import { useRouter } from 'next/navigation'
+import { useRouter } from '@/hooks/useNavigationRouter'
 
 export default function AdminAchievementsPage() {
   const { toast } = useToast()
@@ -25,7 +25,7 @@ export default function AdminAchievementsPage() {
   const fetchAchievements = async () => {
     try {
       setLoading(true)
-      const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/achievements?limit=100`)
+      const res = await fetch(`/api/achievements?limit=100`)
       const data = await res.json()
       setAchievements(data)
     } catch (error) {
@@ -57,7 +57,7 @@ export default function AdminAchievementsPage() {
     if (!confirmed) return
     
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/achievements/${id}`, {
+      const res = await fetch(`/api/achievements/${id}`, {
         method: 'DELETE',
       })
 
@@ -145,10 +145,10 @@ export default function AdminAchievementsPage() {
 
   return (
     <AdminLayout>
-      <div className="p-6 bg-unipas-muted min-h-screen">
-        <div className="mb-6">
-          <div className="bg-gradient-to-r from-unipas-primary to-unipas-accent rounded-xl p-6 text-white shadow-lg mb-4">
-            <h1 className="text-3xl font-bold mb-2">
+      <div className="p-4 sm:p-8 max-w-7xl mx-auto bg-unipas-muted">
+        <div className="admin-page-header mb-6">
+          <div className="space-y-2">
+            <h1 className="admin-title mb-2">
               Kelola Prestasi
             </h1>
             <p className="text-white/90">
@@ -158,7 +158,7 @@ export default function AdminAchievementsPage() {
         </div>
 
         {loading ? (
-          <div className="text-center py-8 bg-white rounded-xl shadow-lg">
+          <div className="site-card text-center py-8 bg-white">
             <div className="text-unipas-primary">Memuat data...</div>
           </div>
         ) : (

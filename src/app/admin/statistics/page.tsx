@@ -25,7 +25,7 @@ export default function AdminStatisticsPage() {
   const fetchStatistics = async () => {
     try {
       setLoading(true)
-      const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/statistics`)
+      const res = await fetch(`/api/statistics`)
       const data = await res.json()
       setStats(data)
     } catch (error) {
@@ -53,7 +53,7 @@ export default function AdminStatisticsPage() {
     if (!confirmed) return
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/statistics/${id}`, {
+      const res = await fetch(`/api/statistics/${id}`, {
         method: 'DELETE',
       })
 
@@ -84,7 +84,7 @@ export default function AdminStatisticsPage() {
 
   const handleSubmit = async (data: any) => {
     try {
-      const url = editingId ? `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/statistics/${editingId}` : `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/statistics`
+      const url = editingId ? `/api/statistics/${editingId}` : `/api/statistics`
       const method = editingId ? 'PUT' : 'POST'
 
       const res = await fetch(url, {
@@ -136,7 +136,7 @@ export default function AdminStatisticsPage() {
       key: 'value',
       title: 'Nilai',
       render: (value: any) => (
-        <div className="text-2xl font-bold text-ui-navy">{value}</div>
+        <div className="text-2xl font-bold text-unipas-primary">{value}</div>
       ),
     },
     {
@@ -238,7 +238,7 @@ export default function AdminStatisticsPage() {
             }
             await handleSubmit(data)
           }}
-          className="px-4 py-2 bg-ui-navy text-white rounded-md hover:bg-ui-navy/80"
+          className="px-4 py-2 bg-unipas-primary text-white rounded-md hover:bg-unipas-primary/80"
         >
           Simpan
         </button>
@@ -248,9 +248,9 @@ export default function AdminStatisticsPage() {
 
   return (
     <AdminLayout>
-      <div className="p-6">
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold text-ui-navy mb-2">
+      <div className="p-4 sm:p-8 max-w-7xl mx-auto">
+        <div className="admin-page-header mb-6">
+          <h1 className="admin-title text-unipas-primary mb-2">
             Kelola Statistik
           </h1>
           <p className="text-muted-foreground">

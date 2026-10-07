@@ -6,7 +6,7 @@ import RichTextEditor from '@/components/admin/RichTextEditor'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
-import { useRouter } from 'next/navigation'
+import { useRouter } from '@/hooks/useNavigationRouter'
 import { useToast } from '@/hooks/use-toast'
 import { newsCategories } from '@/lib/news-categories'
 
@@ -37,7 +37,7 @@ export default function NewsForm() {
 
     setSubmitting(true)
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/news`, {
+      const res = await fetch(`/api/news`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -82,11 +82,11 @@ export default function NewsForm() {
 
   return (
     <AdminLayout>
-      <div className="min-h-screen bg-unipas-muted py-8">
+      <div className="p-4 sm:p-8 max-w-7xl mx-auto bg-unipas-muted py-8">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-2xl font-bold text-ui-navy mb-4">Buat Berita Baru</h1>
+          <h1 className="admin-title text-unipas-primary mb-4">Buat Berita Baru</h1>
 
-          <form onSubmit={handleSubmit} className="space-y-6 bg-white rounded-xl p-6 border border-unipas-primary/20">
+          <form onSubmit={handleSubmit} className="site-card space-y-6 bg-white p-6 border border-unipas-primary/20">
             <div>
               <Label className="text-unipas-primary">Judul *</Label>
               <Input value={title} onChange={(e) => setTitle(e.target.value)} className="mt-2 border-unipas-primary/20" />

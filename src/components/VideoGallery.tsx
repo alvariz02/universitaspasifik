@@ -77,7 +77,7 @@ export default function VideoGallery({ videos: initialVideos }: VideoGalleryProp
     
     // Increment view count
     try {
-      await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/videos/${video.id}`, {
+      await fetch(`/api/videos/${video.id}`, {
         method: 'GET'
       })
       // Update local state
@@ -95,7 +95,7 @@ export default function VideoGallery({ videos: initialVideos }: VideoGalleryProp
   return (
     <div className="space-y-8">
       {/* Filters */}
-      <div className="bg-white rounded-xl p-6 shadow-lg">
+      <div className="site-card bg-white p-6">
         <div className="flex flex-col md:flex-row gap-4 items-start md:items-center">
           <div className="flex-1">
             <div className="relative">

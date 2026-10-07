@@ -1,3 +1,6 @@
+import { cache } from 'react'
+import { safeHtml } from '@/lib/sanitize'
+import { publishedNews } from '@/lib/content'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import { Button } from '@/components/ui/button'
@@ -11,12 +14,13 @@ import ShareButton from '@/components/ShareButton'
 import { Metadata } from 'next'
 import Image from 'next/image'
 
-async function getNewsBySlug(slug: string) {
+const getNewsBySlug = cache(async (slug: string) => {
   try {
     console.log('🔍 Fetching news for slug:', slug)
     
     let news = await db.news.findFirst({
       where: {
+        ...publishedNews(),
         slug: slug
       }
     })
@@ -27,6 +31,7 @@ async function getNewsBySlug(slug: string) {
       const numericId = Number(slug)
       news = await db.news.findFirst({
         where: {
+          ...publishedNews(),
           id: numericId
         }
       })
@@ -38,12 +43,13 @@ async function getNewsBySlug(slug: string) {
     console.error('❌ Error fetching news:', error)
     return null
   }
-}
+})
 
 async function getRelatedNews(excludeId: number) {
   try {
     const news = await db.news.findMany({
       where: {
+        ...publishedNews(),
         id: {
           not: excludeId
         }
@@ -124,11 +130,11 @@ export default async function BeritaDetailPage({
     return (
       <div className="min-h-screen flex flex-col">
         <Header />
-        <main className="flex-1 flex items-center justify-center">
+        <main className="public-page flex-1 flex items-center justify-center">
           <div className="text-center">
-            <h1 className="text-2xl font-bold mb-4">Berita tidak ditemukan</h1>
+            <h1 className="page-title mb-4">Berita tidak ditemukan</h1>
             <Link href="/berita">
-              <Button className="bg-ui-yellow text-ui-navy hover:bg-yellow-400">
+              <Button className="bg-ui-yellow text-unipas-primary hover:bg-yellow-400">
                 Kembali ke Berita
               </Button>
             </Link>
@@ -144,12 +150,12 @@ export default async function BeritaDetailPage({
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
-      <main className="flex-1">
+      <main className="public-page flex-1">
         {/* Back Button */}
         <div className="bg-gray-50 border-b">
-          <div className="container mx-auto px-4 py-4">
+          <div className="site-container py-4">
             <Link href="/berita">
-              <Button variant="ghost" className="gap-2 text-ui-navy hover:text-ui-navy/80">
+              <Button variant="ghost" className="gap-2 text-unipas-primary hover:text-unipas-primary/80">
                 <ArrowLeft className="h-4 w-4" />
                 Kembali ke Berita
               </Button>
@@ -159,16 +165,16 @@ export default async function BeritaDetailPage({
 
         {/* News Content */}
         <article className="py-12">
-          <div className="container mx-auto px-4">
+          <div className="site-container">
             <div className="max-w-4xl mx-auto">
               {/* Header */}
               <div className="mb-8">
                 {news.category && (
-                  <Badge className="bg-ui-yellow text-ui-navy mb-4 text-sm font-medium">
+                  <Badge className="bg-ui-yellow text-unipas-primary mb-4 text-sm font-medium">
                     {news.category}
                   </Badge>
                 )}
-                <h1 className="text-3xl md:text-5xl font-bold text-ui-navy mb-6">
+                <h1 className="page-title text-unipas-primary mb-6">
                   {news.title}
                 </h1>
 
@@ -229,7 +235,7 @@ export default async function BeritaDetailPage({
 
                 <div
                   className="prose prose-lg max-w-none text-gray-800 leading-relaxed space-y-4"
-                  dangerouslySetInnerHTML={{ __html: news.content }}
+                  dangerouslySetInnerHTML={{ __html: safeHtml(news.content) }}
                 />
               </div>
 
@@ -256,9 +262,9 @@ export default async function BeritaDetailPage({
 
         {/* Related News */}
         {relatedNews.length > 0 && (
-          <section className="py-16 bg-gray-50">
-            <div className="container mx-auto px-4">
-              <h2 className="text-2xl md:text-3xl font-bold text-ui-navy mb-8">
+          <section className="site-section bg-gray-50">
+            <div className="site-container">
+              <h2 className="section-title font-bold text-unipas-primary mb-8">
                 Berita Terkait
               </h2>
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -266,7 +272,7 @@ export default async function BeritaDetailPage({
                   <Link
                     key={item.id}
                     href={`/berita/${item.slug}`}
-                    className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-shadow border-2 hover:border-ui-yellow"
+                    className="site-card bg-white overflow-hidden hover:shadow-lg transition-shadow hover:border-ui-yellow"
                   >
                     {item.imageUrl && (
                       <div className="aspect-video overflow-hidden">
@@ -278,7 +284,7 @@ export default async function BeritaDetailPage({
                       </div>
                     )}
                     <div className="p-4">
-                      <h3 className="font-bold text-ui-navy mb-2 line-clamp-2 hover:text-ui-navy/80">
+                      <h3 className="font-bold text-unipas-primary mb-2 line-clamp-2 hover:text-unipas-primary/80">
                         {item.title}
                       </h3>
                       {item.publishedDate && (

@@ -99,7 +99,7 @@ export default async function PengumumanDetailPage({ params }: PengumumanDetailP
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
-      <main className="flex-1 bg-unipas-muted">
+      <main className="public-page flex-1 bg-unipas-muted">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {/* Back Button */}
           <Link
@@ -111,7 +111,7 @@ export default async function PengumumanDetailPage({ params }: PengumumanDetailP
           </Link>
 
           {/* Main Card */}
-          <div className="bg-white rounded-3xl shadow-xl overflow-hidden">
+          <div className="site-card bg-white overflow-hidden">
             {/* Header */}
             <div className={`${getPriorityColor(announcement.priority || 'low')} p-6 text-white`}>
               <div className="flex items-center gap-3 mb-4">
@@ -122,7 +122,7 @@ export default async function PengumumanDetailPage({ params }: PengumumanDetailP
                 </span>
                 {getCategoryBadge(announcement.category || 'umum')}
               </div>
-              <h1 className="text-2xl md:text-3xl font-bold">{announcement.title}</h1>
+              <h1 className="page-title">{announcement.title}</h1>
             </div>
 
             {/* Content */}

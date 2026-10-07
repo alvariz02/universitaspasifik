@@ -14,7 +14,13 @@
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate dev",
     "db:reset": "prisma migrate reset",
-    "db:seed": "tsx prisma/seed.ts"
+    "db:seed": "tsx prisma/seed.ts",
+    "db:upgrade-features": "prisma db execute --file prisma/features-upgrade.sql --schema prisma/schema.prisma",
+    "db:import-media": "node .zscripts/backfill-media.mjs",
+    "test:features": "node .zscripts/test-features.cjs",
+    "test:features:ui": "node .zscripts/test-features-ui.cjs",
+    "test:design": "node .zscripts/test-design.cjs",
+    "test:navigation": "node .zscripts/test-navigation.cjs"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
@@ -87,6 +93,7 @@
     "react-resizable-panels": "^3.0.3",
     "react-syntax-highlighter": "^15.6.1",
     "recharts": "^2.15.4",
+    "sanitize-html": "^2.18.0",
     "sharp": "^0.34.3",
     "socket.io": "^4.8.3",
     "socket.io-client": "^4.8.3",
@@ -100,10 +107,12 @@
     "zustand": "^5.0.6"
   },
   "devDependencies": {
+    "@playwright/test": "^1.63.0",
     "@tailwindcss/postcss": "^4",
     "@tailwindcss/typography": "^0.5.15",
     "@types/react": "^18.3.31",
     "@types/react-dom": "^18.3.7",
+    "@types/sanitize-html": "^2.16.2",
     "bun-types": "^1.3.4",
     "eslint": "^9",
     "eslint-config-next": "^15.5.27",

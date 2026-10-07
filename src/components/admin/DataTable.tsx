@@ -61,9 +61,9 @@ export default function DataTable({
   return (
     <div className="space-y-4">
       {/* Header */}
-      <div className="flex items-center justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         {searchable && (
-          <div className="flex-1 max-w-sm">
+          <div className="w-full sm:flex-1 sm:max-w-sm">
             <Input
               placeholder={searchPlaceholder}
               value={searchTerm}
@@ -81,7 +81,7 @@ export default function DataTable({
       </div>
 
       {/* Table */}
-      <div className="rounded-xl border border-unipas-primary/20 bg-white overflow-x-auto shadow-lg">
+      <div className="site-card border border-unipas-primary/20 bg-white overflow-x-auto">
         <div className="min-w-[800px]">
           <Table>
           <TableHeader>
@@ -121,7 +121,7 @@ export default function DataTable({
                   <TableCell className="whitespace-nowrap">
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="icon" className="h-8 w-8 hover:bg-unipas-accent/10">
+                        <Button aria-label="Aksi data" variant="ghost" size="icon" className="h-8 w-8 hover:bg-unipas-accent/10">
                           <MoreVertical className="h-4 w-4 text-unipas-primary" />
                         </Button>
                       </DropdownMenuTrigger>
@@ -159,7 +159,7 @@ export default function DataTable({
       </div>
 
       {/* Pagination info */}
-      <div className="text-sm text-unipas-text bg-white rounded-lg px-4 py-2 border border-unipas-primary/20">
+      <div className="site-card text-sm text-unipas-text bg-white px-4 py-2 border border-unipas-primary/20">
         Menampilkan {filteredData.length} dari {tableData.length} data
       </div>
     </div>

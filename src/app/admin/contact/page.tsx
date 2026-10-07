@@ -49,7 +49,7 @@ export default function AdminContactPage() {
 
   const handleUpdateStatus = async (id: number, newStatus: string) => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/contact/${id}`, {
+      const res = await fetch(`/api/contact/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status: newStatus }),
@@ -98,7 +98,7 @@ export default function AdminContactPage() {
     if (!confirmed) return
     
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/contact/${id}`, { method: 'DELETE' })
+      const res = await fetch(`/api/contact/${id}`, { method: 'DELETE' })
       if (res.ok) {
         setSubmissions(submissions.filter((item) => item.id !== id))
         toast({
@@ -150,9 +150,9 @@ export default function AdminContactPage() {
 
   return (
     <AdminLayout>
-      <div className="p-6">
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold text-ui-navy mb-2">Pesan Kontak</h1>
+      <div className="p-4 sm:p-8 max-w-7xl mx-auto">
+        <div className="admin-page-header mb-6">
+          <h1 className="admin-title text-unipas-primary mb-2">Pesan Kontak</h1>
           <p className="text-muted-foreground">Kelola pesan dari formulir kontak</p>
           
           <div className="mt-4 flex gap-2 items-center">
@@ -183,7 +183,7 @@ export default function AdminContactPage() {
               searchable
               searchPlaceholder="Cari pesan..."
             />
-            <div className="mt-6 bg-white rounded-lg p-6 border">
+            <div className="site-card mt-6 bg-white p-6 border">
               <h3 className="text-lg font-semibold mb-4">Statistik Kontak</h3>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div className="p-4 bg-yellow-50 rounded-lg">

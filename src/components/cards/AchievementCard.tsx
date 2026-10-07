@@ -53,7 +53,7 @@ export default function AchievementCard({
   const iconName = getCategoryIconName(category)
 
   return (
-    <Card className="hover:shadow-xl transition-all duration-300 border-2 hover:border-ui-yellow overflow-hidden">
+    <Card className="gap-0 py-0 hover:shadow-md transition-all duration-300 hover:border-unipas-accent/40 overflow-hidden">
       {imageUrl && (
         <div className="aspect-video overflow-hidden relative">
           <Image
@@ -82,7 +82,7 @@ export default function AchievementCard({
             {iconName === 'award' && <Award className="h-6 w-6 text-ui-yellow" />}
           </div>
           <div className="flex-1 min-w-0">
-            <h3 className="text-lg font-bold text-ui-navy mb-1 line-clamp-2">{title}</h3>
+            <h3 className="text-lg font-bold text-unipas-primary mb-1 line-clamp-2">{title}</h3>
             {achievementDate && (
               <p className="text-sm text-muted-foreground">
                 {format(achievementDate, 'dd MMMM yyyy', { locale: id })}
@@ -97,7 +97,7 @@ export default function AchievementCard({
               <span className="text-xs font-medium text-ui-yellow uppercase">
                 {achieverType}
               </span>
-              <span className="text-sm font-semibold text-ui-navy line-clamp-1">
+              <span className="text-sm font-semibold text-unipas-primary line-clamp-1">
                 {achieverName}
               </span>
             </div>

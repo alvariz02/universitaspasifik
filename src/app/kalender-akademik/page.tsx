@@ -1,3 +1,4 @@
+import PageHero from '@/components/layout/PageHero'
 import Image from 'next/image'
 import { Download } from 'lucide-react'
 import Header from '@/components/layout/Header'
@@ -14,19 +15,9 @@ export default function KalenderAkademikPage() {
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
-      <main className="flex-1 bg-gray-50 py-12 md:py-16">
-        <div className="container mx-auto px-4">
+      <main className="public-page flex-1">
+        <PageHero title="Kalender Akademik 2026/2027" description="Kalender kegiatan akademik Universitas Pasifik Morotai untuk tahun akademik 2026/2027." /><div className="site-container py-12">
           <div className="mx-auto max-w-6xl text-center">
-            <p className="text-sm font-bold uppercase tracking-[0.2em] text-unipas-accent">
-              Akademik
-            </p>
-            <h1 className="mt-3 text-3xl font-black text-unipas-primary md:text-5xl">
-              Kalender Akademik 2026/2027
-            </h1>
-            <p className="mx-auto mt-4 max-w-2xl text-muted-foreground">
-              Kalender akademik Universitas Pasifik Morotai untuk tahun akademik 2026/2027.
-            </p>
-
             <a
               href={calendarImage}
               download="Kalender-Akademik-Unipas-Morotai-2026-2027.png"
@@ -36,7 +27,7 @@ export default function KalenderAkademikPage() {
               Download Kalender Akademik
             </a>
 
-            <div className="relative mx-auto mt-10 min-h-[70vh] overflow-hidden rounded-2xl bg-white p-3 shadow-xl ring-1 ring-unipas-primary/10 md:p-6">
+            <div className="site-card relative mx-auto mt-10 min-h-[70vh] overflow-hidden bg-white p-3 ring-1 ring-unipas-primary/10 md:p-6">
               <Image
                 src={calendarImage}
                 alt="Kalender Akademik Universitas Pasifik Morotai tahun 2026/2027"

@@ -1,5 +1,8 @@
 'use client'
 
+import PageHero from '@/components/layout/PageHero'
+
+
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import Header from '@/components/layout/Header'
@@ -104,7 +107,7 @@ export default function AboutPage() {
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-gray-50 via-white to-blue-50/30">
       <Header />
-      <main className="flex-1">
+      <main className="public-page flex-1">
         {/* Modern Hero Section */}
         <div className="relative overflow-hidden">
           {/* Animated Background Elements */}
@@ -135,42 +138,16 @@ export default function AboutPage() {
             ))}
           </div>
 
-          <div className="relative bg-gradient-to-br from-unipas-primary via-cyan-600 to-unipas-accent text-white">
-            <div className="container mx-auto px-4 py-20">
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, ease: "easeOut" }}
-                className="text-center space-y-6"
-              >
-                <motion.h1 
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 0.2, duration: 0.6 }}
-                  className="text-4xl md:text-6xl lg:text-7xl font-black leading-tight"
-                >
-                  <span className="text-blue-100 drop-shadow-2xl">
+          <PageHero title={<><span>
                     Tentang Universitas Pasifik
-                  </span>
-                </motion.h1>
-                <motion.p
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.4, duration: 0.6 }}
-                  className="text-lg md:text-xl lg:text-2xl leading-relaxed max-w-4xl mx-auto"
-                >
-                  <span className="text-blue-50 drop-shadow-lg">
+                  </span></>} description={<><span>
                     Mengenal lebih dekat visi, misi, dan komitmen UNIPAS dalam mewujudkan pendidikan unggul berbasis potensi lokal
-                  </span>
-                </motion.p>
-              </motion.div>
-            </div>
-          </div>
+                  </span></>} />
         </div>
 
         {/* Modern Navigation Tabs */}
         <div className="sticky top-0 bg-white/95 backdrop-blur-md border-b border-unipas-primary/20 z-40 shadow-lg">
-          <div className="container mx-auto px-4">
+          <div className="site-container">
             <div className="flex flex-wrap gap-3 py-6">
               {sections.map((section, index) => {
                 const Icon = section.icon
@@ -202,7 +179,7 @@ export default function AboutPage() {
         </div>
 
         {/* Content Sections */}
-        <div className="container mx-auto px-4 py-16">
+        <div className="site-container py-16">
           {/* Latar Belakang Section */}
           {activeSection === 'latar-belakang' && (
             <motion.div
@@ -218,7 +195,7 @@ export default function AboutPage() {
                   transition={{ delay: 0.2, duration: 0.6 }}
                   className="space-y-6"
                 >
-                  <h2 className="text-3xl md:text-4xl font-black text-unipas-primary">
+                  <h2 className="section-title font-bold text-unipas-primary">
                     Latar Belakang
                   </h2>
                   <div className="space-y-4 text-lg leading-relaxed text-gray-700">
@@ -236,12 +213,11 @@ export default function AboutPage() {
                   transition={{ delay: 0.4, duration: 0.6 }}
                   className="relative"
                 >
-                  <div className="relative rounded-3xl overflow-hidden shadow-2xl">
-                    <div className="absolute inset-0 bg-gradient-to-br from-unipas-primary/20 to-unipas-accent/20"></div>
+                  <div className="site-card flex min-h-80 items-center justify-center overflow-hidden p-10">
                     <img 
-                      src="/api/placeholder/600/400?text=UNIPAS+Campus" 
-                      alt="UNIPAS Campus" 
-                      className="relative w-full h-96 object-cover"
+                      src="/logo-unipas02.png"
+                      alt="Lambang Universitas Pasifik Morotai"
+                      className="h-56 w-56 object-contain"
                     />
                   </div>
                 </motion.div>
@@ -271,7 +247,7 @@ export default function AboutPage() {
                 >
                   <Star className="h-8 w-8 text-white" />
                 </motion.div>
-                <h3 className="text-3xl font-black text-unipas-primary">
+                <h3 className="text-3xl font-bold text-unipas-primary">
                   Visi
                 </h3>
                 <p className="text-xl leading-relaxed max-w-3xl mx-auto text-gray-700">
@@ -320,7 +296,7 @@ export default function AboutPage() {
                 transition={{ delay: 0.2, duration: 0.6 }}
                 className="text-center mb-12"
               >
-                <h2 className="text-3xl md:text-4xl font-black text-unipas-primary mb-4">
+                <h2 className="section-title font-bold text-unipas-primary mb-4">
                   Nilai-Nilai Inti
                 </h2>
                 <p className="text-xl text-gray-600 max-w-3xl mx-auto">
@@ -365,7 +341,7 @@ export default function AboutPage() {
               transition={{ duration: 0.6 }}
               className="space-y-8"
             >
-              <h2 className="text-3xl md:text-4xl font-black text-unipas-primary">
+              <h2 className="section-title font-bold text-unipas-primary">
                 Dasar Hukum
               </h2>
               <div className="bg-gradient-to-br from-unipas-primary/10 to-unipas-accent/5 p-8 rounded-3xl border border-unipas-primary/20">
@@ -383,7 +359,7 @@ export default function AboutPage() {
               transition={{ duration: 0.6 }}
               className="space-y-8"
             >
-              <h2 className="text-3xl md:text-4xl font-black text-unipas-primary">
+              <h2 className="section-title font-bold text-unipas-primary">
                 Tujuan Penyusunan
               </h2>
               <div className="bg-gradient-to-br from-unipas-primary/10 to-unipas-accent/5 p-8 rounded-3xl border border-unipas-primary/20">

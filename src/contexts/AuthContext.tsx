@@ -4,6 +4,7 @@ import { createContext, useContext, useState, useEffect, ReactNode } from 'react
 import { authService, User, AuthState } from '@/lib/auth'
 
 interface AuthContextType extends AuthState {
+  isLoading: boolean
   login: (email: string, password: string) => Promise<boolean>
   logout: () => Promise<void>
 }
@@ -16,13 +17,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     isAuthenticated: false
   })
 
+  const [isLoading, setIsLoading] = useState(true)
+
   useEffect(() => {
-    // Load auth state on mount
-    const state = authService.getAuthState()
-    // Use setTimeout to avoid synchronous setState in effect
-    setTimeout(() => {
-      setAuthState(state)
-    }, 0)
+    let active = true
+    const controller = new AbortController()
+    const timeout = setTimeout(() => controller.abort(), 10000)
+    fetch('/api/auth/session', { cache: 'no-store', signal: controller.signal })
+      .then(async response => response.ok ? (await response.json()).user : null)
+      .then(user => { if (active) setAuthState({ user, isAuthenticated: !!user }) })
+      .catch(() => { if (active) setAuthState({ user: null, isAuthenticated: false }) })
+      .finally(() => { clearTimeout(timeout); if (active) setIsLoading(false) })
+    return () => { active = false; clearTimeout(timeout); controller.abort() }
   }, [])
 
   const login = async (email: string, password: string) => {
@@ -46,6 +52,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     <AuthContext.Provider
       value={{
         ...authState,
+        isLoading,
         login,
         logout
       }}

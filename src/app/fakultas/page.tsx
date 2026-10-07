@@ -1,5 +1,8 @@
 'use client'
 
+import PageHero from '@/components/layout/PageHero'
+
+
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import Header from '@/components/layout/Header'
@@ -119,7 +122,7 @@ export default function FacultiesPage() {
 
   const fetchFaculties = async () => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/faculties?limit=50`)
+      const res = await fetch(`/api/faculties?limit=50`)
       if (!res.ok) throw new Error('Failed to fetch faculties')
       const data = await res.json()
       setFaculties(data)
@@ -191,7 +194,7 @@ export default function FacultiesPage() {
       <div className="min-h-screen bg-unipas-muted flex items-center justify-center">
         <div className="text-center">
           <Building2 className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-          <h2 className="text-2xl font-bold text-gray-700 mb-2">Data Fakultas Tidak Tersedia</h2>
+          <h2 className="section-title font-bold text-gray-700 mb-2">Data Fakultas Tidak Tersedia</h2>
           <p className="text-gray-500 mb-4">Terjadi kesalahan saat memuat data fakultas</p>
           <button 
             onClick={fetchFaculties}
@@ -207,33 +210,14 @@ export default function FacultiesPage() {
   return (
     <div className="min-h-screen flex flex-col bg-unipas-muted">
       <Header />
-      <main className="flex-1">
+      <main className="public-page flex-1">
         {/* Hero Section */}
-        <div className="bg-gradient-to-br from-unipas-primary via-unipas-accent to-unipas-primary text-white">
-          <div className="container mx-auto px-4 py-16">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="text-center"
-            >
-              <div className="flex justify-center mb-6">
-                <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center">
-                  <Building2 className="h-10 w-10 text-white" />
-                </div>
-              </div>
-              <h1 className="text-4xl md:text-5xl font-bold text-blue-100 mb-4">Jelajahi Fakultas</h1>
-              <p className="text-xl text-white/90 max-w-2xl mx-auto mb-8">
-                Temukan fakultas dan program studi yang sesuai dengan minat dan bakat Anda
-              </p>
-            </motion.div>
-          </div>
-        </div>
+        <PageHero title={<>Jelajahi Fakultas</>} description={<>Temukan fakultas dan program studi yang sesuai dengan minat dan bakat Anda</>} />
 
         {/* Filter */}
-        <div className="container mx-auto px-4 py-8">
+        <div className="site-container py-8">
           <div className="max-w-4xl mx-auto">
-            <div className="bg-white rounded-xl shadow-lg border border-unipas-primary/20 p-6">
+            <div className="site-card bg-white border border-unipas-primary/20 p-6">
               <div className="flex flex-col md:flex-row gap-4">
                 <div className="flex-1">
                   <div className="relative">
@@ -264,7 +248,7 @@ export default function FacultiesPage() {
         </div>
 
         {/* Faculty Cards */}
-        <div className="container mx-auto px-4 pb-12">
+        <div className="site-container pb-12">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
             {filteredFaculties.map((faculty, index) => {
               const Icon = getFacultyIcon(faculty.name)
@@ -275,7 +259,7 @@ export default function FacultiesPage() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="bg-white rounded-xl shadow-lg border border-unipas-primary/20 overflow-hidden hover:shadow-xl transition-shadow"
+                  className="site-card bg-white border border-unipas-primary/20 overflow-hidden hover:shadow-xl transition-shadow"
                 >
                   <div className={`bg-gradient-to-r ${color} p-6 text-white`}>
                     <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mb-4">
@@ -343,9 +327,9 @@ export default function FacultiesPage() {
 
           {/* Table Section */}
           <div className="max-w-6xl mx-auto">
-            <div className="bg-white rounded-xl shadow-lg border border-unipas-primary/20 overflow-hidden">
+            <div className="site-card bg-white border border-unipas-primary/20 overflow-hidden">
               <div className="bg-gradient-to-r from-unipas-primary to-unipas-accent text-white p-6">
-                <h2 className="text-2xl font-bold flex items-center gap-3">
+                <h2 className="section-title font-bold flex items-center gap-3">
                   <BookOpen className="h-6 w-6" />
                   Daftar Lengkap Program Studi
                 </h2>
@@ -393,28 +377,28 @@ export default function FacultiesPage() {
 
           {/* Statistics */}
           <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-6">
-            <div className="bg-white rounded-xl shadow-lg border border-unipas-primary/20 p-6 text-center">
+            <div className="site-card bg-white border border-unipas-primary/20 p-6 text-center">
               <div className="w-12 h-12 bg-gradient-to-r from-unipas-primary to-unipas-accent rounded-full flex items-center justify-center text-white mx-auto mb-3">
                 <Building2 className="h-6 w-6" />
               </div>
               <div className="text-2xl font-bold text-unipas-primary">{faculties.length}</div>
               <div className="text-sm text-unipas-text">Fakultas</div>
             </div>
-            <div className="bg-white rounded-xl shadow-lg border border-unipas-primary/20 p-6 text-center">
+            <div className="site-card bg-white border border-unipas-primary/20 p-6 text-center">
               <div className="w-12 h-12 bg-gradient-to-r from-unipas-primary to-unipas-accent rounded-full flex items-center justify-center text-white mx-auto mb-3">
                 <BookOpen className="h-6 w-6" />
               </div>
               <div className="text-2xl font-bold text-unipas-primary">{allPrograms.length}</div>
               <div className="text-sm text-unipas-text">Program Studi</div>
             </div>
-            <div className="bg-white rounded-xl shadow-lg border border-unipas-primary/20 p-6 text-center">
+            <div className="site-card bg-white border border-unipas-primary/20 p-6 text-center">
               <div className="w-12 h-12 bg-gradient-to-r from-unipas-primary to-unipas-accent rounded-full flex items-center justify-center text-white mx-auto mb-3">
                 <GraduationCap className="h-6 w-6" />
               </div>
               <div className="text-2xl font-bold text-unipas-primary">S1</div>
               <div className="text-sm text-unipas-text">Jenjang</div>
             </div>
-            <div className="bg-white rounded-xl shadow-lg border border-unipas-primary/20 p-6 text-center">
+            <div className="site-card bg-white border border-unipas-primary/20 p-6 text-center">
               <div className="w-12 h-12 bg-gradient-to-r from-unipas-primary to-unipas-accent rounded-full flex items-center justify-center text-white mx-auto mb-3">
                 <Award className="h-6 w-6" />
               </div>

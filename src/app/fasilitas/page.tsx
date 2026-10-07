@@ -1,3 +1,4 @@
+import PageHero from '@/components/layout/PageHero'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import { Building2, Users, BookOpen, Cpu, Dumbbell, Utensils } from 'lucide-react'
@@ -65,43 +66,29 @@ export default async function FasilitasPage() {
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
-      <main className="flex-1">
+      <main className="public-page flex-1">
         {/* Page Header */}
-        <section className="bg-ui-navy py-16">
-          <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto text-center">
-              <div className="bg-ui-yellow/10 rounded-lg w-20 h-20 flex items-center justify-center mx-auto mb-6">
-                <Building2 className="h-10 w-10 text-ui-yellow" />
-              </div>
-              <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-                Fasilitas Kampus UP
-              </h1>
-              <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-                Fasilitas lengkap dan modern untuk mendukung kegiatan akademik dan non-akademik
-              </p>
-            </div>
-          </div>
-        </section>
+        <PageHero title={<>Fasilitas Kampus UP</>} description={<>Fasilitas lengkap dan modern untuk mendukung kegiatan akademik dan non-akademik</>} />
 
         {/* Facility Types */}
-        <section className="py-16">
-          <div className="container mx-auto px-4">
+        <section className="site-section">
+          <div className="site-container">
             <div className="max-w-6xl mx-auto">
-              <h2 className="text-3xl font-bold text-ui-navy text-center mb-12">
+              <h2 className="section-title font-bold text-unipas-primary text-center mb-12">
                 Jenis Fasilitas
               </h2>
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {facilityTypes.map((type, idx) => (
                   <div
                     key={idx}
-                    className="bg-white rounded-lg shadow-lg border-2 hover:border-ui-yellow transition-all p-6"
+                    className="site-card bg-white hover:border-ui-yellow transition-all p-6"
                   >
                     <div className={`${type.color} rounded-lg w-16 h-16 flex items-center justify-center mb-4`}>
                       <div className="text-current">
                         {type.icon}
                       </div>
                     </div>
-                    <h3 className="text-lg font-bold text-ui-navy mb-2">
+                    <h3 className="text-lg font-bold text-unipas-primary mb-2">
                       {type.name}
                     </h3>
                     <p className="text-sm text-muted-foreground">
@@ -115,10 +102,10 @@ export default async function FasilitasPage() {
         </section>
 
         {/* Facilities List */}
-        <section className="py-16 bg-gray-50">
-          <div className="container mx-auto px-4">
+        <section className="site-section bg-gray-50">
+          <div className="site-container">
             <div className="max-w-6xl mx-auto">
-              <h2 className="text-3xl font-bold text-ui-navy text-center mb-12">
+              <h2 className="section-title font-bold text-unipas-primary text-center mb-12">
                 Daftar Fasilitas
               </h2>
               {facilities.length === 0 ? (
@@ -131,7 +118,7 @@ export default async function FasilitasPage() {
                   {facilities.map((facility: any) => (
                     <div
                       key={facility.id}
-                      className="bg-white rounded-lg shadow-sm border-2 hover:border-ui-yellow transition-all overflow-hidden"
+                      className="site-card bg-white hover:border-ui-yellow transition-all overflow-hidden"
                     >
                       {facility.imageUrl && (
                         <div className="aspect-video overflow-hidden">
@@ -143,7 +130,7 @@ export default async function FasilitasPage() {
                         </div>
                       )}
                       <div className="p-6">
-                        <h3 className="text-lg font-bold text-ui-navy mb-2">
+                        <h3 className="text-lg font-bold text-unipas-primary mb-2">
                           {facility.name}
                         </h3>
                         {facility.description && (
@@ -166,10 +153,10 @@ export default async function FasilitasPage() {
         </section>
 
         {/* Info */}
-        <section className="py-16 bg-ui-navy">
-          <div className="container mx-auto px-4">
+        <section className="site-section bg-unipas-primary">
+          <div className="site-container">
             <div className="max-w-4xl mx-auto">
-              <h2 className="text-3xl font-bold text-white text-center mb-8">
+              <h2 className="section-title font-bold text-white text-center mb-8">
                 Akses & Penggunaan
               </h2>
               <div className="grid md:grid-cols-3 gap-8">

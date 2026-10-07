@@ -1,3 +1,4 @@
+import { withStaffAccess } from '@/lib/api-access'
 import { NextRequest, NextResponse } from 'next/server'
 import { db as prisma } from '@/lib/db'
 
@@ -47,7 +48,7 @@ export async function GET(
 }
 
 // PUT /api/journals/[id] - Update jurnal
-export async function PUT(
+async function handlePUT(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
@@ -140,7 +141,7 @@ export async function PUT(
 }
 
 // DELETE /api/journals/[id] - Hapus jurnal
-export async function DELETE(
+async function handleDELETE(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
@@ -160,3 +161,5 @@ export async function DELETE(
     )
   }
 }
+export const PUT = withStaffAccess('journals', handlePUT)
+export const DELETE = withStaffAccess('journals', handleDELETE)

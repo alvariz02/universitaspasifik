@@ -1,3 +1,4 @@
+import { withStaffAccess } from '@/lib/api-access'
 import { NextRequest, NextResponse } from 'next/server'
 import { db as prisma } from '@/lib/db'
 
@@ -38,7 +39,7 @@ export async function GET(
 }
 
 // PUT /api/videos/[id] - Update video
-export async function PUT(
+async function handlePUT(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
@@ -86,7 +87,7 @@ export async function PUT(
 }
 
 // DELETE /api/videos/[id] - Hapus video
-export async function DELETE(
+async function handleDELETE(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
@@ -113,3 +114,5 @@ function extractYouTubeId(url: string): string | null {
   const match = url.match(regExp)
   return (match && match[2].length === 11) ? match[2] : null
 }
+export const PUT = withStaffAccess('videos', handlePUT)
+export const DELETE = withStaffAccess('videos', handleDELETE)

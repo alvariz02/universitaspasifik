@@ -135,7 +135,7 @@ export default function RichTextEditor({ value, onChange, placeholder = "Mulai m
       const formData = new FormData()
       formData.append('file', file)
 
-      const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/upload`, {
+      const response = await fetch(`/api/upload`, {
         method: 'POST',
         body: formData,
       })
@@ -160,7 +160,7 @@ export default function RichTextEditor({ value, onChange, placeholder = "Mulai m
   }
 
   return (
-    <div className="border border-unipas-primary/20 rounded-xl overflow-hidden bg-white">
+    <div className="site-card border border-unipas-primary/20 overflow-hidden bg-white">
       {/* Toolbar */}
       <div className="bg-unipas-muted border-b border-unipas-primary/20 p-2 flex flex-wrap gap-1">
         {/* Text Formatting */}

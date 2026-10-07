@@ -20,7 +20,7 @@ interface ShareButtonProps {
 export default function ShareButton({ title, url, description, imageUrl }: ShareButtonProps) {
   const [copied, setCopied] = useState(false)
 
-  const shareUrl = typeof window !== 'undefined' ? window.location.origin + url : url
+  const shareUrl = typeof window !== 'undefined' ? new URL(url, window.location.origin).href : url
 
   const shareLinks = [
     {

@@ -1,5 +1,8 @@
 'use client'
 
+import PageHero from '@/components/layout/PageHero'
+
+
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import Header from '@/components/layout/Header'
@@ -41,7 +44,7 @@ export default function PengabdianPage() {
   useEffect(() => {
     const fetchNews = async () => {
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/news?limit=100`)
+        const response = await fetch(`/api/news?limit=100`)
         const data = await response.json()
         
         // Filter berita dengan kategori pengabdian (KKN, UMKM, dll)
@@ -164,38 +167,24 @@ export default function PengabdianPage() {
     <div className="min-h-screen flex flex-col bg-white">
       <Header />
       
-      <main className="flex-1">
+      <main className="public-page flex-1">
         {/* Hero Section */}
-        <section className="bg-linear-to-r from-unipas-primary to-unipas-accent text-white py-16 md:py-24">
-          <div className="container mx-auto px-4">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="max-w-3xl"
-            >
-              <h1 className="text-4xl md:text-5xl font-bold text-blue-100 mb-6">Pengabdian Masyarakat</h1>
-              <p className="text-lg md:text-xl text-white/90 leading-relaxed">
-                Komitmen Universitas Pasifik Morotai untuk memberikan dampak positif kepada masyarakat melalui berbagai program pengabdian dan tanggung jawab sosial
-              </p>
-            </motion.div>
-          </div>
-        </section>
+        <PageHero title={<>Pengabdian Masyarakat</>} description={<>Komitmen Universitas Pasifik Morotai untuk memberikan dampak positif kepada masyarakat melalui berbagai program pengabdian dan tanggung jawab sosial</>} />
 
         {/* Mission Statement */}
-        <section className="py-12 md:py-16 bg-unipas-muted/30">
-          <div className="container mx-auto px-4">
+        <section className="site-section py-12 bg-unipas-muted/30">
+          <div className="site-container">
             <div className="max-w-4xl mx-auto">
               <motion.div
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
                 transition={{ duration: 0.6 }}
-                className="bg-white rounded-xl shadow-lg border border-unipas-primary/10 p-8 md:p-12"
+                className="site-card bg-white border border-unipas-primary/10 p-8 md:p-12"
               >
                 <div className="flex items-start gap-4 mb-6">
                   <Heart className="h-8 w-8 text-unipas-accent shrink-0 mt-1" />
                   <div>
-                    <h2 className="text-2xl md:text-3xl font-bold text-unipas-primary mb-4">Visi Pengabdian Kami</h2>
+                    <h2 className="section-title font-bold text-unipas-primary mb-4">Visi Pengabdian Kami</h2>
                     <p className="text-lg text-unipas-text leading-relaxed">
                       Menjadi institusi pendidikan yang berperan aktif dalam pemberdayaan masyarakat, melalui kegiatan pengabdian yang berkelanjutan, inovatif, dan berdampak nyata untuk peningkatan kualitas hidup masyarakat lokal serta pembangunan daerah yang inklusif dan berkelanjutan.
                     </p>
@@ -207,13 +196,13 @@ export default function PengabdianPage() {
         </section>
 
         {/* Impact Statistics */}
-        <section className="py-12 md:py-16 bg-unipas-muted/20">
-          <div className="container mx-auto px-4">
+        <section className="site-section py-12 bg-unipas-muted/20">
+          <div className="site-container">
             <motion.h2
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               transition={{ duration: 0.6 }}
-              className="text-3xl md:text-4xl font-bold text-unipas-primary text-center mb-12"
+              className="section-title font-bold text-unipas-primary text-center mb-12"
             >
               Dampak Pengabdian Kami
             </motion.h2>
@@ -247,7 +236,7 @@ export default function PengabdianPage() {
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: index * 0.1 }}
-                    className="bg-white rounded-xl shadow-lg p-6 text-center border border-unipas-primary/20"
+                    className="site-card bg-white p-6 text-center border border-unipas-primary/20"
                   >
                     <Icon className="h-10 w-10 text-unipas-accent mx-auto mb-4" />
                     <div className="text-3xl font-bold text-unipas-primary mb-2">{impact.number}</div>
@@ -260,13 +249,13 @@ export default function PengabdianPage() {
         </section>
 
         {/* Programs Section */}
-        <section className="py-12 md:py-16 bg-unipas-muted/20">
-          <div className="container mx-auto px-4">
+        <section className="site-section py-12 bg-unipas-muted/20">
+          <div className="site-container">
             <motion.h2
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               transition={{ duration: 0.6 }}
-              className="text-3xl md:text-4xl font-bold text-unipas-primary text-center mb-12"
+              className="section-title font-bold text-unipas-primary text-center mb-12"
             >
               Program Pengabdian
             </motion.h2>
@@ -279,7 +268,7 @@ export default function PengabdianPage() {
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: index * 0.1 }}
-                    className="bg-white rounded-xl shadow-lg border border-unipas-primary/10 overflow-hidden hover:shadow-xl transition-shadow"
+                    className="site-card bg-white border border-unipas-primary/10 overflow-hidden hover:shadow-xl transition-shadow"
                   >
                     <div className={`bg-linear-to-r ${program.color} text-white p-6`}>
                       <div className="flex items-start gap-4">
@@ -300,13 +289,13 @@ export default function PengabdianPage() {
         </section>
 
         {/* News & Activities Section */}
-        <section className="py-12 md:py-16">
-          <div className="container mx-auto px-4">
+        <section className="site-section py-12">
+          <div className="site-container">
             <motion.h2
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               transition={{ duration: 0.6 }}
-              className="text-3xl md:text-4xl font-bold text-unipas-primary text-center mb-4"
+              className="section-title font-bold text-unipas-primary text-center mb-4"
             >
               Kegiatan & Berita Pengabdian
             </motion.h2>
@@ -326,7 +315,7 @@ export default function PengabdianPage() {
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: index * 0.1 }}
-                    className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow border border-unipas-primary/10"
+                    className="site-card bg-white overflow-hidden hover:shadow-xl transition-shadow border border-unipas-primary/10"
                   >
                     {item.imageUrl && (
                       <div className="relative h-48 overflow-hidden bg-unipas-muted">
@@ -406,13 +395,13 @@ export default function PengabdianPage() {
 
 
         {/* How to Participate */}
-        <section className="py-12 md:py-16 bg-unipas-muted/20">
-          <div className="container mx-auto px-4">
+        <section className="site-section py-12 bg-unipas-muted/20">
+          <div className="site-container">
             <motion.h2
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               transition={{ duration: 0.6 }}
-              className="text-3xl md:text-4xl font-bold text-unipas-primary text-center mb-12"
+              className="section-title font-bold text-unipas-primary text-center mb-12"
             >
               Cara Terlibat
             </motion.h2>
@@ -439,7 +428,7 @@ export default function PengabdianPage() {
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="bg-white rounded-xl shadow-lg p-8 border-t-4 border-unipas-accent text-center"
+                  className="site-card bg-white p-8 border-t-4 border-unipas-accent text-center"
                 >
                   <div className="w-12 h-12 bg-linear-to-r from-unipas-primary to-unipas-accent rounded-full flex items-center justify-center text-white font-bold text-lg mx-auto mb-4">
                     {item.step}
@@ -465,15 +454,15 @@ export default function PengabdianPage() {
         </section>
 
         {/* Contact Section */}
-        <section className="py-12 md:py-16 bg-linear-to-r from-unipas-primary to-unipas-accent text-white">
-          <div className="container mx-auto px-4">
+        <section className="site-section py-12 bg-linear-to-r from-unipas-primary to-unipas-accent text-white">
+          <div className="site-container">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
               className="max-w-3xl mx-auto text-center"
             >
-              <h2 className="text-3xl md:text-4xl font-bold mb-6">Hubungi Kami</h2>
+              <h2 className="section-title font-bold mb-6">Hubungi Kami</h2>
               <p className="text-lg text-white/90 mb-8">
                 Untuk informasi lebih lanjut mengenai program pengabdian atau menjadi mitra, silakan hubungi:
               </p>

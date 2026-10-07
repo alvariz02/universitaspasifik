@@ -122,7 +122,7 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
                   <Link href={currentSlide.linkUrl}>
                     <Button
                       size="lg"
-                      className="group bg-gradient-to-r from-blue-600 via-cyan-600 to-teal-600 text-white hover:from-blue-700 hover:via-cyan-700 hover:to-teal-700 font-bold px-8 py-6 text-lg shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-105 rounded-full border border-white/30 backdrop-blur-sm"
+                      className="group text-white py-6 transition-all duration-300 border border-white/30 backdrop-blur-sm"
                     >
                       <span className="flex items-center gap-3">
                         <span className="drop-shadow-sm">{currentSlide.linkText}</span>

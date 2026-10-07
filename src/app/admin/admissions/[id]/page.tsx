@@ -6,7 +6,8 @@ import FileUpload from '@/components/admin/FileUpload'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
-import { useRouter, useParams } from 'next/navigation'
+import { useRouter } from '@/hooks/useNavigationRouter'
+import { useParams } from 'next/navigation'
 import { useToast } from '@/hooks/use-toast'
 
 export default function EditAdmissionPage() {
@@ -32,7 +33,7 @@ export default function EditAdmissionPage() {
 
   const fetchAdmission = async () => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/admissions?limit=100`)
+      const res = await fetch(`/api/admissions?limit=100`)
       const data = await res.json()
       const admission = data.find((a: any) => a.id === parseInt(admissionId))
       
@@ -78,7 +79,7 @@ export default function EditAdmissionPage() {
 
     setSubmitting(true)
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/admissions/${admissionId}`, {
+      const res = await fetch(`/api/admissions/${admissionId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -123,7 +124,7 @@ export default function EditAdmissionPage() {
   if (loading) {
     return (
       <AdminLayout>
-        <div className="min-h-screen bg-unipas-muted py-8 flex items-center justify-center">
+        <div className="p-4 sm:p-8 max-w-7xl mx-auto bg-unipas-muted py-8 flex items-center justify-center">
           <div className="text-unipas-primary">Memuat data...</div>
         </div>
       </AdminLayout>
@@ -132,11 +133,11 @@ export default function EditAdmissionPage() {
 
   return (
     <AdminLayout>
-      <div className="min-h-screen bg-unipas-muted py-8">
+      <div className="p-4 sm:p-8 max-w-7xl mx-auto bg-unipas-muted py-8">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-2xl font-bold text-ui-navy mb-4">Edit Jalur Penerimaan</h1>
+          <h1 className="admin-title text-unipas-primary mb-4">Edit Jalur Penerimaan</h1>
 
-          <form onSubmit={handleSubmit} className="space-y-6 bg-white rounded-xl p-6 border border-unipas-primary/20">
+          <form onSubmit={handleSubmit} className="site-card space-y-6 bg-white p-6 border border-unipas-primary/20">
             <div>
               <Label className="text-unipas-primary">Judul Jalur Penerimaan *</Label>
               <Input 

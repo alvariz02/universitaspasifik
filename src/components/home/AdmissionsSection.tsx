@@ -55,7 +55,7 @@ export default function AdmissionsSection({ admissions }: AdmissionsSectionProps
   }
 
   return (
-    <section className="py-20 bg-unipas-muted relative overflow-hidden">
+    <section className="site-section bg-unipas-muted relative overflow-hidden">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute top-0 left-0 w-96 h-96 bg-unipas-primary rounded-full blur-3xl" />
@@ -70,7 +70,7 @@ export default function AdmissionsSection({ admissions }: AdmissionsSectionProps
           viewport={{ once: true }}
           className="text-center mb-12"
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-unipas-primary mb-4">
+          <h2 className="section-title font-bold text-unipas-primary mb-4">
             Penerimaan Mahasiswa Baru
           </h2>
           <p className="text-lg text-unipas-text max-w-2xl mx-auto">
@@ -88,7 +88,7 @@ export default function AdmissionsSection({ admissions }: AdmissionsSectionProps
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -100 }}
               transition={{ duration: 0.5 }}
-              className="bg-white rounded-3xl overflow-hidden shadow-2xl border border-unipas-primary/10"
+              className="site-card bg-white overflow-hidden border border-unipas-primary/10"
             >
               {/* Large Image - Hero Style */}
               <div className="relative aspect-[16/9] md:aspect-[21/9] bg-unipas-muted overflow-hidden">

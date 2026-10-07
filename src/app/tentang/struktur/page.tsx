@@ -1,5 +1,7 @@
 'use client'
 
+import PageHero from '@/components/layout/PageHero'
+
 import { useScroll, useTransform, motion } from 'framer-motion'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
@@ -224,9 +226,9 @@ export default function StrukturPage() {
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-white to-gray-50">
       <Header />
-      <main className="flex-1">
+      <main className="public-page flex-1"><PageHero title="Struktur Organisasi" description="Struktur organisasi Universitas Pasifik Morotai yang transparan dan akuntabel." />
         {/* ORGANIZATIONAL UNITS SECTION */}
-        <section className="py-16 md:py-32 relative overflow-hidden">
+        <section className="site-section relative overflow-hidden">
           <motion.div
             style={{ y: useTransform(scrollYProgress, [0.2, 0.4], [0, 30]) }}
             className="absolute inset-0 opacity-5"
@@ -234,20 +236,8 @@ export default function StrukturPage() {
             <div className="absolute inset-0 bg-gradient-to-br from-unipas-primary to-unipas-accent"></div>
           </motion.div>
 
-          <div className="container mx-auto px-4 relative z-10">
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              className="text-center mb-12 md:mb-20"
-            >
-              <h1 className="text-3xl md:text-5xl lg:text-6xl font-black text-unipas-primary mb-4 md:mb-6">
-                Struktur Organisasi
-              </h1>
-              <p className="text-base md:text-xl text-gray-600 max-w-2xl md:max-w-3xl mx-auto">
-                Struktur organisasi Universitas Pasifik Morotai yang transparan dan akuntabel
-              </p>
-            </motion.div>
+          <div className="site-container relative z-10">
+            
 
             {/* YAYASAN */}
             <motion.div
@@ -273,7 +263,7 @@ export default function StrukturPage() {
               transition={{ duration: 0.8 }}
               className="text-center mb-8"
             >
-              <h2 className="text-2xl md:text-4xl lg:text-5xl font-black text-unipas-primary mb-4 md:mb-6">
+              <h2 className="section-title font-bold text-unipas-primary mb-4 md:mb-6">
                 Pimpinan Utama
               </h2>
             </motion.div>
@@ -286,7 +276,7 @@ export default function StrukturPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: index * 0.1 }}
                   whileHover={{ y: -10 }}
-                  className="bg-white/90 backdrop-blur-sm rounded-2xl md:rounded-3xl shadow-2xl border border-unipas-primary/20 p-6 md:p-8 hover:shadow-3xl transition-all duration-300"
+                  className="site-card bg-white/90 backdrop-blur-sm md:rounded-3xl border border-unipas-primary/20 p-6 md:p-8 hover:shadow-3xl transition-all duration-300"
                 >
                   <div className="flex items-start gap-4 md:gap-6">
                     <motion.div
@@ -313,7 +303,7 @@ export default function StrukturPage() {
               transition={{ duration: 0.8 }}
               className="text-center mb-12 md:mb-20"
             >
-              <h2 className="text-2xl md:text-4xl lg:text-5xl font-black text-unipas-primary mb-4 md:mb-6">
+              <h2 className="section-title font-bold text-unipas-primary mb-4 md:mb-6">
                 Di Bawah Rektor
               </h2>
             </motion.div>
@@ -351,7 +341,7 @@ export default function StrukturPage() {
               transition={{ duration: 0.8 }}
               className="text-center mb-12 md:mb-20"
             >
-              <h2 className="text-2xl md:text-4xl lg:text-5xl font-black text-unipas-primary mb-4 md:mb-6">
+              <h2 className="section-title font-bold text-unipas-primary mb-4 md:mb-6">
                 LPM, LPPM &amp; Fakultas
               </h2>
               <p className="text-base md:text-xl text-gray-600 max-w-2xl md:max-w-3xl mx-auto">
@@ -367,7 +357,7 @@ export default function StrukturPage() {
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: index * 0.1 }}
-                  className="bg-white rounded-2xl p-6 shadow-lg border border-red-100"
+                  className="site-card bg-white p-6 border border-red-100"
                 >
                   <div className="flex items-start gap-4">
                     <div className="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center text-red-600 flex-shrink-0">
@@ -392,7 +382,7 @@ export default function StrukturPage() {
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: index * 0.08 }}
-                  className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl border border-unipas-primary/20 p-6 flex flex-col"
+                  className="site-card bg-white/90 backdrop-blur-sm border border-unipas-primary/20 p-6 flex flex-col"
                 >
                   <div className="flex items-center gap-3 mb-3">
                     <div className="w-10 h-10 bg-gradient-to-r from-unipas-primary to-unipas-accent rounded-xl flex items-center justify-center text-white flex-shrink-0">
@@ -424,7 +414,7 @@ export default function StrukturPage() {
         </section>
 
         {/* VALUES SECTION */}
-        <section className="py-16 md:py-32 bg-gradient-to-br from-unipas-primary to-unipas-accent relative overflow-hidden">
+        <section className="site-section bg-gradient-to-br from-unipas-primary to-unipas-accent relative overflow-hidden">
           <motion.div
             style={{ y: useTransform(scrollYProgress, [0.6, 0.8], [0, 50]) }}
             className="absolute inset-0 overflow-hidden"
@@ -442,14 +432,14 @@ export default function StrukturPage() {
             ))}
           </motion.div>
 
-          <div className="container mx-auto px-4 relative z-10">
+          <div className="site-container relative z-10">
             <motion.div
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
               className="text-center mb-12 md:mb-20"
             >
-              <h2 className="text-2xl md:text-4xl lg:text-5xl font-black text-white mb-4 md:mb-6">
+              <h2 className="section-title font-bold text-white mb-4 md:mb-6">
                 Akuntabilitas &amp; Transparansi
               </h2>
               <p className="text-base md:text-xl text-white/90 max-w-2xl md:max-w-3xl mx-auto">

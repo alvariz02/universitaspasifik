@@ -7,7 +7,7 @@ import { Badge } from '@/components/ui/badge'
 import { useToast } from '@/hooks/use-toast'
 import { useConfirm } from '@/hooks/use-confirm'
 import { ConfirmDialog } from '@/components/ui/confirm-dialog'
-import { useRouter } from 'next/navigation'
+import { useRouter } from '@/hooks/useNavigationRouter'
 
 export default function AdminAdmissionsPage() {
   const { toast } = useToast()
@@ -23,7 +23,7 @@ export default function AdminAdmissionsPage() {
   const fetchAdmissions = async () => {
     try {
       setLoading(true)
-      const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/admissions?limit=100`)
+      const res = await fetch(`/api/admissions?limit=100`)
       const data = await res.json()
       
       // Ensure data is an array
@@ -61,7 +61,7 @@ export default function AdminAdmissionsPage() {
     if (!confirmed) return
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/admissions/${row.slug}`, {
+      const res = await fetch(`/api/admissions/${row.slug}`, {
         method: 'DELETE',
       })
 
@@ -140,9 +140,9 @@ export default function AdminAdmissionsPage() {
 
   return (
     <AdminLayout>
-      <div className="p-6">
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold text-ui-navy mb-2">
+      <div className="p-4 sm:p-8 max-w-7xl mx-auto">
+        <div className="admin-page-header mb-6">
+          <h1 className="admin-title text-unipas-primary mb-2">
             Kelola Penerimaan
           </h1>
           <p className="text-muted-foreground">

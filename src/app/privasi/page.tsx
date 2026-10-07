@@ -1,3 +1,4 @@
+import PageHero from '@/components/layout/PageHero'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import { Shield, Lock, Eye } from 'lucide-react'
@@ -6,30 +7,16 @@ export default function PrivasiPage() {
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
-      <main className="flex-1">
+      <main className="public-page flex-1">
         {/* Page Header */}
-        <section className="bg-ui-navy py-16">
-          <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto text-center">
-              <div className="bg-ui-yellow/10 rounded-lg w-20 h-20 flex items-center justify-center mx-auto mb-6">
-                <Shield className="h-10 w-10 text-ui-yellow" />
-              </div>
-              <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-                Kebijakan Privasi
-              </h1>
-              <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-                Perlindungan data dan privasi pengunjung website Universitas Pasifik
-              </p>
-            </div>
-          </div>
-        </section>
+        <PageHero title={<>Kebijakan Privasi</>} description={<>Perlindungan data dan privasi pengunjung website Universitas Pasifik</>} />
 
         {/* Content */}
-        <section className="py-16">
-          <div className="container mx-auto px-4">
+        <section className="site-section">
+          <div className="site-container">
             <div className="max-w-4xl mx-auto prose prose-lg max-w-none">
               <div className="bg-gray-50 rounded-lg p-8 mb-8">
-                <h2 className="text-2xl font-bold text-ui-navy mb-4">
+                <h2 className="section-title font-bold text-unipas-primary mb-4">
                   Pernyataan Privasi
                 </h2>
                 <p className="text-gray-700">
@@ -39,7 +26,7 @@ export default function PrivasiPage() {
                 </p>
               </div>
 
-              <h3 className="text-xl font-bold text-ui-navy mb-4 flex items-center gap-2">
+              <h3 className="text-xl font-bold text-unipas-primary mb-4 flex items-center gap-2">
                 <Eye className="h-6 w-6 text-ui-yellow" />
                 Informasi yang Dikumpulkan
               </h3>
@@ -50,7 +37,7 @@ export default function PrivasiPage() {
                 <li>Cookie dan teknologi pelacakan lainnya</li>
               </ul>
 
-              <h3 className="text-xl font-bold text-ui-navy mb-4 flex items-center gap-2">
+              <h3 className="text-xl font-bold text-unipas-primary mb-4 flex items-center gap-2">
                 <Lock className="h-6 w-6 text-ui-yellow" />
                 Penggunaan Informasi
               </h3>
@@ -69,7 +56,7 @@ export default function PrivasiPage() {
                 </p>
               </div>
 
-              <h3 className="text-xl font-bold text-ui-navy mb-4 flex items-center gap-2">
+              <h3 className="text-xl font-bold text-unipas-primary mb-4 flex items-center gap-2">
                 <Shield className="h-6 w-6 text-ui-yellow" />
                 Perlindungan Data
               </h3>
@@ -80,7 +67,7 @@ export default function PrivasiPage() {
                 <li>Peninjauan berkala terhadap kebijakan keamanan</li>
               </ul>
 
-              <h3 className="text-xl font-bold text-ui-navy mb-4">
+              <h3 className="text-xl font-bold text-unipas-primary mb-4">
                 Hak Anda
               </h3>
               <ul className="list-disc list-inside space-y-2 text-gray-700 mb-8">
@@ -90,8 +77,8 @@ export default function PrivasiPage() {
                 <li>Menarik persetujuan untuk pengumpulan data</li>
               </ul>
 
-              <div className="bg-ui-navy/5 rounded-lg p-6 border-2 border-ui-navy/10">
-                <h3 className="text-lg font-bold text-ui-navy mb-2">
+              <div className="bg-unipas-primary/5 rounded-lg p-6 border-2 border-ui-navy/10">
+                <h3 className="text-lg font-bold text-unipas-primary mb-2">
                   Hubungi Kami
                 </h3>
                 <p className="text-gray-700">

@@ -30,8 +30,8 @@ export default function AdminJournalsPage() {
     try {
       setLoading(true)
       const [journalsRes, facultiesRes] = await Promise.all([
-        fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/journals?limit=100`),
-        fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/faculties?limit=100`)
+        fetch(`/api/journals?limit=100`),
+        fetch(`/api/faculties?limit=100`)
       ])
       
       const journalsData = await journalsRes.json()
@@ -72,7 +72,7 @@ export default function AdminJournalsPage() {
     if (!confirmed) return
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/journals/${id}`, {
+      const res = await fetch(`/api/journals/${id}`, {
         method: 'DELETE',
       })
 
@@ -109,7 +109,7 @@ export default function AdminJournalsPage() {
         facultyId: data.facultyId === 'none' ? null : data.facultyId
       }
 
-      const url = editingId ? `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/journals/${editingId}` : `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/journals`
+      const url = editingId ? `/api/journals/${editingId}` : `/api/journals`
       const method = editingId ? 'PUT' : 'POST'
 
       const res = await fetch(url, {
@@ -265,10 +265,10 @@ export default function AdminJournalsPage() {
 
   return (
     <AdminLayout>
-      <div className="p-6 bg-unipas-muted min-h-screen">
-        <div className="mb-6">
-          <div className="bg-gradient-to-r from-unipas-primary to-unipas-accent rounded-xl p-6 text-white shadow-lg mb-4">
-            <h1 className="text-3xl font-bold mb-2">
+      <div className="p-4 sm:p-8 max-w-7xl mx-auto bg-unipas-muted">
+        <div className="admin-page-header mb-6">
+          <div className="space-y-2">
+            <h1 className="admin-title mb-2">
               Kelola Jurnal Penelitian
             </h1>
             <p className="text-white/90">
@@ -278,7 +278,7 @@ export default function AdminJournalsPage() {
         </div>
 
         {loading ? (
-          <div className="text-center py-8 bg-white rounded-xl shadow-lg">
+          <div className="site-card text-center py-8 bg-white">
             <div className="text-unipas-primary">Memuat data...</div>
           </div>
         ) : (

@@ -1,7 +1,9 @@
+import { withStaffAccess } from '@/lib/api-access'
+import { db } from '@/lib/db'
 import { NextRequest, NextResponse } from 'next/server'
 import { v2 as cloudinary } from 'cloudinary'
 
-export async function POST(request: NextRequest) {
+async function handlePOST(request: NextRequest) {
   try {
     console.log('📤 Upload API called')
     
@@ -197,6 +199,12 @@ export async function POST(request: NextRequest) {
       size: uploadedFile.bytes
     })
 
+    await db.mediaAsset.upsert({
+      where: { url: uploadedFile.secure_url },
+      create: { name: file?.name || uploadedFile.public_id, url: uploadedFile.secure_url, publicId: uploadedFile.public_id, mimeType: file?.type || `image/${uploadedFile.format}`, size: uploadedFile.bytes },
+      update: { deletedAt: null },
+    })
+
     const response = { 
       success: true,
       url: uploadedFile.secure_url,
@@ -215,3 +223,5 @@ export async function POST(request: NextRequest) {
     )
   }
 }
+
+export const POST = withStaffAccess('upload', handlePOST)

@@ -137,12 +137,12 @@ export default async function PrestasiDetailPage({ params }: PageProps) {
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
-      <main className="flex-1">
+      <main className="public-page flex-1">
         {/* Back Button */}
         <div className="bg-gray-50 border-b">
-          <div className="container mx-auto px-4 py-4">
+          <div className="site-container py-4">
             <Link href="/prestasi">
-              <Button variant="ghost" className="gap-2 text-ui-navy hover:text-ui-navy/80">
+              <Button variant="ghost" className="gap-2 text-unipas-primary hover:text-unipas-primary/80">
                 <ArrowLeft className="h-4 w-4" />
                 Kembali ke Prestasi
               </Button>
@@ -152,7 +152,7 @@ export default async function PrestasiDetailPage({ params }: PageProps) {
 
         {/* Achievement Detail */}
         <article className="py-12">
-          <div className="container mx-auto px-4">
+          <div className="site-container">
             <div className="max-w-4xl mx-auto">
               {/* Header */}
               <div className="mb-8 text-center">
@@ -167,7 +167,7 @@ export default async function PrestasiDetailPage({ params }: PageProps) {
                   </div>
                 )}
 
-                <h1 className="text-3xl md:text-5xl font-bold text-ui-navy mb-6">
+                <h1 className="page-title text-unipas-primary mb-6">
                   {achievement.title}
                 </h1>
 
@@ -211,9 +211,9 @@ export default async function PrestasiDetailPage({ params }: PageProps) {
                       </div>
                       <div>
                         <p className="text-sm text-muted-foreground">Pencapaian oleh</p>
-                        <p className="text-lg font-bold text-ui-navy">{achievement.achieverName}</p>
+                        <p className="text-lg font-bold text-unipas-primary">{achievement.achieverName}</p>
                         {achievement.achieverType && (
-                          <Badge className="mt-1 bg-ui-yellow text-ui-navy">
+                          <Badge className="mt-1 bg-ui-yellow text-unipas-primary">
                             {achievement.achieverType}
                           </Badge>
                         )}
@@ -255,9 +255,9 @@ export default async function PrestasiDetailPage({ params }: PageProps) {
 
         {/* Related Achievements */}
         {relatedAchievements.length > 0 && (
-          <section className="py-16 bg-gray-50">
-            <div className="container mx-auto px-4">
-              <h2 className="text-2xl md:text-3xl font-bold text-ui-navy mb-8 text-center">
+          <section className="site-section bg-gray-50">
+            <div className="site-container">
+              <h2 className="section-title font-bold text-unipas-primary mb-8 text-center">
                 Prestasi Lainnya
               </h2>
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
@@ -265,7 +265,7 @@ export default async function PrestasiDetailPage({ params }: PageProps) {
                   <Link
                     key={item.id}
                     href={`/prestasi/${item.id}`}
-                    className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 border hover:border-yellow-400 group"
+                    className="site-card bg-white overflow-hidden hover:shadow-lg transition-all duration-300 border hover:border-yellow-400 group"
                   >
                     {item.imageUrl && (
                       <div className="aspect-video overflow-hidden relative">
@@ -284,7 +284,7 @@ export default async function PrestasiDetailPage({ params }: PageProps) {
                       </div>
                     )}
                     <div className="p-4">
-                      <h3 className="font-bold text-ui-navy mb-2 line-clamp-2 group-hover:text-yellow-600 transition-colors">
+                      <h3 className="font-bold text-unipas-primary mb-2 line-clamp-2 group-hover:text-yellow-600 transition-colors">
                         {item.title}
                       </h3>
                       {item.achieverName && (

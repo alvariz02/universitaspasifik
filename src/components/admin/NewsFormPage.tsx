@@ -20,8 +20,10 @@ import RichTextEditor from './RichTextEditor'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 import { newsCategories } from '@/lib/news-categories'
+import { useAuth } from '@/contexts/AuthContext'
 
 const newsSchema = z.object({
+  status: z.enum(['draft', 'review', 'published']).default('draft'),
   title: z.string().min(1, 'Judul wajib diisi'),
   slug: z.string().min(1, 'Slug wajib diisi'),
   excerpt: z.string().optional(),
@@ -44,6 +46,7 @@ interface NewsFormPageProps {
 }
 
 export default function NewsFormPage({ initialData, onSubmit, title, subtitle, submitButtonText }: NewsFormPageProps) {
+  const { user } = useAuth()
   const [isSubmitting, setIsSubmitting] = useState(false)
   
   const {
@@ -56,6 +59,7 @@ export default function NewsFormPage({ initialData, onSubmit, title, subtitle, s
   } = useForm<NewsFormData>({
     resolver: zodResolver(newsSchema) as Resolver<NewsFormData>,
     defaultValues: initialData || {
+      status: 'draft',
       title: '',
       slug: '',
       excerpt: '',
@@ -102,6 +106,7 @@ export default function NewsFormPage({ initialData, onSubmit, title, subtitle, s
   }
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    register('title').onChange(e)
     const title = e.target.value
     if (!initialData) { // Only generate slug for new items
       const slug = generateSlug(title)
@@ -118,14 +123,14 @@ export default function NewsFormPage({ initialData, onSubmit, title, subtitle, s
           Kembali ke Daftar Berita
         </Link>
         <div className="bg-gradient-to-r from-unipas-primary to-unipas-accent rounded-xl p-6 text-white shadow-lg">
-          <h1 className="text-3xl font-bold mb-2">{title}</h1>
+          <h1 className="admin-title mb-2">{title}</h1>
           <p className="text-white/90">{subtitle}</p>
         </div>
       </div>
 
       <form onSubmit={handleSubmit(onFormSubmit)} className="space-y-6">
         {/* Basic Information */}
-        <div className="bg-white rounded-xl p-6 border border-unipas-primary/20 shadow-lg">
+        <div className="site-card bg-white p-6 border border-unipas-primary/20">
           <h3 className="text-lg font-semibold text-unipas-primary mb-4 flex items-center gap-2">
             <span className="w-2 h-2 bg-unipas-accent rounded-full"></span>
             Informasi Dasar
@@ -172,7 +177,7 @@ export default function NewsFormPage({ initialData, onSubmit, title, subtitle, s
         </div>
 
         {/* Content */}
-        <div className="bg-white rounded-xl p-6 border border-unipas-primary/20 shadow-lg">
+        <div className="site-card bg-white p-6 border border-unipas-primary/20">
           <h3 className="text-lg font-semibold text-unipas-primary mb-4 flex items-center gap-2">
             <span className="w-2 h-2 bg-unipas-accent rounded-full"></span>
             Konten Berita
@@ -191,7 +196,7 @@ export default function NewsFormPage({ initialData, onSubmit, title, subtitle, s
         </div>
 
         {/* Metadata */}
-        <div className="bg-white rounded-xl p-6 border border-unipas-primary/20 shadow-lg">
+        <div className="site-card bg-white p-6 border border-unipas-primary/20">
           <h3 className="text-lg font-semibold text-unipas-primary mb-4 flex items-center gap-2">
             <span className="w-2 h-2 bg-unipas-accent rounded-full"></span>
             Metadata
@@ -200,7 +205,7 @@ export default function NewsFormPage({ initialData, onSubmit, title, subtitle, s
             <div className="space-y-2">
               <Label htmlFor="category" className="text-unipas-primary font-medium">Kategori</Label>
               <Select value={watch('category')} onValueChange={(value) => setValue('category', value)}>
-                <SelectTrigger className="border-unipas-primary/20 focus:border-unipas-accent">
+                <SelectTrigger id="category" className="border-unipas-primary/20 focus:border-unipas-accent">
                   <SelectValue placeholder="Pilih kategori" />
                 </SelectTrigger>
                 <SelectContent>
@@ -247,7 +252,8 @@ export default function NewsFormPage({ initialData, onSubmit, title, subtitle, s
           <div className="flex items-center space-x-3 mt-6 p-4 bg-unipas-muted rounded-lg border border-unipas-primary/20">
             <Checkbox
               id="isFeatured"
-              {...register('isFeatured')}
+              checked={watch('isFeatured')}
+              onCheckedChange={checked => setValue('isFeatured', checked === true)}
               className="border-unipas-primary/30 data-[state=checked]:bg-unipas-accent data-[state=checked]:border-unipas-accent"
             />
             <Label htmlFor="isFeatured" className="cursor-pointer text-unipas-primary font-medium">
@@ -256,8 +262,18 @@ export default function NewsFormPage({ initialData, onSubmit, title, subtitle, s
           </div>
         </div>
 
+        <div className="site-card bg-white border p-6 space-y-3">
+          <Label htmlFor="news-status">Status publikasi</Label>
+          <Select value={watch('status') || 'draft'} onValueChange={value => setValue('status', value as 'draft' | 'review' | 'published')}>
+            <SelectTrigger id="news-status"><SelectValue /></SelectTrigger>
+            <SelectContent><SelectItem value="draft">Draft</SelectItem><SelectItem value="review">Kirim untuk ditinjau</SelectItem>{user?.role !== 'editor' && <SelectItem value="published">Publikasikan</SelectItem>}</SelectContent>
+          </Select>
+          <p className="text-sm text-muted-foreground">Berita tampil publik setelah status dipublikasikan dan tanggal tayangnya tiba.</p>
+          {initialData?.id && <Button type="button" variant="outline" asChild><Link href={`/admin/news/preview/${initialData.id}`}>Preview versi tersimpan</Link></Button>}
+        </div>
+
         {/* Action Buttons */}
-        <div className="flex justify-between items-center p-6 bg-white rounded-xl border border-unipas-primary/20 shadow-lg">
+        <div className="site-card flex justify-between items-center p-6 bg-white border border-unipas-primary/20">
           <Link href="/admin/news">
             <Button
               type="button"

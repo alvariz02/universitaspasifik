@@ -1,3 +1,4 @@
+import { withStaffAccess } from '@/lib/api-access'
 import { NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 
@@ -41,7 +42,7 @@ export async function GET(request: Request) {
   }
 }
 
-export async function POST(request: Request) {
+async function handlePOST(request: Request) {
   try {
     const body = await request.json()
 
@@ -72,3 +73,5 @@ export async function POST(request: Request) {
     )
   }
 }
+
+export const POST = withStaffAccess('events', handlePOST)

@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Lock, User, AlertCircle, Loader2 } from 'lucide-react'
 import { useAuth } from '@/contexts/AuthContext'
-import { useRouter } from 'next/navigation'
+import { useRouter } from '@/hooks/useNavigationRouter'
 import { useToast } from '@/hooks/use-toast'
 
 export default function LoginPage() {
@@ -25,22 +25,18 @@ export default function LoginPage() {
     setError('')
     setIsLoading(true)
 
-    const success = await login(email, password)
-
-    if (success) {
+    try {
+      await login(email, password)
       toast({
-        title: "Login Berhasil",
-        description: "Selamat datang kembali di Admin Panel Universitas Pasifik",
-        variant: "default",
+        title: 'Login Berhasil',
+        description: 'Selamat datang kembali di Admin Panel Universitas Pasifik',
       })
-      router.push('/admin')
-    } else {
-      setError('Email atau password salah')
-      toast({
-        title: "Login Gagal",
-        description: "Email atau password yang Anda masukkan salah",
-        variant: "destructive",
-      })
+      router.replace('/admin')
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Login gagal. Silakan coba lagi.'
+      setError(message)
+      toast({ title: 'Login Gagal', description: message, variant: 'destructive' })
+    } finally {
       setIsLoading(false)
     }
   }
@@ -48,15 +44,15 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
-      <main className="flex-1 flex items-center justify-center py-16 bg-gray-50">
+      <main className="public-page flex-1 flex items-center justify-center py-16 bg-gray-50">
         <div className="w-full max-w-md px-4">
-          <div className="bg-white rounded-lg shadow-lg border-2 p-8">
+          <div className="site-card bg-white p-8">
             {/* Header */}
             <div className="text-center mb-8">
               <div className="bg-unipas-accent/20 rounded-lg w-16 h-16 flex items-center justify-center mx-auto mb-4">
                 <Lock className="h-8 w-8 text-unipas-primary" />
               </div>
-              <h1 className="text-3xl font-bold text-unipas-primary mb-2">
+              <h1 className="page-title text-unipas-primary mb-2">
                 Login Admin
               </h1>
               <p className="text-muted-foreground">
@@ -77,7 +73,7 @@ export default function LoginPage() {
             {/* Login Form */}
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-2">
-                <Label htmlFor="email" className="text-ui-navy font-medium">
+                <Label htmlFor="email" className="text-unipas-primary font-medium">
                   Email
                 </Label>
                 <div className="relative">
@@ -143,7 +139,7 @@ export default function LoginPage() {
               <p className="mb-2">
                 Butuh bantuan?
               </p>
-              <a href="/kontak" className="text-ui-navy hover:text-ui-navy/80 font-medium">
+              <a href="/kontak" className="text-unipas-primary hover:text-unipas-primary/80 font-medium">
                 Hubungi Administrator
               </a>
             </div>

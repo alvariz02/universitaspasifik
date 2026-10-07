@@ -1,3 +1,4 @@
+import { withStaffAccess } from '@/lib/api-access'
 import { NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 
@@ -41,7 +42,7 @@ export async function GET(
   }
 }
 
-export async function PUT(
+async function handlePUT(
   request: Request,
   { params }: { params: Promise<{ slug: string }> }
 ) {
@@ -84,7 +85,7 @@ export async function PUT(
   }
 }
 
-export async function DELETE(
+async function handleDELETE(
   request: Request,
   { params }: { params: Promise<{ slug: string }> }
 ) {
@@ -114,3 +115,6 @@ export async function DELETE(
     )
   }
 }
+
+export const PUT = withStaffAccess('hero-sliders', handlePUT)
+export const DELETE = withStaffAccess('hero-sliders', handleDELETE)

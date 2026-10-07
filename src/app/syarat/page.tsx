@@ -1,3 +1,4 @@
+import PageHero from '@/components/layout/PageHero'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import { FileText, CheckCircle, XCircle } from 'lucide-react'
@@ -6,30 +7,16 @@ export default function SyaratPage() {
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
-      <main className="flex-1">
+      <main className="public-page flex-1">
         {/* Page Header */}
-        <section className="bg-ui-navy py-16">
-          <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto text-center">
-              <div className="bg-ui-yellow/10 rounded-lg w-20 h-20 flex items-center justify-center mx-auto mb-6">
-                <FileText className="h-10 w-10 text-ui-yellow" />
-              </div>
-              <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-                Syarat & Ketentuan
-              </h1>
-              <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-                Aturan penggunaan website dan layanan Universitas Pasifik
-              </p>
-            </div>
-          </div>
-        </section>
+        <PageHero title={<>Syarat & Ketentuan</>} description={<>Aturan penggunaan website dan layanan Universitas Pasifik</>} />
 
         {/* Content */}
-        <section className="py-16">
-          <div className="container mx-auto px-4">
+        <section className="site-section">
+          <div className="site-container">
             <div className="max-w-4xl mx-auto prose prose-lg max-w-none">
               <div className="bg-gray-50 rounded-lg p-8 mb-8">
-                <h2 className="text-2xl font-bold text-ui-navy mb-4">
+                <h2 className="section-title font-bold text-unipas-primary mb-4">
                   Penerimaan Syarat
                 </h2>
                 <p className="text-gray-700">
@@ -38,7 +25,7 @@ export default function SyaratPage() {
                 </p>
               </div>
 
-              <h3 className="text-xl font-bold text-ui-navy mb-4 flex items-center gap-2">
+              <h3 className="text-xl font-bold text-unipas-primary mb-4 flex items-center gap-2">
                 <CheckCircle className="h-6 w-6 text-green-500" />
                 Hak dan Kewajiban Pengguna
               </h3>
@@ -73,7 +60,7 @@ export default function SyaratPage() {
                 </div>
               </div>
 
-              <h3 className="text-xl font-bold text-ui-navy mb-4 flex items-center gap-2">
+              <h3 className="text-xl font-bold text-unipas-primary mb-4 flex items-center gap-2">
                 <XCircle className="h-6 w-6 text-red-500" />
                 Larangan Penggunaan
               </h3>
@@ -88,7 +75,7 @@ export default function SyaratPage() {
                 <li>Melanggar hak cipta atau kekayaan intelektual</li>
               </ul>
 
-              <h3 className="text-xl font-bold text-ui-navy mb-4">
+              <h3 className="text-xl font-bold text-unipas-primary mb-4">
                 Pembatasan Tanggung Jawab
               </h3>
               <div className="bg-red-50 rounded-lg p-6 border-2 border-red-200 mb-8">
@@ -100,7 +87,7 @@ export default function SyaratPage() {
                 </ul>
               </div>
 
-              <h3 className="text-xl font-bold text-ui-navy mb-4">
+              <h3 className="text-xl font-bold text-unipas-primary mb-4">
                 Hak UI
               </h3>
               <ul className="list-disc list-inside space-y-2 text-gray-700 mb-8">
@@ -110,10 +97,10 @@ export default function SyaratPage() {
                 <li>Menghapus konten yang melanggar aturan tanpa pemberitahuan</li>
               </ul>
 
-              <h3 className="text-xl font-bold text-ui-navy mb-4">
+              <h3 className="text-xl font-bold text-unipas-primary mb-4">
                 Penyelesaian Sengketa
               </h3>
-              <div className="bg-ui-navy/5 rounded-lg p-6 border-2 border-ui-navy/10 mb-8">
+              <div className="bg-unipas-primary/5 rounded-lg p-6 border-2 border-ui-navy/10 mb-8">
                 <p className="text-gray-700 mb-4">
                   Sengketa terkait penggunaan website akan diselesaikan melalui:
                 </p>
@@ -125,7 +112,7 @@ export default function SyaratPage() {
               </div>
 
               <div className="bg-ui-yellow/10 rounded-lg p-6 border-2 border-ui-yellow/20">
-                <h3 className="text-lg font-bold text-ui-navy mb-2">
+                <h3 className="text-lg font-bold text-unipas-primary mb-2">
                   Pertanyaan?
                 </h3>
                 <p className="text-gray-700">

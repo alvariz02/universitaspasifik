@@ -56,7 +56,7 @@ export default function QuickStats({ statistics }: QuickStatsProps) {
             <div key={stat.id} className="group relative">
 
               {/* Card */}
-              <div className="relative bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-10 text-center overflow-hidden transition-all duration-500 hover:border-indigo-500/40 hover:shadow-[0_0_40px_rgba(99,102,241,0.3)]">
+              <div className="site-card relative bg-white/5 backdrop-blur-xl border border-white/10 p-10 text-center overflow-hidden transition-all duration-500 hover:border-indigo-500/40 hover:shadow-[0_0_40px_rgba(99,102,241,0.3)]">
 
                 {/* Icon Orb */}
                 <div className="relative flex justify-center mb-8">

@@ -32,7 +32,7 @@ export default function UpcomingEvents({ events }: UpcomingEventsProps) {
     .slice(0, 3)
 
   return (
-    <section className="relative py-20 overflow-hidden bg-gradient-to-br from-unipas-secondary/20 via-white to-unipas-primary/10">
+    <section className="site-section relative overflow-hidden bg-gradient-to-br from-unipas-secondary/20 via-white to-unipas-primary/10">
       {/* Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-unipas-accent/5 rounded-full blur-3xl"></div>
@@ -40,7 +40,7 @@ export default function UpcomingEvents({ events }: UpcomingEventsProps) {
         <div className="absolute top-20 right-1/4 w-32 h-32 bg-blue-500/5 rounded-full blur-xl"></div>
       </div>
 
-      <div className="container mx-auto px-4 relative z-10">
+      <div className="site-container relative z-10">
         {/* Section Header */}
         <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between mb-20">
           <div className="mb-6 lg:mb-0">
@@ -49,7 +49,7 @@ export default function UpcomingEvents({ events }: UpcomingEventsProps) {
                 <Calendar className="h-8 w-8 text-white" />
               </div>
               <div className="text-left">
-                <h2 className="text-5xl md:text-6xl font-black text-blue-800 leading-tight">
+                <h2 className="section-title text-unipas-primary">
                   Event Mendatang
                 </h2>
                 <p className="text-xl text-muted-foreground max-w-2xl mt-2">
@@ -59,7 +59,7 @@ export default function UpcomingEvents({ events }: UpcomingEventsProps) {
             </div>
           </div>
           
-          <Link href="/event" className="hidden md:flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-unipas-accent to-unipas-primary text-white rounded-full shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-105 font-bold">
+          <Link href="/event" className="hidden md:flex items-center gap-3 text-white transition-all duration-300 min-h-12 rounded-lg bg-primary px-6 py-3 text-sm font-medium hover:bg-primary/90">
             Lihat Semua Event
             <ArrowRight className="h-5 w-5" />
           </Link>
@@ -69,7 +69,7 @@ export default function UpcomingEvents({ events }: UpcomingEventsProps) {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
           {upcomingEvents.map((event, index) => (
             <div key={event.id} className="group relative">
-              <div className="h-full bg-white/90 backdrop-blur-md rounded-3xl overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-500 border border-white/50 hover:border-unipas-accent/30">
+              <div className="site-card h-full bg-white/90 backdrop-blur-md overflow-hidden hover:shadow-3xl transition-all duration-500 border border-white/50 hover:border-unipas-accent/30">
                 {/* Animated Background */}
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                   <div className="absolute inset-0 bg-gradient-to-br from-unipas-accent/5 to-unipas-primary/5"></div>
@@ -144,7 +144,7 @@ export default function UpcomingEvents({ events }: UpcomingEventsProps) {
                   {/* CTA Button */}
                   <div>
                     <Link href={`/event/${event.slug}`}>
-                      <Button className="w-full bg-gradient-to-r from-unipas-accent to-unipas-primary text-white hover:from-unipas-primary hover:to-unipas-accent font-bold px-6 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+                      <Button size="lg" className="w-full text-white px-6 py-3 transition-all duration-300">
                         <span className="flex items-center justify-center gap-2">
                           <Users className="h-4 w-4" />
                           Join Event
@@ -164,7 +164,7 @@ export default function UpcomingEvents({ events }: UpcomingEventsProps) {
 
         {/* Empty State */}
         {upcomingEvents.length === 0 && (
-          <div className="text-center py-20 bg-white/50 backdrop-blur-sm rounded-3xl border border-white/50">
+          <div className="site-card text-center py-20 bg-white/50 backdrop-blur-sm border border-white/50">
             <div className="w-20 h-20 bg-gradient-to-br from-unipas-accent/20 to-unipas-primary/20 rounded-full flex items-center justify-center mx-auto mb-6">
               <Calendar className="h-10 w-10 text-unipas-accent" />
             </div>
@@ -176,7 +176,7 @@ export default function UpcomingEvents({ events }: UpcomingEventsProps) {
         {/* Mobile View Link */}
         <div className="text-center md:hidden">
           <Link href="/event">
-            <Button className="bg-gradient-to-r from-unipas-accent to-unipas-primary text-white hover:from-unipas-primary hover:to-unipas-accent font-bold px-8 py-4 rounded-full shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-105">
+            <Button size="lg" className="text-white transition-all duration-300">
               Lihat Semua Event
             </Button>
           </Link>

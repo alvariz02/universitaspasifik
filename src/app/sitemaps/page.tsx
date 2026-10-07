@@ -1,3 +1,4 @@
+import PageHero from '@/components/layout/PageHero'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import { FileText, Home, Building2, BookOpen, Calendar, Bell, Trophy, Info, Phone, User, Image as ImageIcon } from 'lucide-react'
@@ -38,36 +39,22 @@ export default function SitemapsPage() {
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
-      <main className="flex-1">
+      <main className="public-page flex-1">
         {/* Page Header */}
-        <section className="bg-ui-navy py-16">
-          <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto text-center">
-              <div className="bg-ui-yellow/10 rounded-lg w-20 h-20 flex items-center justify-center mx-auto mb-6">
-                <FileText className="h-10 w-10 text-ui-yellow" />
-              </div>
-              <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-                Peta Situs
-              </h1>
-              <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-                Navigasi lengkap untuk semua halaman website Universitas Pasifik
-              </p>
-            </div>
-          </div>
-        </section>
+        <PageHero title={<>Peta Situs</>} description={<>Navigasi lengkap untuk semua halaman website Universitas Pasifik</>} />
 
         {/* Sitemap */}
-        <section className="py-16">
-          <div className="container mx-auto px-4">
+        <section className="site-section">
+          <div className="site-container">
             <div className="max-w-6xl mx-auto">
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {Object.entries(sitemap).map(([category, pages]) => (
                   <div
                     key={category}
-                    className="bg-white rounded-lg shadow-lg border-2 overflow-hidden"
+                    className="site-card bg-white overflow-hidden"
                   >
-                    <div className="bg-ui-navy text-white px-6 py-4">
-                      <h2 className="text-lg font-bold">
+                    <div className="bg-unipas-primary text-white px-6 py-4">
+                      <h2 className="section-title text-lg font-bold">
                         {category}
                       </h2>
                     </div>
@@ -76,7 +63,7 @@ export default function SitemapsPage() {
                         <li key={idx}>
                           <Link
                             href={page.href}
-                            className="flex items-center gap-3 px-6 py-4 hover:bg-gray-50 transition-colors text-gray-700 hover:text-ui-navy"
+                            className="flex items-center gap-3 px-6 py-4 hover:bg-gray-50 transition-colors text-gray-700 hover:text-unipas-primary"
                           >
                             <div className="bg-ui-yellow/10 rounded p-2">
                               <div className="text-ui-yellow text-sm">
@@ -98,14 +85,14 @@ export default function SitemapsPage() {
         </section>
 
         {/* Admin Link */}
-        <section className="py-16 bg-gray-50">
-          <div className="container mx-auto px-4">
+        <section className="site-section bg-gray-50">
+          <div className="site-container">
             <div className="max-w-4xl mx-auto text-center">
-              <h2 className="text-2xl font-bold text-ui-navy mb-6">
+              <h2 className="section-title font-bold text-unipas-primary mb-6">
                 Halaman Administrasi
               </h2>
               <Link href="/admin">
-                <div className="inline-flex items-center gap-3 bg-ui-navy text-white px-8 py-4 rounded-lg hover:bg-ui-navy/80 transition-colors">
+                <div className="inline-flex items-center gap-3 bg-unipas-primary text-white px-8 py-4 rounded-lg hover:bg-unipas-primary/80 transition-colors">
                   <User className="h-5 w-5" />
                   <span className="font-bold">Dashboard Admin</span>
                 </div>

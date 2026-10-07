@@ -2,9 +2,10 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { useRouter } from '@/hooks/useNavigationRouter'
 import { usePathname } from 'next/navigation'
 import {
+  Activity,
   LayoutDashboard,
   Newspaper,
   Calendar,
@@ -28,6 +29,7 @@ import {
 import { Button } from '@/components/ui/button'
 import { useAuth } from '@/contexts/AuthContext'
 import { useToast } from '@/hooks/use-toast'
+import { canManage } from '@/lib/permissions'
 
 const navigation = [
   { name: 'Dashboard', href: '/admin', icon: LayoutDashboard },
@@ -46,6 +48,12 @@ const navigation = [
   { name: 'Staff', href: '/admin/staff', icon: Users },
   { name: 'Galeri', href: '/admin/galleries', icon: ImageIcon },
   { name: 'Kontak', href: '/admin/contact', icon: Mail },
+  { name: 'Penelitian', href: '/admin/manage/research', icon: BookOpen },
+  { name: 'Halaman Website', href: '/admin/manage/pages', icon: FileText },
+  { name: 'Calon Mahasiswa', href: '/admin/manage/applicants', icon: GraduationCap },
+  { name: 'Perpustakaan Media', href: '/admin/manage/media', icon: ImageIcon },
+  { name: 'Akun Staf', href: '/admin/manage/users', icon: Users },
+  { name: 'Riwayat Aktivitas', href: '/admin/manage/history', icon: Activity },
 ]
 
 interface AdminLayoutProps {
@@ -55,16 +63,16 @@ interface AdminLayoutProps {
 export default function AdminLayout({ children }: AdminLayoutProps) {
   const pathname = usePathname()
   const router = useRouter()
-  const { isAuthenticated, logout, user } = useAuth()
+  const { isAuthenticated, isLoading, logout, user } = useAuth()
   const { toast } = useToast()
-  const [sidebarOpen, setSidebarOpen] = useState(true)
+  const [sidebarOpen, setSidebarOpen] = useState(false)
 
   useEffect(() => {
     // Redirect to login if not authenticated
-    if (!isAuthenticated) {
-      router.push('/login')
+    if (!isLoading && !isAuthenticated) {
+      router.replace('/login')
     }
-  }, [isAuthenticated, router])
+  }, [isAuthenticated, isLoading, router])
 
   const handleLogout = async () => {
     await logout()
@@ -73,7 +81,11 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
       description: "Anda telah keluar dari panel admin",
       variant: "default",
     })
-    router.push('/login')
+    router.replace('/login')
+  }
+
+  if (isLoading || !isAuthenticated) {
+    return <div className="min-h-screen flex items-center justify-center" role="status">Memuat sesi admin...</div>
   }
 
   return (
@@ -87,6 +99,8 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
           <span className="font-bold text-white">Admin</span>
         </Link>
         <Button
+          aria-label={sidebarOpen ? 'Tutup menu admin' : 'Buka menu admin'}
+          aria-expanded={sidebarOpen}
           variant="ghost"
           size="icon"
           onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -113,13 +127,27 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
             </span>
           </div>
 
+          <Button
+            variant="ghost"
+            size="icon"
+            className="hidden lg:flex mx-auto my-2 text-white hover:bg-white/20"
+            onClick={() => setSidebarOpen(!sidebarOpen)}
+            aria-label={sidebarOpen ? 'Ciutkan sidebar' : 'Perluas sidebar'}
+            aria-expanded={sidebarOpen}
+          >
+            {sidebarOpen ? <ChevronLeft className="h-5 w-5" /> : <ChevronRight className="h-5 w-5" />}
+          </Button>
+
           <nav className="p-4 space-y-1">
-            {navigation.map((item) => {
-              const isActive = pathname === item.href
+            {navigation.filter(item => item.href === '/admin' || canManage(user?.role || '', item.href.startsWith('/admin/manage/') ? item.href.split('/')[3] : item.href.split('/')[2])).map((item) => {
+              const isActive = pathname === item.href || (item.href !== '/admin' && pathname.startsWith(item.href + '/'))
               return (
                 <Link
                   key={item.name}
                   href={item.href}
+                  prefetch={false}
+                  onClick={() => { if (window.innerWidth < 1024) setSidebarOpen(false) }}
+                  title={item.name}
                   className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 whitespace-nowrap ${
                     isActive
                       ? 'bg-white/20 text-white font-medium shadow-lg backdrop-blur-sm'
@@ -148,7 +176,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
 
         {/* Main content */}
         <main
-          className={`relative flex-1 min-h-[calc(100vh-64px)] lg:min-h-screen transition-all duration-300 w-full overflow-auto ${
+          className={`admin-page relative flex-1 min-w-0 min-h-[calc(100vh-64px)] lg:min-h-screen transition-all duration-300 w-full overflow-auto ${
             sidebarOpen ? 'lg:ml-72' : 'lg:ml-20'
           }`}
           style={{ WebkitOverflowScrolling: 'touch' }}

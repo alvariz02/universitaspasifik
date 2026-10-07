@@ -1,3 +1,4 @@
+import { withStaffAccess } from '@/lib/api-access'
 import { NextRequest, NextResponse } from 'next/server'
 import { db as prisma } from '@/lib/db'
 
@@ -42,7 +43,7 @@ export async function GET(request: NextRequest) {
 }
 
 // POST /api/videos - Tambah video baru
-export async function POST(request: NextRequest) {
+async function handlePOST(request: NextRequest) {
   try {
     const body = await request.json()
     const { title, description, youtubeUrl, category, isFeatured } = body
@@ -87,3 +88,4 @@ function extractYouTubeId(url: string): string | null {
   const match = url.match(regExp)
   return (match && match[2].length === 11) ? match[2] : null
 }
+export const POST = withStaffAccess('videos', handlePOST)

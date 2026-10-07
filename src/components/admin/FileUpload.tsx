@@ -1,10 +1,11 @@
 'use client'
 
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect, useId } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Upload, X, Image as ImageIcon } from 'lucide-react'
+import MediaPicker from './MediaPicker'
 
 interface FileUploadProps {
   value?: string
@@ -24,6 +25,9 @@ export default function FileUpload({
   const [isUploading, setIsUploading] = useState(false)
   const [preview, setPreview] = useState<string>(value || "")
   const [error, setError] = useState<string>("")
+  const [urlDraft, setUrlDraft] = useState('')
+  const inputId = useId()
+  useEffect(() => { setPreview(value || '') }, [value])
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   const handleFileSelect = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -53,7 +57,7 @@ export default function FileUpload({
 
       console.log('📤 Sending to /api/upload...')
 
-      const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/upload`, {
+      const response = await fetch('/api/upload', {
         method: 'POST',
         body: formData,
       })
@@ -83,6 +87,7 @@ export default function FileUpload({
       setError('Gagal mengupload file: ' + (error instanceof Error ? error.message : 'Unknown error'))
     } finally {
       setIsUploading(false)
+      if (fileInputRef.current) fileInputRef.current.value = ""
     }
   }
 
@@ -96,7 +101,7 @@ export default function FileUpload({
 
   const handleUrlChange = (url: string) => {
     // Just update preview, don't upload yet
-    setPreview(url)
+    setUrlDraft(url)
   }
 
   const uploadUrlToCloudinary = async (url: string) => {
@@ -114,7 +119,7 @@ export default function FileUpload({
       const formData = new FormData()
       formData.append('imageUrl', url)
 
-      const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/upload`, {
+      const response = await fetch('/api/upload', {
         method: 'POST',
         body: formData,
       })
@@ -141,8 +146,7 @@ export default function FileUpload({
     } catch (error) {
       console.error('🚨 URL upload error:', error)
       setError('Gagal mengupload URL: ' + (error instanceof Error ? error.message : 'Unknown error'))
-      // Still save the original URL as fallback
-      onChange(url)
+
     } finally {
       setIsUploading(false)
     }
@@ -162,7 +166,7 @@ export default function FileUpload({
               className="w-full h-full object-cover"
             />
           </div>
-          <div className="absolute top-3 right-3 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+          <div className="absolute top-3 right-3 flex gap-2 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 focus-within:opacity-100 transition-opacity">
             <Button
               type="button"
               variant="outline"
@@ -178,6 +182,8 @@ export default function FileUpload({
               variant="destructive"
               size="sm"
               onClick={handleRemove}
+              aria-label="Hapus gambar"
+              disabled={isUploading}
               className="shadow-md"
             >
               <X className="h-4 w-4" />
@@ -185,6 +191,8 @@ export default function FileUpload({
           </div>
         </div>
       )}
+
+      <MediaPicker disabled={isUploading} onSelect={url => { onChange(url); setPreview(url); setError('') }} />
 
       {/* File Upload */}
       <div className="flex items-center gap-3">
@@ -194,7 +202,7 @@ export default function FileUpload({
           accept={accept}
           onChange={handleFileSelect}
           className="hidden"
-          id="file-upload"
+          id={`${inputId}-file`}
         />
         <Button
           type="button"
@@ -220,23 +228,23 @@ export default function FileUpload({
       {/* URL Input with Upload Button */}
       {!preview && (
         <div className="space-y-3">
-          <Label htmlFor="imageUrl" className="text-sm font-medium text-muted-foreground">
+          <Label htmlFor={`${inputId}-url`} className="text-sm font-medium text-muted-foreground">
             Atau masukkan URL gambar:
           </Label>
-          <div className="flex gap-2">
+          <div className="flex flex-col sm:flex-row gap-2">
             <Input
-              id="imageUrl"
+              id={`${inputId}-url`}
               type="url"
               placeholder="https://example.com/image.jpg"
-              value={value || ""}
+              value={urlDraft}
               onChange={(e) => handleUrlChange(e.target.value)}
               className="flex-1 h-10"
             />
             <Button
               type="button"
               variant="outline"
-              onClick={() => uploadUrlToCloudinary(value || '')}
-              disabled={isUploading || !value}
+              onClick={() => uploadUrlToCloudinary(urlDraft)}
+              disabled={isUploading || !urlDraft}
               className="whitespace-nowrap h-10 px-4 border-2"
             >
               {isUploading ? 'Mengupload...' : 'Upload URL'}

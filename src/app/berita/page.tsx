@@ -1,3 +1,5 @@
+import PageHero from '@/components/layout/PageHero'
+import { publishedNews } from '@/lib/content'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import NewsCard from '@/components/cards/NewsCard'
@@ -15,13 +17,14 @@ async function getNews(page: number = 1) {
     
     const [news, total] = await Promise.all([
       db.news.findMany({
+        where: publishedNews(),
         orderBy: {
           createdAt: 'desc'
         },
         skip: offset,
         take: limit
       }),
-      db.news.count()
+      db.news.count({ where: publishedNews() })
     ])
 
     return {
@@ -45,28 +48,19 @@ export default async function BeritaPage({
   searchParams: Promise<{ page?: string }>
 }) {
   const params = await searchParams
-  const page = parseInt(params.page || '1')
+  const page = Math.max(1, parseInt(params.page || '1') || 1)
   const { news, total, totalPages } = await getNews(page)
 
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
-      <main className="flex-1">
+      <main className="public-page flex-1">
         {/* Page Header */}
-        <section className="bg-ui-navy py-16">
-          <div className="container mx-auto px-4">
-            <h1 className="text-4xl md:text-5xl font-bold text-blue-300 mb-4">
-              Berita Universitas Pasifik
-            </h1>
-            <p className="text-xl text-gray-300">
-              Ikuti berita terkini dan update terbaru dari Universitas Pasifik
-            </p>
-          </div>
-        </section>
+        <PageHero title={<>Berita Universitas Pasifik</>} description={<>Ikuti berita terkini dan update terbaru dari Universitas Pasifik</>} />
 
         {/* News Grid */}
-        <section className="py-16">
-          <div className="container mx-auto px-4">
+        <section className="site-section">
+          <div className="site-container">
             {news.length === 0 ? (
               <div className="text-center py-12 bg-gray-50 rounded-lg">
                 <p className="text-muted-foreground text-lg">Belum ada berita tersedia</p>
@@ -96,7 +90,7 @@ export default async function BeritaPage({
                       <Button
                         variant="outline"
                         disabled={page === 1}
-                        className="border-ui-navy text-ui-navy hover:bg-ui-navy hover:text-white"
+                        className="border-ui-navy text-unipas-primary hover:bg-unipas-primary hover:text-white"
                       >
                         <ChevronLeft className="h-4 w-4" />
                         Sebelumnya
@@ -124,7 +118,7 @@ export default async function BeritaPage({
                       <Button
                         variant="outline"
                         disabled={page === totalPages}
-                        className="border-ui-navy text-ui-navy hover:bg-ui-navy hover:text-white"
+                        className="border-ui-navy text-unipas-primary hover:bg-unipas-primary hover:text-white"
                       >
                         Selanjutnya
                         <ChevronRight className="h-4 w-4" />

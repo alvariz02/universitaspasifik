@@ -1,5 +1,8 @@
 'use client'
 
+import PageHero from '@/components/layout/PageHero'
+
+
 import { useState } from 'react'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
@@ -72,42 +75,28 @@ export default function KontakPage() {
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
-      <main className="flex-1">
+      <main className="public-page flex-1">
         {/* Page Header */}
-        <section className="bg-ui-navy py-16">
-          <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto text-center">
-              <div className="bg-ui-yellow/10 rounded-lg w-20 h-20 flex items-center justify-center mx-auto mb-6">
-                <Mail className="h-10 w-10 text-ui-yellow" />
-              </div>
-              <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-                Hubungi Kami
-              </h1>
-              <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-                Ada pertanyaan? Jangan ragu untuk menghubungi kami. Kami siap membantu Anda.
-              </p>
-            </div>
-          </div>
-        </section>
+        <PageHero title={<>Hubungi Kami</>} description={<>Ada pertanyaan? Jangan ragu untuk menghubungi kami. Kami siap membantu Anda.</>} />
 
         {/* Contact Form & Info */}
-        <section className="py-16">
-          <div className="container mx-auto px-4">
+        <section className="site-section">
+          <div className="site-container">
             <div className="max-w-6xl mx-auto">
               <div className="grid lg:grid-cols-2 gap-12">
                 {/* Contact Form */}
-                <div>
-                  <h2 className="text-2xl font-bold text-ui-navy mb-6">
+                <div className="site-card p-6 md:p-8">
+                  <h2 className="section-title font-bold text-unipas-primary mb-6">
                     Kirim Pesan
                   </h2>
                   <form onSubmit={handleSubmit} className="space-y-6">
                     <div className="grid md:grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-sm font-medium text-ui-navy mb-2">
+                        <label htmlFor="contact-name" className="block text-sm font-medium text-unipas-primary mb-2">
                           Nama Lengkap
                         </label>
                         <Input
-                          name="name"
+                          id="contact-name" name="name"
                           value={formData.name}
                           onChange={handleInputChange}
                           placeholder="Masukkan nama lengkap"
@@ -116,11 +105,11 @@ export default function KontakPage() {
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-ui-navy mb-2">
+                        <label htmlFor="contact-email" className="block text-sm font-medium text-unipas-primary mb-2">
                           Email
                         </label>
                         <Input
-                          name="email"
+                          id="contact-email" name="email"
                           type="email"
                           value={formData.email}
                           onChange={handleInputChange}
@@ -132,11 +121,11 @@ export default function KontakPage() {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-ui-navy mb-2">
+                      <label htmlFor="contact-subject" className="block text-sm font-medium text-unipas-primary mb-2">
                         Subjek
                       </label>
                       <Input
-                        name="subject"
+                        id="contact-subject" name="subject"
                         value={formData.subject}
                         onChange={handleInputChange}
                         placeholder="Subjek pesan Anda"
@@ -146,11 +135,11 @@ export default function KontakPage() {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-ui-navy mb-2">
+                      <label htmlFor="contact-message" className="block text-sm font-medium text-unipas-primary mb-2">
                         Pesan
                       </label>
                       <Textarea
-                        name="message"
+                        id="contact-message" name="message"
                         value={formData.message}
                         onChange={handleInputChange}
                         placeholder="Tulis pesan Anda di sini..."
@@ -164,7 +153,7 @@ export default function KontakPage() {
                       type="submit"
                       size="lg"
                       disabled={isSubmitting}
-                      className="w-full bg-ui-yellow text-ui-navy hover:bg-yellow-400 font-semibold gap-2"
+                      className="w-full font-semibold gap-2"
                     >
                       {isSubmitting ? (
                         <>
@@ -182,8 +171,8 @@ export default function KontakPage() {
                 </div>
 
                 {/* Contact Info */}
-                <div>
-                  <h2 className="text-2xl font-bold text-ui-navy mb-6">
+                <div className="site-card p-6 md:p-8">
+                  <h2 className="section-title font-bold text-unipas-primary mb-6">
                     Informasi Kontak
                   </h2>
 
@@ -193,8 +182,8 @@ export default function KontakPage() {
                         <Mail className="h-6 w-6 text-ui-yellow" />
                       </div>
                       <div>
-                        <h3 className="font-bold text-ui-navy mb-1">Email</h3>
-                        <a href="mailto:humas@unipas.ac.id" className="text-muted-foreground hover:text-ui-navy">
+                        <h3 className="font-bold text-unipas-primary mb-1">Email</h3>
+                        <a href="mailto:humas@unipas.ac.id" className="text-muted-foreground hover:text-unipas-primary">
                           unipasmorotai@univpasifik.ac.id
                         </a>
                       </div>
@@ -205,8 +194,8 @@ export default function KontakPage() {
                         <Phone className="h-6 w-6 text-ui-yellow" />
                       </div>
                       <div>
-                        <h3 className="font-bold text-ui-navy mb-1">Telepon</h3>
-                        <a href="tel:+62217863423" className="text-muted-foreground hover:text-ui-navy">
+                        <h3 className="font-bold text-unipas-primary mb-1">Telepon</h3>
+                        <a href="tel:+62217863423" className="text-muted-foreground hover:text-unipas-primary">
                           (021) 7863423
                         </a>
                       </div>
@@ -217,7 +206,7 @@ export default function KontakPage() {
                         <MapPin className="h-6 w-6 text-ui-yellow" />
                       </div>
                       <div>
-                        <h3 className="font-bold text-ui-navy mb-1">Kampus Depok</h3>
+                          <h3 className="font-bold text-unipas-primary mb-1">Kampus Morotai</h3>
                         <p className="text-muted-foreground">
                          Kampus Morotai
 
@@ -233,13 +222,13 @@ Jln. A. Sudirman, Lemonade, Daruba, Morotai Selatan.
         </section>
 
         {/* Map Placeholder */}
-        <section className="py-16 bg-gray-50">
-          <div className="container mx-auto px-4">
+        <section className="site-section bg-gray-50">
+          <div className="site-container">
             <div className="max-w-6xl mx-auto">
-              <h2 className="text-2xl font-bold text-ui-navy mb-6 text-center">
+              <h2 className="section-title font-bold text-unipas-primary mb-6 text-center">
                 Lokasi Kampus
               </h2>
-              <div className="bg-white rounded-lg shadow-lg border-2 h-[400px] flex items-center justify-center">
+              <div className="site-card bg-white h-[400px] flex items-center justify-center">
                 <div className="text-center">
                   <MapPin className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
                   <p className="text-muted-foreground">

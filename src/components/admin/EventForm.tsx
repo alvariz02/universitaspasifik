@@ -235,7 +235,7 @@ export default function EventForm({ open, onClose, onSubmit, initialData }: Even
                 </div>
               </div>
 
-              <div className="flex items-center space-x-3 mt-6 p-4 bg-white rounded-lg border border-unipas-primary/20">
+              <div className="site-card flex items-center space-x-3 mt-6 p-4 bg-white border border-unipas-primary/20">
                 <Checkbox
                   id="isFeatured"
                   {...register('isFeatured')}

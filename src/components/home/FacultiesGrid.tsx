@@ -69,7 +69,7 @@ function DepartmentAccordion({ department }: { department: Department }) {
       </div>
       {isOpen && department.head && (
         <div className="px-3 pb-3 pt-1 animate-in slide-in-from-top-2 duration-200">
-          <div className="bg-white rounded-lg p-2 border border-gray-200">
+          <div className="site-card bg-white p-2 border border-gray-200">
             <div className="flex items-start gap-2">
               <div className="w-6 h-6 bg-unipas-accent/10 rounded-full flex items-center justify-center shrink-0 mt-0.5">
                 <Users className="h-3 w-3 text-unipas-accent" />
@@ -144,7 +144,7 @@ export default function FacultiesGrid({ faculties: initialFaculties }: Faculties
       try {
         setLoading(true)
         // Fetch all faculties with departments included
-        const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'https://www.univpasifik.ac.id'}/api/faculties?limit=100`)
+        const res = await fetch(`/api/faculties?limit=100`)
         if (res.ok) {
           const facultiesData = await res.json()
           setFaculties(facultiesData)
@@ -162,7 +162,7 @@ export default function FacultiesGrid({ faculties: initialFaculties }: Faculties
   const featuredFaculties = faculties.slice(0, 6)
 
   return (
-    <section className="relative py-20 overflow-hidden bg-gradient-to-br from-slate-50 via-white to-unipas-secondary/10">
+    <section className="site-section relative overflow-hidden bg-gradient-to-br from-slate-50 via-white to-unipas-secondary/10">
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-500/5 rounded-full blur-3xl"></div>
@@ -192,7 +192,7 @@ export default function FacultiesGrid({ faculties: initialFaculties }: Faculties
         ))}
       </div>
 
-      <div className="container mx-auto px-4 relative z-10">
+      <div className="site-container relative z-10">
         {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: -40 }}
@@ -211,7 +211,7 @@ export default function FacultiesGrid({ faculties: initialFaculties }: Faculties
                 <Building2 className="h-8 w-8 text-white" />
               </motion.div>
               <div className="text-left">
-                <h2 className="text-5xl md:text-6xl font-black bg-gradient-to-r from-blue-500 to-unipas-accent bg-clip-text text-transparent leading-tight">
+                <h2 className="section-title text-unipas-primary">
                   Fakultas
                 </h2>
                 <p className="text-xl text-muted-foreground max-w-2xl mt-2">
@@ -227,7 +227,7 @@ export default function FacultiesGrid({ faculties: initialFaculties }: Faculties
             viewport={{ once: true }}
             transition={{ delay: 0.3, duration: 0.8 }}
           >
-            <Link href="/fakultas" className="hidden md:flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-blue-500 to-unipas-accent text-white rounded-full shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-105 font-bold">
+            <Link href="/fakultas" className="hidden md:flex items-center gap-3 text-white transition-all duration-300 min-h-12 rounded-lg bg-primary px-6 py-3 text-sm font-medium hover:bg-primary/90">
               Lihat Semua Fakultas
               <ArrowRight className="h-5 w-5" />
             </Link>
@@ -255,7 +255,7 @@ export default function FacultiesGrid({ faculties: initialFaculties }: Faculties
                 }}
                 className="group relative"
               >
-                <div className="h-full bg-white/90 backdrop-blur-md rounded-3xl overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-500 border border-white/50 hover:border-blue-500/30 hover:-translate-y-4 hover:scale-105 pointer-events-auto">
+                <div className="site-card h-full bg-white/90 backdrop-blur-md overflow-hidden hover:shadow-3xl transition-all duration-500 border border-white/50 hover:border-blue-500/30 hover:-translate-y-4 hover:scale-105 pointer-events-auto">
                   {/* Animated Background */}
                   <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
                     <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-unipas-accent/5"></div>
@@ -282,7 +282,7 @@ export default function FacultiesGrid({ faculties: initialFaculties }: Faculties
                         initial={{ rotate: 0, scale: 0.8 }}
                         whileInView={{ rotate: 360, scale: 1 }}
                         transition={{ delay: index * 0.2 + 0.3, duration: 1 }}
-                        className="absolute top-4 right-4 w-12 h-12 bg-white/20 backdrop-blur-md rounded-xl flex items-center justify-center border border-white/30"
+                        className="site-card absolute top-4 right-4 w-12 h-12 bg-white/20 backdrop-blur-md flex items-center justify-center border border-white/30"
                       >
                         <Building2 className="h-6 w-6 text-white" />
                       </motion.div>
@@ -415,7 +415,7 @@ export default function FacultiesGrid({ faculties: initialFaculties }: Faculties
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="text-center py-20 bg-white/50 backdrop-blur-sm rounded-3xl border border-white/50"
+            className="site-card text-center py-20 bg-white/50 backdrop-blur-sm border border-white/50"
           >
             <motion.div
               animate={{ rotate: 360 }}
@@ -438,7 +438,7 @@ export default function FacultiesGrid({ faculties: initialFaculties }: Faculties
           className="text-center md:hidden"
         >
           <Link href="/fakultas">
-            <Button className="bg-gradient-to-r from-blue-500 to-unipas-accent text-white hover:from-unipas-accent hover:to-blue-500 font-bold px-8 py-4 rounded-full shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-105">
+            <Button size="lg" className="text-white transition-all duration-300">
               Lihat Semua Fakultas
             </Button>
           </Link>

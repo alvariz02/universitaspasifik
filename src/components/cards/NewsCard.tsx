@@ -1,6 +1,7 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
+import { useRouter } from '@/hooks/useNavigationRouter'
+import Link from 'next/link'
 import Image from 'next/image'
 import { format } from 'date-fns'
 import { id } from 'date-fns/locale'
@@ -34,8 +35,8 @@ export default function NewsCard({
 
   return (
     <Card
-      className="group overflow-hidden h-full hover:shadow-xl transition-all duration-300 cursor-pointer border border-unipas-primary/20 hover:border-unipas-primary/40"
-      onClick={() => router.push(`/berita/${slug}`)}
+      className="group site-card overflow-hidden h-full gap-0 py-0 hover:shadow-md transition-all duration-300 cursor-pointer hover:border-unipas-accent/40"
+      onClick={event => { if (!(event.target as Element).closest('a,button,[role="menuitem"]')) router.push(`/berita/${slug}`) }}
     >
       {imageUrl && (
         <div className="relative aspect-video overflow-hidden">
@@ -54,7 +55,7 @@ export default function NewsCard({
           )}
         </div>
       )}
-      <CardContent className="p-6 flex flex-col justify-between h-full">
+      <CardContent className="p-6 flex flex-1 flex-col justify-between gap-4">
         <div>
           <div className="flex items-center gap-4 text-sm text-unipas-text/60 mb-3 flex-wrap">
             {publishedDate && (
@@ -73,7 +74,7 @@ export default function NewsCard({
             )}
           </div>
           <h3 className="text-lg font-bold text-unipas-primary mb-3 line-clamp-2 group-hover:text-unipas-accent transition-colors">
-            {title}
+            <Link href={`/berita/${slug}`}>{title}</Link>
           </h3>
           {excerpt && (
             <p className="text-unipas-text/70 line-clamp-3 mb-4 text-sm">{excerpt}</p>

@@ -49,3 +49,8 @@ prompt
 server.log
 # Skills directory
 /skills/
+# Local package cache
+.npm-cache/
+
+# Browser QA artifacts
+.zscripts/artifacts/
