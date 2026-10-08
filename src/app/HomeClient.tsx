@@ -4,6 +4,7 @@ import dynamic from 'next/dynamic'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import { useCache } from '@/hooks/useCache'
+import CampusOverview from '@/components/home/CampusOverview'
 
 // Dynamic imports for heavy components with animations
 const HeroSlider = dynamic(() => import('@/components/home/HeroSlider'), {
@@ -100,6 +101,7 @@ export default function HomeClient() {
           faculties={data?.faculties || []}
           videos={data?.videos || []}
         />
+        <CampusOverview />
         <CTASection />
       </main>
       <Footer />
